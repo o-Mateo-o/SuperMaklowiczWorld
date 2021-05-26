@@ -1,11 +1,12 @@
-# SuperMaklowiczWorld
+# Super Maklowicz World
 ## Author: Mateusz Machaj
 
 ### Short description
-
+xxx
 
 ### Technologies
-**name** - description
+**name** - xxx
+**name** - xxx
 
 ### How to run this app?
 1. Clone the template project, replacing my-project with the name of the project you are creating: 
