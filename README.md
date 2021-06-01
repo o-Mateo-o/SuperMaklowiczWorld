@@ -24,7 +24,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 ### How to run this app?
 ---
-**Python 3.7.9** is recommended to run the game. Following the steps below use also **pip 21.1.2**.
+To run the game through interpreter, **Python 3.7.9** is recommended. Following the steps below use also **pip 21.1.2**.
 
 1. Clone the project to your device:
 
