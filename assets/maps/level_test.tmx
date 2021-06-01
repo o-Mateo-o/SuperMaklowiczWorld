@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="first_test_set" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
+ <tileset firstgid="1" source="terrain1.tsx"/>
+ <layer id="1" name="layer" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzrEJAAAMw7D0/6f7Q6YWJPDuBAAA7pgif3/+FjmYACg=
+  </data>
+ </layer>
+</map>
