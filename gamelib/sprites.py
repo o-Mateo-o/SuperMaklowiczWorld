@@ -29,10 +29,10 @@ class Maklowicz(arcade.Sprite):
         if self.change_x != 0 and self.change_y == 0:
 
             self.current_texture += 1
-            if self.current_texture > 8:
+            if self.current_texture > 9:
                 self.current_texture = 0
             self.texture = IMG_MAKLOWICZ_RUN[self.current_texture >
-                                             3][self.facing]
+                                             4][self.facing]
 
         return super().update_animation(delta_time=delta_time)
 
