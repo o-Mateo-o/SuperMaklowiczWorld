@@ -10,7 +10,7 @@ In *Super Maklowicz World* you can collect the KOPEREK and save the world from E
 
 ### Technologies
 ---
-**Python** - the code itself, is written based on the Python's classes, each responsible for another character, evironment element, window etc.  
+**Python** - the code itself is written based on the Python's classes, each responsible for another character, evironment element, window etc.  
 
 **Python Arcade Library** - library used to create simple games as platformer or arcade ones. It provides extremly easy acess to all the commonly used ideas in game development.
 
@@ -31,10 +31,10 @@ To run run the it is reccomended to use **Python 3.7.9** (added as an environmen
 
     `git clone  https://github.com/o-Mateo-o/SuperMaklowiczWorld.git super-maklowicz-world`
 
-    `cd super-maklowicz-world`.
+    `cd super-maklowicz-world`
 2. Install the project's development and runtime requirements:
 
-    `pip install -r requirements.txt`.
+    `pip install -r requirements.txt`
 3. Run the game:
 
-    `python ./SuperMaklowiczWorld.py`.
+    `python ./SuperMaklowiczWorld.py`
