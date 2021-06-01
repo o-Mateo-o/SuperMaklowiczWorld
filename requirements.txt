@@ -1,1 +1,2 @@
-#packages list:
+# recommended python verion is 3.7.9 
+arcade==2.5.7

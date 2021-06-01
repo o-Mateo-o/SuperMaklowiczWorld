@@ -2,15 +2,14 @@
 Main game class module. Initialize the game and handle all the actions.
 """
 
-from arcade.key import T
-from gamelib.constants import *
-from gamelib import sprites
 import sys
+sys.path.append(".")
 
 import arcade
-from pyglet.window.key import N
+from gamelib import sprites
+from gamelib.constants import *
 
-sys.path.append(".")
+
 
 
 class Game(arcade.Window):
@@ -18,7 +17,7 @@ class Game(arcade.Window):
     def __init__(self):
         super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
 
-        #keys handled and projection properities
+        # keys handled and projection properities
         self.keys_pressed = {'UP': False, 'LEFT': False, 'RIGHT': False}
         self.view_bottom = 0
         self.view_left = 0
@@ -26,11 +25,10 @@ class Game(arcade.Window):
         # sprites
         self.character_cont_list = None
         self.block_list = None
-        
+
         self.maklowicz = None
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
-
 
     def setup(self):
         self.character_cont_list = arcade.SpriteList()
@@ -41,18 +39,15 @@ class Game(arcade.Window):
 
         test_lvl_map = arcade.tilemap.read_tmx(TEST_MAP)
         self.block_list = arcade.tilemap.process_layer(map_object=test_lvl_map,
-                                                      layer_name=TEST_BLOCK_LAYER,
-                                                      scaling=BLOCK_SCALING,
-                                                      use_spatial_hash=True)
+                                                       layer_name=TEST_BLOCK_LAYER,
+                                                       scaling=BLOCK_SCALING,
+                                                       use_spatial_hash=True)
 
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.maklowicz,
                                                              self.block_list,
                                                              GRAVITY)
         self.maklowicz.physics_engines.append(self.physics_engine)
 
-
-      
-            
     def on_key_press(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
             self.keys_pressed['UP'] = True
@@ -65,14 +60,13 @@ class Game(arcade.Window):
 
     def on_key_release(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
-            self.keys_pressed['UP']= False
+            self.keys_pressed['UP'] = False
         elif key in [arcade.key.A, arcade.key.LEFT]:
             self.keys_pressed['LEFT'] = False
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.keys_pressed['RIGHT'] = False
 
         self.maklowicz.process_keychange(self.keys_pressed)
-        
 
     def on_draw(self):
         arcade.start_render()
@@ -81,12 +75,12 @@ class Game(arcade.Window):
         self.block_list.draw()
 
     def on_update(self, delta_time):
-        
+
         self.maklowicz.update_animation(delta_time)
         self.physics_engine.update()
 
         # SCREEN SCROLLING
-        
+
         changed_flag = False
 
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN - 5
@@ -102,7 +96,7 @@ class Game(arcade.Window):
             changed_flag = True
         if self.maklowicz.top > top_boundary:
             self.view_bottom += self.maklowicz.top - top_boundary
-            changed_flag= True
+            changed_flag = True
         if self.maklowicz.bottom < bottom_boundary:
             self.view_bottom -= bottom_boundary - self.maklowicz.bottom
             changed_flag = True
@@ -112,4 +106,3 @@ class Game(arcade.Window):
             self.view_left = int(self.view_left)
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
                                 self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
-        

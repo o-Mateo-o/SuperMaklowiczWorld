@@ -2,7 +2,6 @@
 Constant values defining the static and dynamic game elements.
 """
 import arcade
-from arcade.key import LEFT
 
 # units
 TL = 64
@@ -30,12 +29,14 @@ CHARACTER_SCALING = 1.3
 
 # image source paths
 IMG_DIR = "assets\images"
-IMG_MAKLOWICZ_IDLE = arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_idle.png")
-IMG_MAKLOWICZ_JUMP = arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_jump.png")
+IMG_MAKLOWICZ_IDLE = arcade.load_texture_pair(
+    f"{IMG_DIR}\maklowicz\maklowicz_idle.png")
+IMG_MAKLOWICZ_JUMP = arcade.load_texture_pair(
+    f"{IMG_DIR}\maklowicz\maklowicz_jump.png")
 IMG_MAKLOWICZ_RUN = [arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
-                    arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png")]
+                     arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png")]
 
 
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 TEST_MAP = "assets\maps\level_test.tmx"
 TEST_BLOCK_LAYER = "layer"

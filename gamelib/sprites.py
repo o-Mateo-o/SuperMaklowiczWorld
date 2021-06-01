@@ -5,7 +5,6 @@ Sprite classes of characters and special objects.
 import sys
 
 import arcade
-from arcade.key import RIGHT, T
 
 from gamelib.constants import *
 
@@ -28,17 +27,17 @@ class Maklowicz(arcade.Sprite):
             self.texture = IMG_MAKLOWICZ_JUMP[self.facing]
 
         if self.change_x != 0 and self.change_y == 0:
-            
+
             self.current_texture += 1
             if self.current_texture > 8:
                 self.current_texture = 0
-            self.texture = IMG_MAKLOWICZ_RUN[self.current_texture>3][self.facing]
+            self.texture = IMG_MAKLOWICZ_RUN[self.current_texture >
+                                             3][self.facing]
 
-            
         return super().update_animation(delta_time=delta_time)
-    
+
     def process_keychange(self, keys_pressed):
-        if keys_pressed['UP'] and all([engine.can_jump(y_distance = 10) for engine in self.physics_engines]):
+        if keys_pressed['UP'] and all([engine.can_jump(y_distance=10) for engine in self.physics_engines]):
             self.change_y = MAKLOWICZ_JUMP_SPEED
         if keys_pressed['RIGHT']:
             self.facing = RIGHT_F
@@ -48,5 +47,3 @@ class Maklowicz(arcade.Sprite):
             self.facing = LEFT_F
         elif not keys_pressed['RIGHT'] and not keys_pressed['LEFT']:
             self.change_x = 0
-
-        
