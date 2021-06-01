@@ -14,10 +14,9 @@ In *Super Maklowicz World* you can collect the KOPEREK and save the world from E
 
 **Python Arcade Library** - library used to create simple games as platformer or arcade ones. It provides extremly easy acess to all the commonly used ideas in game development.
 
-
 **Tiled** - 2D level design app.
 
-**Gimp** and **Audacity** for editing ~~stolen~~ images and sounds, plus for ~~stolen~~ image animation.
+**Gimp** and **Audacity** - for editing ~~stolen~~ images and sounds, plus for ~~stolen~~ image animation.
 
 ### License
 ---
@@ -25,7 +24,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 ### How to run this app?
 ---
-To run run the it is reccomended to use **Python 3.7.9** (added as an environment variable) and **pip 21.1.2**.
+**Python 3.7.9** is recommended to run the game; use also **pip 21.1.2**.
 
 1. Clone the template project, replacing my-project with the name of the project you are creating:
 
@@ -35,6 +34,6 @@ To run run the it is reccomended to use **Python 3.7.9** (added as an environmen
 2. Install the project's development and runtime requirements:
 
     `pip install -r requirements.txt`
-3. Run the game:
+3. Run the game with python added to environmental variables:
 
     `python ./SuperMaklowiczWorld.py`
