@@ -24,9 +24,9 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 ### How to run this app?
 ---
-**Python 3.7.9** is recommended to run the game; use also **pip 21.1.2**.
+**Python 3.7.9** is recommended to run the game. Following the steps below use also **pip 21.1.2**.
 
-1. Clone the template project, replacing my-project with the name of the project you are creating:
+1. Clone the project to your device:
 
     `git clone  https://github.com/o-Mateo-o/SuperMaklowiczWorld.git super-maklowicz-world`
 
@@ -34,6 +34,6 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 2. Install the project's development and runtime requirements:
 
     `pip install -r requirements.txt`
-3. Run the game with python added to environmental variables:
+3. Run the game:
 
     `python ./SuperMaklowiczWorld.py`
