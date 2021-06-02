@@ -1,5 +1,5 @@
 """
-Main game class module. Initialize the game and handle all the actions.
+Main game view module to handle all the actions in the gameplay and display it.
 """
 
 import sys
@@ -10,13 +10,10 @@ import arcade
 from gamelib import sprites
 from gamelib.constants import *
 
-
-
-
-class Game(arcade.Window):
+class Game(arcade.View):
 
     def __init__(self):
-        super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
+        super().__init__()
 
         # keys handled and projection properities
         self.keys_pressed = {'UP': False, 'LEFT': False, 'RIGHT': False}

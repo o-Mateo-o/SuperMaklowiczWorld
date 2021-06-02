@@ -2,11 +2,9 @@
 Sprite classes of characters and special objects.
 """
 
-import re
 import sys
 
 import arcade
-from numpy import tri
 from pytiled_parser.objects import TileMap
 
 from gamelib.constants import *
