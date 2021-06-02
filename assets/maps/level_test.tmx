@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" name="first_test_set" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
- <tileset firstgid="1" source="terrain1.tsx"/>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="7">
+ <tileset firstgid="1" name="tst2" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../images/blocks/terrain1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="2" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
+  <image source="../images/blocks/SET1.png" width="128" height="128"/>
+ </tileset>
  <layer id="1" name="layer" width="40" height="20">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7Dh3zQednCQNmkCAAB8McVLCxNoAA4=
+   eJxjYBgFo2AUjIJRMApGwSgYBfQCTEDMDMUsA+wWdIDstsHiRpibBiMYrHGJHofkYFoCAIvIAGM=
   </data>
  </layer>
+ <objectgroup id="2" name="obj"/>
 </map>

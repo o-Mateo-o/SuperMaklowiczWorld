@@ -40,7 +40,7 @@ class Game(arcade.Window):
         test_lvl_map = arcade.tilemap.read_tmx(TEST_MAP)
         self.block_list = arcade.tilemap.process_layer(map_object=test_lvl_map,
                                                        layer_name=TEST_BLOCK_LAYER,
-                                                       scaling=BLOCK_SCALING,
+                                                       scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
 
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.maklowicz,
@@ -74,6 +74,9 @@ class Game(arcade.Window):
         self.character_cont_list.draw()
         self.block_list.draw()
 
+        #self.maklowicz.draw_hit_box()
+        
+        
     def on_update(self, delta_time):
 
         self.maklowicz.update_animation(delta_time)
