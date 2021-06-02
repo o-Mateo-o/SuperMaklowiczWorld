@@ -3,6 +3,7 @@ Main game class module. Initialize the game and handle all the actions.
 """
 
 import sys
+
 sys.path.append(".")
 
 import arcade
@@ -25,8 +26,12 @@ class Game(arcade.Window):
         # sprites
         self.character_cont_list = None
         self.block_list = None
+        self.pot_sublist = None
 
         self.maklowicz = None
+
+        # map
+        self.lvl_map = None
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
@@ -37,15 +42,20 @@ class Game(arcade.Window):
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
         self.character_cont_list.append(self.maklowicz)
 
-        test_lvl_map = arcade.tilemap.read_tmx(TEST_MAP)
-        self.block_list = arcade.tilemap.process_layer(map_object=test_lvl_map,
+        self.lvl_map = arcade.tilemap.read_tmx(TEST_MAP)
+        
+        self.block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                        layer_name=TEST_BLOCK_LAYER,
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
 
+        self.pot_sublist = sprites.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,\
+        "obj", True)
+
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.maklowicz,
                                                              self.block_list,
                                                              GRAVITY)
+        
         self.maklowicz.physics_engines.append(self.physics_engine)
 
     def on_key_press(self, key, modifiers):
@@ -76,11 +86,15 @@ class Game(arcade.Window):
 
         #self.maklowicz.draw_hit_box()
         
-        
-    def on_update(self, delta_time):
+    
 
+    def on_update(self, delta_time):
         self.maklowicz.update_animation(delta_time)
         self.physics_engine.update()
+
+        # for garek na liście kolidujących
+        #if garnek.active:
+        #    self.pot_sublist[0].pick_action()
 
         # SCREEN SCROLLING
 
@@ -90,18 +104,19 @@ class Game(arcade.Window):
         right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN + 5
         top_boundary = self.view_bottom + WINDOW_HEIGHT - TOP_VIEWPORT_MARGIN
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
+        map_end_length = self.lvl_map.tile_size[0]*self.lvl_map.map_size[0]
 
         if self.maklowicz.center_x < left_boundary:
-            self.view_left -= left_boundary - self.maklowicz.center_x
+            self.view_left = max(self.view_left - left_boundary + self.maklowicz.center_x, 0)
             changed_flag = True
         if self.maklowicz.center_x > right_boundary:
-            self.view_left += self.maklowicz.center_x - right_boundary
+            self.view_left = min(self.view_left - right_boundary + self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
             changed_flag = True
         if self.maklowicz.top > top_boundary:
             self.view_bottom += self.maklowicz.top - top_boundary
             changed_flag = True
         if self.maklowicz.bottom < bottom_boundary:
-            self.view_bottom -= bottom_boundary - self.maklowicz.bottom
+            self.view_bottom = max(self.view_bottom - bottom_boundary + self.maklowicz.bottom, 0)
             changed_flag = True
 
         if changed_flag:

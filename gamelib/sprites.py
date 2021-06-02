@@ -2,9 +2,11 @@
 Sprite classes of characters and special objects.
 """
 
+import re
 import sys
 
 import arcade
+from numpy import tri
 from pytiled_parser.objects import TileMap
 
 from gamelib.constants import *
@@ -17,13 +19,15 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,\
     object_sub_list = arcade.tilemap.process_layer(
         map_object=map_object, layer_name=layer_name, scaling=MAP_SCALING,
         use_spatial_hash=use_spatial_hash)
+    new_object_sub_list = []
     for obj in object_sub_list:
         new_object = object_class()
         new_object.center_x = obj.center_x
         new_object.center_y = obj.center_y
         new_object.texture = obj.texture
         sprite_list.append(new_object)
-    return object_sub_list
+        new_object_sub_list.append(new_object)
+    return new_object_sub_list
 
 
 class Maklowicz(arcade.Sprite):
@@ -73,3 +77,30 @@ class Maklowicz(arcade.Sprite):
             self.figure_mirror(LEFT_F)
         elif not keys_pressed['RIGHT'] and not keys_pressed['LEFT']:
             self.change_x = 0
+    
+class Pot(arcade.Sprite):
+    def __init__(self):
+        super().__init__(scale=MAP_SCALING)
+        self.picked = False
+        self.active = True
+    
+    def pick_action(self):
+        if not self.picked:
+            self.change_y = 20
+            self.init_center_y = self.center_y*1
+            self.picked = True
+        
+        if self.center_y >= self.init_center_y + 40:
+            self.change_y = -20
+
+        if self.center_y < self.init_center_y:
+            self.change_y = 0
+            self.center_y = self.init_center_y
+            self.texture = IMG_MAKLOWICZ_RUN[0][0]
+            self.active = False
+
+
+
+    
+
+

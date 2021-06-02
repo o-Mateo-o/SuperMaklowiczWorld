@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="7">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="10">
  <tileset firstgid="1" name="tst2" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/terrain1.png" width="64" height="64"/>
  </tileset>
@@ -8,8 +8,12 @@
  </tileset>
  <layer id="1" name="layer" width="40" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBfQCTEDMDMUsA+wWdIDstsHiRpibBiMYrHGJHofkYFoCAIvIAGM=
+   eJxjYBgFo2AUjIKRB5iheLCCUfdRBkbdRxkYLu5jQlLLQlMXoQJi3IfsNnq7cSjGLxMWsYEC6PFFrXSGLU2Qmj4ImTFYMADq1wEO
   </data>
  </layer>
- <objectgroup id="2" name="obj"/>
+ <objectgroup id="2" name="obj">
+  <object id="7" gid="3" x="960" y="1024" width="64" height="64"/>
+  <object id="8" gid="3" x="1472" y="960" width="64" height="64"/>
+  <object id="9" gid="3" x="1152" y="1024" width="64" height="64"/>
+ </objectgroup>
 </map>
