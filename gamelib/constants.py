@@ -2,7 +2,6 @@
 Constant values defining the static and dynamic game elements.
 """
 import arcade
-from arcade import sound
 
 # object scaling
 MAP_SCALING = 0.7
@@ -64,10 +63,12 @@ SND_DIR = "assets\sounds"
 sounds_roberto = {
     'hihihi': arcade.Sound(f"{SND_DIR}\\roberto\hihihi.ogg")}
 sound_pepper = {
-    'papryka': arcade.Sound(f"{SND_DIR}\\roberto\papryka.ogg"),
-    'papryczka': arcade.Sound(f"{SND_DIR}\\roberto\papryczka.ogg"),
-    'papryke': arcade.Sound(f"{SND_DIR}\\roberto\papryke.ogg"),
-    'paprykowo': arcade.Sound(f"{SND_DIR}\\roberto\paprykowo.ogg")}
+    'papryka': arcade.Sound(f"{SND_DIR}\\pepper\papryka.ogg"),
+    'papryczka': arcade.Sound(f"{SND_DIR}\\pepper\papryczka.ogg"),
+    'papryke': arcade.Sound(f"{SND_DIR}\\pepper\papryke.ogg"),
+    'paprykowo': arcade.Sound(f"{SND_DIR}\\pepper\paprykowo.ogg")}
+sound_environ = {
+    'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg")}
 
 # font paths
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
