@@ -35,6 +35,14 @@ class Maklowicz(arcade.Sprite):
         self.center_y = center_y
         self.current_texture = 0
 
+    def figure_mirror(self, facing):
+        if self.facing == facing:
+            ratio = 1
+        else:
+            ratio = -1
+        self.set_hit_box([[ratio*point[0], point[1]] for point in self.get_hit_box()])
+        self.facing = facing
+
     def update_animation(self, delta_time: float):
         if all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
              for engine in self.physics_engines]):
@@ -42,7 +50,6 @@ class Maklowicz(arcade.Sprite):
         else:
             self.texture = IMG_MAKLOWICZ_JUMP[self.facing]
 
-        # and self.change_y == 0:
         if self.change_x != 0 and all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
              for engine in self.physics_engines]):
 
@@ -51,18 +58,18 @@ class Maklowicz(arcade.Sprite):
                 self.current_texture = 0
             self.texture = IMG_MAKLOWICZ_RUN[self.current_texture >
                                              4][self.facing]
-
         return super().update_animation(delta_time=delta_time)
 
     def process_keychange(self, keys_pressed):
         if keys_pressed['UP'] and all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
              for engine in self.physics_engines]):
             self.change_y = MAKLOWICZ_JUMP_SPEED
+
         if keys_pressed['RIGHT']:
-            self.facing = RIGHT_F
+            self.figure_mirror(RIGHT_F)
             self.change_x = MAKLOWICZ_SPEED
         elif keys_pressed['LEFT']:
             self.change_x = -MAKLOWICZ_SPEED
-            self.facing = LEFT_F
+            self.figure_mirror(LEFT_F)
         elif not keys_pressed['RIGHT'] and not keys_pressed['LEFT']:
             self.change_x = 0
