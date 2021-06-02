@@ -2,8 +2,10 @@
 Main game view module to handle all the actions in the gameplay and display it.
 """
 
+from pyglet import media
 from gamelib.constants import *
 from gamelib import sprites
+from gamelib import auxfunctions
 import arcade
 import sys
 import random
@@ -25,11 +27,15 @@ class Game(arcade.View):
         self.character_cont_list = None
         self.block_list = None
         self.pot_sublist = None
-        self.pots_picked = set()
+        self.pots_picked = None
         self.dill_list = None
 
         self.maklowicz = None
         self.maklowicz_head_collider = None
+
+        # sounds
+        self.dill_sound_player = None
+               
 
         # counters
         self.collectable_counters = {'dill': 0, 'pepper': 0}
@@ -43,13 +49,17 @@ class Game(arcade.View):
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
+        self.pots_picked = set()
         self.dill_list = arcade.SpriteList()
+
+        # sounds enpty lists
+        self.dill_sound_player = media.Player()      
 
         # main character and head-box
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
-        self.maklowicz_head_collider.texture = IMG_MAKLOWICZ['box'][0]
+        self.maklowicz_head_collider.texture = image_maklowicz['box'][0]
 
         self.character_cont_list.append(self.maklowicz)
         self.character_cont_list.append(self.maklowicz_head_collider)
@@ -62,9 +72,9 @@ class Game(arcade.View):
                                                        use_spatial_hash=True)
 
         # map objects
-        self.pot_sublist = sprites.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
+        self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
                                                          "obj", True)
-        self.dill_list = sprites.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
+        self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
                                                        "dill", True)
 
         # physic engines
@@ -112,35 +122,40 @@ class Game(arcade.View):
         scores_place_x = self.view_left
         scores_place_y = self.view_bottom + WINDOW_HEIGHT
         arcade.draw_texture_rectangle(scores_place_x + 3*TL//2 + 10, scores_place_y - TL//2,
-                         3*TL*SCORE_SCALING, TL*SCORE_SCALING, IMG_HEARTS[3])
+                         3*TL*SCORE_SCALING, TL*SCORE_SCALING, image_hearts[3])
         dill_text = str(self.collectable_counters['dill'])
         arcade.draw_text(dill_text, scores_place_x + TL + 20, scores_place_y - 2*TL - TL//2 + 10,
-                         arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING)
+                         arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 2*TL + 10,
-                         TL*SCORE_SCALING, TL*SCORE_SCALING, IMG_COLLECTABLE['dill'])
+                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['dill'])
         pepper_text = str(self.collectable_counters['pepper'])
         arcade.draw_text(pepper_text, scores_place_x + TL + 20, scores_place_y - 3*TL - TL//2 + 10,
-                         arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING)
+                         arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
-                         TL*SCORE_SCALING, TL*SCORE_SCALING, IMG_COLLECTABLE['dill'])
+                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['dill'])
 
         # self.dill_list.draw_hit_boxes()
 
     def on_update(self, delta_time):
+        # physics update
         self.maklowicz.update_animation(delta_time)
         self.physics_engine_maklowicz.update()
         self.physics_engine_pymunk.step()
+
+        # accomp hitbox move
         self.maklowicz_head_collider.position = (
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
+        
+        # pots collisions and action
         self.pots_picked.update(set(arcade.check_for_collision_with_list(
             self.maklowicz_head_collider, self.pot_sublist)))
 
         for pot in self.pots_picked:
             if pot.active:
                 if not pot.picked:
-                    for _ in range(0, 2):
+                    for _ in range(0, DILL_DROP):
                         new_dill = sprites.Dill(pot)
                         self.dill_list.append(new_dill)
                         self.physics_engine_pymunk.add_sprite(
@@ -149,11 +164,15 @@ class Game(arcade.View):
                             -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
                 pot.pick_action()
 
+        # dill collisions
         dill_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.dill_list)
-        for a in dill_collisions:
-            self.dill_list.remove(a)
+        for picked in dill_collisions:
+            self.dill_sound_player = auxfunctions.play_sound(sounds_roberto['hihihi'], self.dill_sound_player)
+            
+            self.dill_list.remove(picked)
             self.collectable_counters['dill'] += 1
+
 
         # SCREEN SCROLLING
 
@@ -161,7 +180,6 @@ class Game(arcade.View):
 
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN - 5
         right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN + 5
-        top_boundary = self.view_bottom + WINDOW_WIDTH - TOP_VIEWPORT_MARGIN
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
         map_end_length = self.lvl_map.tile_size[0]*MAP_SCALING*self.lvl_map.map_size[0]
 
@@ -172,9 +190,6 @@ class Game(arcade.View):
         if self.maklowicz.center_x > right_boundary:
             self.view_left = min(self.view_left - right_boundary +
                                  self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
-            changed_flag = True
-        if self.maklowicz.top > top_boundary:
-            self.view_bottom += self.maklowicz.top - top_boundary
             changed_flag = True
         if self.maklowicz.bottom < bottom_boundary:
             self.view_bottom = max(

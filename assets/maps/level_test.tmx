@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="27">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="29">
  <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="5" name="dill" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/dill.png" width="64" height="64"/>
  </tileset>
- <layer id="1" name="layer" width="40" height="20">
+ <layer id="1" name="layer" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1EEKACEIBVAb73+nOVrTzkWK4Fcc8IMUFPg2ykTEzatrxhfL+GIZXyyVPrnPnsv7ovr9J3t8/V/tn2XL8nlcHluGD2lD+zSb11LhQ9qQvgyb5mNxWndrRhG2rPlF2TJ8SNup2z7v4PpDbSYNCHs=
+   eJzt1EEKwCAMRNG2uf+derRW6CKIkcBMxMJ8CIIVfBtrx77ZN7smH5Z8WPJhyYclH5Z8WPJhyYe10mdursH3szvjZ4Xpvf+Ozs1sVb6MK2Or8DFtbF9ky1pW+Jg2pq/CFvnMrdbt+f3ZG2XYqt4vy1bhY9rajP7nO7j+MA9fEwhC
   </data>
  </layer>
  <objectgroup id="2" name="obj">
-  <object id="11" gid="4" x="448" y="1024" width="64" height="64"/>
-  <object id="12" gid="4" x="640" y="1024" width="64" height="64"/>
-  <object id="13" gid="4" x="832" y="1024" width="64" height="64"/>
-  <object id="15" gid="4" x="896" y="768" width="64" height="64"/>
-  <object id="17" gid="4" x="640" y="768" width="64" height="64"/>
+  <object id="11" gid="4" x="448" y="1664" width="64" height="64"/>
+  <object id="12" gid="4" x="640" y="1664" width="64" height="64"/>
+  <object id="13" gid="4" x="832" y="1664" width="64" height="64"/>
+  <object id="15" gid="4" x="896" y="1408" width="64" height="64"/>
+  <object id="17" gid="4" x="640" y="1408" width="64" height="64"/>
+  <object id="28" gid="4" x="768" y="1664" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="dill"/>
 </map>
