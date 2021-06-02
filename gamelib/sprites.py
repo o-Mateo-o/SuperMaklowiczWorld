@@ -32,7 +32,7 @@ class Maklowicz(arcade.Sprite):
     def __init__(self, center_x=2*TL, center_y=6*TL):
         super().__init__(scale=CHARACTER_SCALING)
         self.facing = RIGHT_F
-        self.texture = IMG_MAKLOWICZ_IDLE[self.facing]
+        self.texture = IMG_MAKLOWICZ['idle'][self.facing]
         self.center_x = center_x
         self.center_y = center_y
         self.current_texture = 0
@@ -46,24 +46,24 @@ class Maklowicz(arcade.Sprite):
         self.facing = facing
 
     def update_animation(self, delta_time: float):
-        if all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
+        if all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)\
              for engine in self.physics_engines]):
-            self.texture = IMG_MAKLOWICZ_IDLE[self.facing]
+            self.texture = IMG_MAKLOWICZ['idle'][self.facing]
         else:
-            self.texture = IMG_MAKLOWICZ_JUMP[self.facing]
+            self.texture = IMG_MAKLOWICZ['jump'][self.facing]
 
-        if self.change_x != 0 and all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
+        if self.change_x != 0 and all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)\
              for engine in self.physics_engines]):
 
             self.current_texture += 1
             if self.current_texture > 9:
                 self.current_texture = 0
-            self.texture = IMG_MAKLOWICZ_RUN[self.current_texture >
-                                             4][self.facing]
+            texture_key = 'run1' if self.current_texture > 4 else 'run2'
+            self.texture = IMG_MAKLOWICZ[texture_key][self.facing]
         return super().update_animation(delta_time=delta_time)
 
     def process_keychange(self, keys_pressed):
-        if keys_pressed['UP'] and all([engine.can_jump(y_distance=JUMP_POSSIBLE_DISTANCE)\
+        if keys_pressed['UP'] and all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)\
              for engine in self.physics_engines]):
             self.change_y = MAKLOWICZ_JUMP_SPEED
 
@@ -84,17 +84,17 @@ class Pot(arcade.Sprite):
     
     def pick_action(self):
         if not self.picked:
-            self.change_y = 20
+            self.change_y = POT_ACTION_SPEED
             self.init_center_y = self.center_y*1
             self.picked = True
         
-        if self.center_y >= self.init_center_y + 40:
-            self.change_y = -20
+        if self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
+            self.change_y = -POT_ACTION_SPEED
 
         if self.center_y < self.init_center_y:
             self.change_y = 0
             self.center_y = self.init_center_y
-            self.texture = IMG_MAKLOWICZ_RUN[0][0]
+            #self.texture = cos
             self.active = False
 
 

@@ -12,7 +12,10 @@ LEFT_F = 1
 GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
-JUMP_POSSIBLE_DISTANCE = 20
+CAN_JUMP_DISTANCE = 20
+
+POT_ACTION_SPEED = 20
+POT_ACTION_HEIGHT = 40
 
 
 # window properities
@@ -31,12 +34,13 @@ CHARACTER_SCALING = 1.3
 
 # image source paths
 IMG_DIR = "assets\images"
-IMG_MAKLOWICZ_IDLE = arcade.load_texture_pair(
-    f"{IMG_DIR}\maklowicz\maklowicz_idle.png")
-IMG_MAKLOWICZ_JUMP = arcade.load_texture_pair(
-    f"{IMG_DIR}\maklowicz\maklowicz_jump.png")
-IMG_MAKLOWICZ_RUN = [arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
-                     arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png")]
+IMG_MAKLOWICZ = {
+    'idle': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_idle.png"),
+    'jump': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_jump.png"),
+    'run1': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
+    'run2': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png")}
+
+
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
