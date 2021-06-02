@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="10">
- <tileset firstgid="1" name="tst2" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../images/blocks/terrain1.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="2" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="19">
+ <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
  <layer id="1" name="layer" width="40" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKRB5iheLCCUfdRBkbdRxkYLu5jQlLLQlMXoQJi3IfsNnq7cSjGLxMWsYEC6PFFrXSGLU2Qmj4ImTFYMADq1wEO
+   eJxjYBgFo2AUjALaAOaBdgABMOo+ysCo+ygDg9V9zEh4MIKh7j5mNHW42CDMNADuowZgZKDMH7RyH7q7cGFC7qV2/BDrLmLcSa5Z9MYA8l8BLw==
   </data>
  </layer>
  <objectgroup id="2" name="obj">
-  <object id="7" gid="3" x="960" y="1024" width="64" height="64"/>
-  <object id="8" gid="3" x="1472" y="960" width="64" height="64"/>
-  <object id="9" gid="3" x="1152" y="1024" width="64" height="64"/>
+  <object id="11" gid="4" x="448" y="1024" width="64" height="64"/>
+  <object id="12" gid="4" x="640" y="1024" width="64" height="64"/>
+  <object id="13" gid="4" x="832" y="1024" width="64" height="64"/>
+  <object id="15" gid="4" x="1408" y="896" width="64" height="64"/>
+  <object id="17" gid="4" x="1728" y="768" width="64" height="64"/>
  </objectgroup>
 </map>

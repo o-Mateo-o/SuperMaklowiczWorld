@@ -17,7 +17,7 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,\
     object_sub_list = arcade.tilemap.process_layer(
         map_object=map_object, layer_name=layer_name, scaling=MAP_SCALING,
         use_spatial_hash=use_spatial_hash)
-    new_object_sub_list = []
+    new_object_sub_list = arcade.SpriteList()
     for obj in object_sub_list:
         new_object = object_class()
         new_object.center_x = obj.center_x
@@ -85,16 +85,16 @@ class Pot(arcade.Sprite):
     def pick_action(self):
         if not self.picked:
             self.change_y = POT_ACTION_SPEED
-            self.init_center_y = self.center_y*1
+            self.init_center_y = self.center_y+1
             self.picked = True
+            self.texture = IMG_POT['picked']
         
-        if self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
+        elif self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
             self.change_y = -POT_ACTION_SPEED
 
-        if self.center_y < self.init_center_y:
+        elif self.center_y < self.init_center_y:
             self.change_y = 0
             self.center_y = self.init_center_y
-            #self.texture = cos
             self.active = False
 
 

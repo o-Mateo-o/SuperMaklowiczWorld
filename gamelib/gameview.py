@@ -2,13 +2,14 @@
 Main game view module to handle all the actions in the gameplay and display it.
 """
 
+from arcade.sprite_list import check_for_collision
+from gamelib.constants import *
+from gamelib import sprites
+import arcade
 import sys
 
 sys.path.append(".")
 
-import arcade
-from gamelib import sprites
-from gamelib.constants import *
 
 class Game(arcade.View):
 
@@ -24,8 +25,10 @@ class Game(arcade.View):
         self.character_cont_list = None
         self.block_list = None
         self.pot_sublist = None
+        self.pots_picked = set()
 
         self.maklowicz = None
+        self.maklowicz_head_collider = None
 
         # map
         self.lvl_map = None
@@ -37,22 +40,27 @@ class Game(arcade.View):
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
 
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
-        self.character_cont_list.append(self.maklowicz)
+        self.maklowicz_head_collider = arcade.Sprite(
+            scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
+        self.maklowicz_head_collider.texture = IMG_MAKLOWICZ['box'][0]
 
-        self.lvl_map = arcade.tilemap.read_tmx(TEST_MAP)
-        
+        self.character_cont_list.append(self.maklowicz)
+        self.character_cont_list.append(self.maklowicz_head_collider)
+
+        self.lvl_map = TEST_MAP
+
         self.block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                        layer_name=TEST_BLOCK_LAYER,
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
 
-        self.pot_sublist = sprites.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,\
-        "obj", True)
+        self.pot_sublist = sprites.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
+                                                         "obj", True)
 
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.maklowicz,
                                                              self.block_list,
                                                              GRAVITY)
-        
+
         self.maklowicz.physics_engines.append(self.physics_engine)
 
     def on_key_press(self, key, modifiers):
@@ -78,20 +86,22 @@ class Game(arcade.View):
     def on_draw(self):
         arcade.start_render()
 
-        self.character_cont_list.draw()
+        self.maklowicz.draw()
         self.block_list.draw()
 
-        #self.maklowicz.draw_hit_box()
-        
-    
+        self.maklowicz_head_collider.draw_hit_box()
 
     def on_update(self, delta_time):
         self.maklowicz.update_animation(delta_time)
         self.physics_engine.update()
+        self.maklowicz_head_collider.position = (
+            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
+        self.pots_picked.update(set(arcade.check_for_collision_with_list(
+            self.maklowicz_head_collider, self.pot_sublist)))
 
-        # for garek na liście kolidujących
-        #if garnek.active:
-        #    self.pot_sublist[0].pick_action()
+        for pot in self.pots_picked:
+            if pot.active:
+                pot.pick_action()
 
         # SCREEN SCROLLING
 
@@ -104,16 +114,19 @@ class Game(arcade.View):
         map_end_length = self.lvl_map.tile_size[0]*self.lvl_map.map_size[0]
 
         if self.maklowicz.center_x < left_boundary:
-            self.view_left = max(self.view_left - left_boundary + self.maklowicz.center_x, 0)
+            self.view_left = max(
+                self.view_left - left_boundary + self.maklowicz.center_x, 0)
             changed_flag = True
         if self.maklowicz.center_x > right_boundary:
-            self.view_left = min(self.view_left - right_boundary + self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
+            self.view_left = min(self.view_left - right_boundary +
+                                 self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
             changed_flag = True
         if self.maklowicz.top > top_boundary:
             self.view_bottom += self.maklowicz.top - top_boundary
             changed_flag = True
         if self.maklowicz.bottom < bottom_boundary:
-            self.view_bottom = max(self.view_bottom - bottom_boundary + self.maklowicz.bottom, 0)
+            self.view_bottom = max(
+                self.view_bottom - bottom_boundary + self.maklowicz.bottom, 0)
             changed_flag = True
 
         if changed_flag:

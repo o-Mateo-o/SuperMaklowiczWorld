@@ -14,9 +14,10 @@ MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
 
-POT_ACTION_SPEED = 20
-POT_ACTION_HEIGHT = 40
-
+# object actions' properities
+POT_ACTION_SPEED = 15
+POT_ACTION_HEIGHT = 20
+MAKLOWICZ_HEAD_EXTENSION = 10
 
 # window properities
 WINDOW_WIDTH = 800
@@ -38,11 +39,16 @@ IMG_MAKLOWICZ = {
     'idle': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_idle.png"),
     'jump': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_jump.png"),
     'run1': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
-    'run2': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png")}
+    'run2': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png"),
+    'box': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_head.png")}
+
+IMG_POT = {
+    'picked': arcade.load_texture(f"{IMG_DIR}\\blocks\pot_picked.png")}
+
 
 
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-TEST_MAP = "assets\maps\level_test.tmx"
+TEST_MAP = arcade.tilemap.read_tmx("assets\maps\level_test.tmx")
 TEST_BLOCK_LAYER = "layer"

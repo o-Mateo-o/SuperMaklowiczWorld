@@ -3,9 +3,9 @@
 Main file. Run the game.
 """
 
-from gamelib import run
+from gamelib import startapp
 
 if __name__ == "__main__":
-    run.run_game()
+    startapp.run_game()
 else:
     pass
