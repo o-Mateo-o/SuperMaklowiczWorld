@@ -97,6 +97,15 @@ class Pot(arcade.Sprite):
             self.center_y = self.init_center_y
             self.active = False
 
+class Dill(arcade.Sprite):
+    def __init__(self, parent:arcade.Sprite=None):
+        super().__init__(scale=MAP_SCALING)
+        self.texture = IMG_COLLECTABLE['dill']
+        if parent != None:
+            self.position = (parent.center_x, parent.center_y + TL)
+        
+
+
 
 
     
