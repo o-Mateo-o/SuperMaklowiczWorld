@@ -78,6 +78,10 @@ step_volume = 0.5 * sound_volume_factor
 # font paths
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 
+# map layers
+MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill"}
+
+# maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 TEST_MAP = arcade.tilemap.read_tmx("assets\maps\level_test.tmx")
 TEST_BLOCK_LAYER = "layer"

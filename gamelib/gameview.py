@@ -67,15 +67,15 @@ class Game(arcade.View):
         # map static
         self.lvl_map = TEST_MAP
         self.block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
-                                                       layer_name=TEST_BLOCK_LAYER,
+                                                       layer_name=MAP_LAYER['terrain1'],
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
 
         # map objects
         self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
-                                                         "obj", True)
+                                                         MAP_LAYER['pots'], True)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
-                                                       "dill", True)
+                                                         MAP_LAYER['dill'], True)
 
         # physic engines
         self.physics_engine_maklowicz = arcade.PhysicsEnginePlatformer(self.maklowicz,
