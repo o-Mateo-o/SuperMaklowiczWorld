@@ -84,7 +84,7 @@ class Maklowicz(arcade.Sprite):
         if (not self.previous_q_run_state and self.run_state and not self.jump_state)\
             or (self.run_state and not self.jump_state and self.previous_q_jump_state):
             self.run_sound_player = auxfunctions.play_sound(
-                sound_environ['running'], self.run_sound_player, volume=0.5, loop=True)
+                sound_environ['running'], self.run_sound_player, volume=step_volume, loop=True)
         elif self.previous_q_run_state and not self.run_state or self.jump_state:
             arcade.stop_sound(self.run_sound_player)
 
