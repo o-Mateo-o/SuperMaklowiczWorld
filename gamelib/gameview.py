@@ -34,7 +34,7 @@ class Game(arcade.View):
         self.maklowicz_head_collider = None
 
         # sounds
-        self.dill_sound_player = None
+        
                
 
         # counters
@@ -52,8 +52,8 @@ class Game(arcade.View):
         self.pots_picked = set()
         self.dill_list = arcade.SpriteList()
 
-        # sounds enpty lists
-        self.dill_sound_player = media.Player()      
+        # sounds empty lists
+             
 
         # main character and head-box
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
@@ -140,7 +140,7 @@ class Game(arcade.View):
 
     def on_update(self, delta_time):
         # physics update
-        self.maklowicz.update_animation(delta_time)
+        self.maklowicz.update()
         self.physics_engine_maklowicz.update()
         self.physics_engine_pymunk.step()
 
@@ -168,8 +168,7 @@ class Game(arcade.View):
         dill_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.dill_list)
         for picked in dill_collisions:
-            self.dill_sound_player = auxfunctions.play_sound(sounds_roberto['hihihi'], self.dill_sound_player)
-            
+            self.maklowicz.dill_collected = True            
             self.dill_list.remove(picked)
             self.collectable_counters['dill'] += 1
 

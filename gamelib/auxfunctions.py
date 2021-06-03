@@ -27,7 +27,7 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,\
         new_object_sub_list.append(new_object)
     return new_object_sub_list
 
-def play_sound(sound: arcade.Sound, player: media.Player):
+def play_sound(sound: arcade.Sound, player: media.Player, volume:float=1, loop:bool=False):
     if sound.is_playing(player):
         sound.stop(player)
-    return sound.play()
+    return sound.play(volume=volume, loop=loop)
