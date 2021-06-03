@@ -8,9 +8,12 @@ import arcade
 from pyglet import media
 from pytiled_parser.objects import TileMap
 
+
 from gamelib.values import *
 
 sys.path.append(".")
+
+
 
 
 def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,
@@ -35,7 +38,10 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,
 
 def play_sound(sound: arcade.Sound, player: media.Player,\
      volume: float = standard_sound_volume, loop: bool = False):
+    new_player = sound.play(volume=volume, loop=loop)
     # play sound, but stick with one per audio-layer rule
     if sound.is_playing(player):
         sound.stop(player)
-    return sound.play(volume=volume, loop=loop)
+
+    return new_player
+

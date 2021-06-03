@@ -32,6 +32,7 @@ class Game(arcade.View):
 
         self.maklowicz = None
         self.maklowicz_head_collider = None
+        self.maklowicz_shoes_collider = None
 
         # sounds
         
@@ -59,10 +60,14 @@ class Game(arcade.View):
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
-        self.maklowicz_head_collider.texture = image_maklowicz['box'][0]
+        self.maklowicz_shoes_collider = arcade.Sprite(
+            scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
+        self.maklowicz_head_collider.texture = image_maklowicz['box_h'][0]
+        self.maklowicz_shoes_collider.texture = image_maklowicz['box_s'][0]
 
         self.character_cont_list.append(self.maklowicz)
         self.character_cont_list.append(self.maklowicz_head_collider)
+        self.character_cont_list.append(self.maklowicz_shoes_collider)
 
         # map static
         self.lvl_map = TEST_MAP
@@ -147,6 +152,8 @@ class Game(arcade.View):
         # accomp hitbox move
         self.maklowicz_head_collider.position = (
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
+        self.maklowicz_shoes_collider.position = (
+            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION)
         
         # pots collisions and action
         self.pots_picked.update(set(arcade.check_for_collision_with_list(

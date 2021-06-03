@@ -28,6 +28,7 @@ POPPING_Y_FORCE = 20000
 POT_ACTION_SPEED = 15
 POT_ACTION_HEIGHT = 20
 MAKLOWICZ_HEAD_EXTENSION = 10
+MAKLOWICZ_SHOES_EXTENSION = -10
 
 DILL_DROP = 2
 
@@ -47,7 +48,8 @@ image_maklowicz = {
     'jump': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_jump.png"),
     'run1': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
     'run2': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png"),
-    'box': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_head.png")}
+    'box_h': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_head.png"),
+    'box_s': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_shoes.png")}
 
 image_pot = {
     'picked': arcade.load_texture(f"{IMG_DIR}\\blocks\pot_picked.png")}

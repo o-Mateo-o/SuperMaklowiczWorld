@@ -32,8 +32,9 @@ class Maklowicz(arcade.Sprite):
         # characteer status
         self.run_state = False
         self.previous_q_run_state = False
+        self.in_air = False
+        self.previous_q_in_air = True
         self.jump_state = False
-        self.previous_q_jump_state = True
         self.dill_collected = False
 
     def figure_mirror(self, facing):
@@ -51,6 +52,7 @@ class Maklowicz(arcade.Sprite):
         if keys_pressed['jump'] and all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
                                        for engine in self.physics_engines]):
             self.change_y = MAKLOWICZ_JUMP_SPEED
+            self.jump_state = True
         if keys_pressed['right']:
             self.figure_mirror(RIGHT_F)
             self.change_x = MAKLOWICZ_SPEED
@@ -62,9 +64,9 @@ class Maklowicz(arcade.Sprite):
 
     def update_texture(self):
         # textures for proper movement states - running animated
-        if self.jump_state:
+        if self.in_air:
             self.texture = image_maklowicz['jump'][self.facing]
-        elif self.run_state and not self.jump_state:
+        elif self.run_state and not self.in_air:
             self.current_texture += 1
             if self.current_texture > 9:
                 self.current_texture = 0
@@ -73,7 +75,7 @@ class Maklowicz(arcade.Sprite):
         else:
             self.texture = image_maklowicz['idle'][self.facing]
 
-    def update_sound(self):
+    def update_sound(self, jump_action):
         # laugh in the moment of dill picking
         if self.dill_collected:
             self.dill_sound_player = auxfunctions.play_sound(
@@ -81,15 +83,15 @@ class Maklowicz(arcade.Sprite):
             self.dill_collected = False
 
         # start looped run sound when he lands or begins movement; stop when he stops or jumps
-        if (not self.previous_q_run_state and self.run_state and not self.jump_state)\
-            or (self.run_state and not self.jump_state and self.previous_q_jump_state):
+        if (not self.previous_q_run_state and self.run_state and not self.in_air)\
+            or (self.run_state and not self.in_air and self.previous_q_in_air):
             self.run_sound_player = auxfunctions.play_sound(
                 sound_environ['running'], self.run_sound_player, volume=step_volume, loop=True)
-        elif self.previous_q_run_state and not self.run_state or self.jump_state:
+        elif self.previous_q_run_state and not self.run_state or self.in_air:
             arcade.stop_sound(self.run_sound_player)
 
         # jump sounds in the moment of rebounding
-        if not self.previous_q_jump_state and self.jump_state:
+        if jump_action:
             jump_sound = random.choice(list(sound_pepper.values()))
             self.pepper_sound_player = auxfunctions.play_sound(
                 jump_sound, self.pepper_sound_player)
@@ -98,22 +100,26 @@ class Maklowicz(arcade.Sprite):
         # update the info about the movement - running and jumping
         if all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
                 for engine in self.physics_engines]):
-            self.jump_state = False     
+            self.in_air = False
         else:
-            self.jump_state = True
+            self.in_air = True
         if self.change_x == 0:
             self.run_state = False
         else:
             self.run_state = True
 
+        jump_action = False
+        if not self.previous_q_in_air and self.in_air and self.jump_state:
+            jump_action = True
+            self.jump_state = False
+            
         # call visual and audio update methods
         self.update_texture() 
-        self.update_sound()
+        self.update_sound(jump_action)       
 
         # update previous quant variables to aquire differences
         self.previous_q_run_state = self.run_state
-        self.previous_q_jump_state = self.jump_state
-
+        self.previous_q_in_air = self.in_air
         
         
 
