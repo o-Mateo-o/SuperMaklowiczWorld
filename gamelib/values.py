@@ -9,7 +9,7 @@ SCORE_SCALING = 1
 CHARACTER_SCALING = 0.8
 
 # units
-TL = 64*MAP_SCALING
+TL = 64 * MAP_SCALING
 RIGHT_F = 0
 LEFT_F = 1
 
@@ -19,7 +19,7 @@ MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
 
-PYMUNK_GRAVITY = -GRAVITY*1000
+PYMUNK_GRAVITY = -GRAVITY * 1000
 PYMUNK_DAMP = 0.1
 POPPING_X_FORCE_RANGE_LIMIT = 1000
 POPPING_Y_FORCE = 20000
@@ -69,6 +69,11 @@ sound_pepper = {
     'paprykowo': arcade.Sound(f"{SND_DIR}\\pepper\paprykowo.ogg")}
 sound_environ = {
     'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg")}
+
+# sound volumes
+sound_volume_factor = 1
+standard_sound_volume = 1 * sound_volume_factor
+step_volume = 0.5 * sound_volume_factor
 
 # font paths
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"

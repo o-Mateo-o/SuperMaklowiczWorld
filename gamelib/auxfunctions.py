@@ -8,16 +8,21 @@ import arcade
 from pyglet import media
 from pytiled_parser.objects import TileMap
 
-from gamelib.constants import *
+from gamelib.values import *
 
 sys.path.append(".")
 
-def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,\
-     layer_name: str, use_spatial_hash: bool):
+
+def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,
+                          layer_name: str, use_spatial_hash: bool):
+    # raw objects from map
     object_sub_list = arcade.tilemap.process_layer(
         map_object=map_object, layer_name=layer_name, scaling=MAP_SCALING,
         use_spatial_hash=use_spatial_hash)
+
     new_object_sub_list = arcade.SpriteList()
+    # create objects of given class in place of map objects
+    # add them to the sub-container
     for obj in object_sub_list:
         new_object = object_class()
         new_object.center_x = obj.center_x
@@ -27,7 +32,10 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,\
         new_object_sub_list.append(new_object)
     return new_object_sub_list
 
-def play_sound(sound: arcade.Sound, player: media.Player, volume:float=1, loop:bool=False):
+
+def play_sound(sound: arcade.Sound, player: media.Player,\
+     volume: float = standard_sound_volume, loop: bool = False):
+    # play sound, but stick with one per audio-layer rule
     if sound.is_playing(player):
         sound.stop(player)
     return sound.play(volume=volume, loop=loop)

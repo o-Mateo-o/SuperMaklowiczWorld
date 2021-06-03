@@ -3,7 +3,7 @@ Main game view module to handle all the actions in the gameplay and display it.
 """
 
 from pyglet import media
-from gamelib.constants import *
+from gamelib.values import *
 from gamelib import sprites
 from gamelib import auxfunctions
 import arcade
@@ -19,7 +19,7 @@ class Game(arcade.View):
         super().__init__()
 
         # keys handled and projection properities
-        self.keys_pressed = {'UP': False, 'LEFT': False, 'RIGHT': False}
+        self.keys_pressed = {'jump': False, 'left': False, 'right': False}
         self.view_bottom = 0
         self.view_left = 0
 
@@ -93,21 +93,21 @@ class Game(arcade.View):
 
     def on_key_press(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
-            self.keys_pressed['UP'] = True
+            self.keys_pressed['jump'] = True
         elif key in [arcade.key.A, arcade.key.LEFT]:
-            self.keys_pressed['LEFT'] = True
+            self.keys_pressed['left'] = True
         elif key in [arcade.key.D, arcade.key.RIGHT]:
-            self.keys_pressed['RIGHT'] = True
+            self.keys_pressed['right'] = True
 
         self.maklowicz.process_keychange(self.keys_pressed)
 
     def on_key_release(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
-            self.keys_pressed['UP'] = False
+            self.keys_pressed['jump'] = False
         elif key in [arcade.key.A, arcade.key.LEFT]:
-            self.keys_pressed['LEFT'] = False
+            self.keys_pressed['left'] = False
         elif key in [arcade.key.D, arcade.key.RIGHT]:
-            self.keys_pressed['RIGHT'] = False
+            self.keys_pressed['right'] = False
 
         self.maklowicz.process_keychange(self.keys_pressed)
 

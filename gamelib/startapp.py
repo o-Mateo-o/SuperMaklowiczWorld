@@ -7,7 +7,7 @@ import sys
 sys.path.append(".")
 
 import arcade
-from gamelib.constants import *
+from gamelib.values import *
 from gamelib import gameview
 
 def run_game():
