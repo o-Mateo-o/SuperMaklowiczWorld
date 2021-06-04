@@ -103,7 +103,8 @@ class Maklowicz(arcade.Sprite):
         
         if self.hurt:
             self.pain_sound_player = auxfunctions.play_sound(
-                sounds_roberto['oaa'], self.pain_sound_player)
+                sounds_roberto['oaa'], self.pain_sound_player,
+                volume=pain_volume)
             self.hurt = False
 
         # start looped run sound when he lands or begins movement; stop when he stops or jumps

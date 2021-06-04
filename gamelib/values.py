@@ -25,7 +25,7 @@ PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
 PEPPER_AGONY_TIME = 30
 
-MOVING_BLOCK_SPEED = 3
+MOVING_BLOCK_SPEED = 2
 
 KNIVES_DISLOCATION = 10
 
@@ -104,6 +104,7 @@ sound_environ = {
 sound_volume_factor = 1
 standard_sound_volume = 1 * sound_volume_factor
 step_volume = 0.5 * sound_volume_factor
+pain_volume = 0.8*sound_volume_factor
 
 # font paths
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
