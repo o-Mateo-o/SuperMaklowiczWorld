@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="223">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="223">
  <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
@@ -16,6 +16,7 @@
  <tileset firstgid="9" name="fork" tilewidth="64" tileheight="128" tilecount="1" columns="1">
   <image source="../images/blocks/fork.png" width="64" height="128"/>
  </tileset>
+ <tileset firstgid="10" name="sd" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
  <layer id="1" name="layer" width="40" height="30">
   <data encoding="base64" compression="zlib">
    eJzt00EKwCAMRNHa3P9OHs0uupBQJWUmwcV8yEIUfCDadW72zqnJhyUflnxY8mHJhyUflnxY8mFV+mya+2O/uTPzVJie+/vq3M6W5Yu4IrYMH9PG9q1sUUuFj2lj+9i2zP/LsGX5WLakN6badsbm9vy6wvXHXn3vAPZKB2w=
@@ -66,12 +67,23 @@
  <objectgroup id="7" name="forks">
   <object id="222" gid="9" x="1024" y="1920" width="64" height="128"/>
  </objectgroup>
+ <imagelayer id="8" name="bg"/>
  <objectgroup id="4" name="pepper">
   <object id="219" gid="6" x="1344" y="1728" width="64" height="64"/>
  </objectgroup>
  <layer id="5" name="limits" width="40" height="30">
   <data encoding="base64" compression="zlib">
    eJzty6ERAAAIxLB37L8xG3AoDImqaQIAAADApVr09HzTMZgAHQ==
+  </data>
+ </layer>
+ <layer id="10" name="nonc" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzkEJAAAIBLAD+3c2guBHkC3BEgAAAICdug4M/H5oIsgACg==
+  </data>
+ </layer>
+ <layer id="11" name="win" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztziEBAAAIA7AL+memwh2CLcESAAD4aa4DAEBlATGQAAU=
   </data>
  </layer>
 </map>

@@ -106,7 +106,7 @@ COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 # map layers
 MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
              'pepper_enemy': "pepper", 'limits': "limits", 'knives': "knives",
-             'forks': "forks"}
+             'forks': "forks", 'terrain2': "nonc", 'win': "win"}
 
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

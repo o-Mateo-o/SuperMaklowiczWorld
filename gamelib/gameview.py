@@ -21,7 +21,7 @@ class GameLevel(arcade.View):
         self.keys_pressed = {'jump': False, 'left': False, 'right': False}
         self.view_bottom = 0
         self.view_left = 0
-        self.ttt = 0
+        self.hurt_warn_counter = 0
 
         # counters
         self.level_end = None
@@ -31,6 +31,8 @@ class GameLevel(arcade.View):
         # sprites
         self.character_cont_list = None
         self.block_list = None
+        self.noncoll_block_list = None
+        self.win_block_list = None
         self.pot_sublist = None
         self.pots_picked = None
         self.dill_list = None
@@ -61,6 +63,8 @@ class GameLevel(arcade.View):
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
+        self.noncoll_block_list = arcade.SpriteList(use_spatial_hash=True)
+        self.win_block_list = arcade.SpriteList(use_spatial_hash=True)
         self.limit_list = arcade.SpriteList(use_spatial_hash=True)
         self.pots_picked = set()
         self.dill_list = arcade.SpriteList()
@@ -90,6 +94,14 @@ class GameLevel(arcade.View):
         self.lvl_map = TEST_MAP
         self.block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                        layer_name=MAP_LAYER['terrain1'],
+                                                       scaling=MAP_SCALING,
+                                                       use_spatial_hash=True)
+        self.noncoll_block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
+                                                       layer_name=MAP_LAYER['terrain2'],
+                                                       scaling=MAP_SCALING,
+                                                       use_spatial_hash=True)
+        self.win_block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
+                                                       layer_name=MAP_LAYER['win'],
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
         self.limit_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
@@ -166,6 +178,7 @@ class GameLevel(arcade.View):
         self.dill_list.draw()
         self.pepper_enemy_list.draw()
         self.pepper_item_list.draw()
+        self.noncoll_block_list.draw()
 
         # current score info
         scores_place_x = self.view_left
@@ -185,13 +198,14 @@ class GameLevel(arcade.View):
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
                                       TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
+        # hurt warning on screen
         if self.maklowicz.hurt:
-            self.ttt += 1
-        if self.ttt > 0:
-            self.ttt += 1
-        if self.ttt > 8:
-            self.ttt = 0
-        if self.ttt != 0:
+            self.hurt_warn_counter += 1
+        if self.hurt_warn_counter > 0:
+            self.hurt_warn_counter += 1
+        if self.hurt_warn_counter > 8:
+            self.hurt_warn_counter = 0
+        if self.hurt_warn_counter != 0:
             arcade.draw_rectangle_filled(self.view_left+WINDOW_WIDTH/2, self.view_bottom+WINDOW_HEIGHT/2,
                                         WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
 
@@ -212,6 +226,10 @@ class GameLevel(arcade.View):
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION)
         self.maklowicz_shoes_collider2.position = (
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION_ITEMS)
+
+        # winning place
+        if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
+            self.level_end = 1
 
         # pots collisions and action
         self.pots_picked.update(set(arcade.check_for_collision_with_list(
@@ -314,3 +332,6 @@ class GameLevel(arcade.View):
         if self.level_end == -1:
             #self.window.close()
             print("PRZEGRAŁ HAHAHA!!!")
+        if self.level_end == 1:
+            #self.window.close()
+            print("OBSYPAĆ GO ZŁOTEM!!!")
