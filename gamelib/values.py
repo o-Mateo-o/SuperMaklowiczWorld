@@ -25,6 +25,8 @@ PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
 PEPPER_AGONY_TIME = 30
 
+MOVING_BLOCK_SPEED = 3
+
 KNIVES_DISLOCATION = 10
 
 PYMUNK_GRAVITY = -GRAVITY * 1000
@@ -38,6 +40,8 @@ POT_ACTION_HEIGHT = 20
 MAKLOWICZ_HEAD_EXTENSION = 10
 MAKLOWICZ_SHOES_EXTENSION = -30
 MAKLOWICZ_SHOES_EXTENSION_ITEMS = -10
+
+LIVES_NUMBER = 3
 
 DILL_DROP = 2
 
@@ -58,7 +62,8 @@ image_maklowicz = {
     'run1': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run1.png"),
     'run2': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_run2.png"),
     'box_h': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_head.png"),
-    'box_s': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_shoes.png")}
+    'box_s': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_shoes.png"),
+    'dead': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\maklowicz_dead.png")}
 
 image_pepper_enemy = {
     'live1': arcade.load_texture_pair(f"{IMG_DIR}\pepper\pepper_enemy1.png"),
@@ -106,7 +111,8 @@ COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 # map layers
 MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
              'pepper_enemy': "pepper", 'limits': "limits", 'knives': "knives",
-             'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg"}
+             'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg",
+             'mterrain': "moving"}
 
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

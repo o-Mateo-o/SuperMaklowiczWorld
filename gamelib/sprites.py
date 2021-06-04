@@ -42,6 +42,7 @@ class Maklowicz(arcade.Sprite):
         self.hurt = False
         self.immunity = False
         self.immunity_counter = 0
+        self.dead = False
 
     def figure_mirror(self, facing):
         if self.facing == facing:
@@ -80,7 +81,9 @@ class Maklowicz(arcade.Sprite):
 
     def update_texture(self):
         # textures for proper movement states - running animated
-        if self.in_air:
+        if self.dead:
+            self.texture = image_maklowicz['dead'][self.facing]
+        elif self.in_air:
             self.texture = image_maklowicz['jump'][self.facing]
         elif self.run_state and not self.in_air:
             self.current_texture += 1
@@ -256,3 +259,9 @@ class Fork(arcade.Sprite):
         elif self.center_y < self.init_height:
             self.change_y = 2
         return super().update()
+
+class MovingBlockSimple(arcade.Sprite):
+    def __init__(self):
+        super().__init__(scale=MAP_SCALING)
+    def start_movement(self):
+        self.change_x = -MOVING_BLOCK_SPEED

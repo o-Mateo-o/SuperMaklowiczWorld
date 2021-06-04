@@ -58,7 +58,7 @@ class GameLevel(arcade.View):
     def setup(self):
         # counters
         self.level_end = 0  # 0 - not finished yet; 1 - won; -1 - lost
-        self.maklowicz_lives = 3
+        self.maklowicz_lives = LIVES_NUMBER
         self.collectable_counters = {'dill': 0, 'pepper': 0}
 
         # sprite empty lists
@@ -117,6 +117,8 @@ class GameLevel(arcade.View):
         # map objects
         self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
                                                               MAP_LAYER['pots'], True)
+        self.moving_block_sublist = auxfunctions.init_objects_from_map(sprites.MovingBlockSimple, self.block_list, self.lvl_map,
+                                                              MAP_LAYER['mterrain'], True)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
                                                             MAP_LAYER['dill'], False)
         self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self.pepper_enemy_list,
@@ -129,6 +131,8 @@ class GameLevel(arcade.View):
             knives.initial_move()
         for fork in self.fork_list:
             fork.adjust_hitbox()
+        for block in self.moving_block_sublist:
+            block.start_movement()
 
         # physic engines
         self.pepper_physics_engines = []
@@ -260,6 +264,10 @@ class GameLevel(arcade.View):
                             -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
                 pot.pick_action()
 
+        # moving block bounce
+        for block in self.moving_block_sublist:
+            if arcade.check_for_collision_with_list(block, self.limit_list):
+                block.change_x = -block.change_x
         # pepper enemy collsisions
         for pepper in self.pepper_enemy_list:
             if pepper.transform_to_item:
@@ -298,17 +306,19 @@ class GameLevel(arcade.View):
         dill_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.dill_list)
         for picked in dill_collisions:
-            self.maklowicz.item_collected = True
-            self.dill_list.remove(picked)
-            self.collectable_counters['dill'] += 1
+            if self.level_end == 0:
+                self.maklowicz.item_collected = True
+                self.dill_list.remove(picked)
+                self.collectable_counters['dill'] += 1
             
         # pepper item collision
         pepper_item_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.pepper_item_list)
         for picked in pepper_item_collisions:
-            self.maklowicz.item_collected = True
-            self.pepper_item_list.remove(picked)
-            self.collectable_counters['pepper'] += 1
+            if self.level_end == 0:
+                self.maklowicz.item_collected = True
+                self.pepper_item_list.remove(picked)
+                self.collectable_counters['pepper'] += 1
 
         # SCREEN SCROLLING
 
@@ -341,12 +351,13 @@ class GameLevel(arcade.View):
 
         if self.maklowicz_lives <= 0:
             self.level_end = -1
+            self.maklowicz.dead = True
             self.maklowicz.change_x = 0
             self.maklowicz.change_y = 0
         if self.level_end == -1:
-            
+            pass
             #self.window.close()
-            print("PRZEGRAŁ HAHAHA!!!")
+            #print("PRZEGRAŁ HAHAHA!!!")
         if self.level_end == 1:
             pass
             #self.window.close()
