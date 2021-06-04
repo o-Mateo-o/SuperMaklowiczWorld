@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="12" nextobjectid="223">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="16" nextobjectid="224">
  <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
@@ -17,17 +17,34 @@
   <image source="../images/blocks/fork.png" width="64" height="128"/>
  </tileset>
  <tileset firstgid="10" name="sd" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
- <layer id="1" name="layer" width="40" height="30">
+ <tileset firstgid="10" name="kettle_whole" tilewidth="256" tileheight="192" tilecount="1" columns="1">
+  <image source="../images/blocks/kettle_whole.png" width="256" height="192"/>
+ </tileset>
+ <tileset firstgid="11" name="kettle_front" tilewidth="256" tileheight="192" tilecount="1" columns="1">
+  <image source="../images/blocks/kettle_front.png" width="256" height="192"/>
+ </tileset>
+ <tileset firstgid="12" name="kettle_right" tilewidth="64" tileheight="192" tilecount="4" columns="4">
+  <image source="../images/blocks/kettle_right.png" width="256" height="192"/>
+ </tileset>
+ <tileset firstgid="16" name="kettle_left" tilewidth="64" tileheight="192" tilecount="4" columns="4">
+  <image source="../images/blocks/kettle_left.png" width="256" height="192"/>
+ </tileset>
+ <layer id="13" name="bg" width="40" height="30" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt00EKwCAMRNHa3P9OHs0uupBQJWUmwcV8yEIUfCDadW72zqnJhyUflnxY8mHJhyUflnxY8mFV+mya+2O/uTPzVJie+/vq3M6W5Yu4IrYMH9PG9q1sUUuFj2lj+9i2zP/LsGX5WLakN6badsbm9vy6wvXHXn3vAPZKB2w=
+   eJztziEBAAAIA7Br+gemwh2CLcESAACAf+Y6AEBtAUvIAAs=
   </data>
  </layer>
- <layer id="6" name="knives" width="40" height="30">
+ <layer id="1" name="layer" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt00sKwCAMRVHTgPtfUpfWDioEaUX7kuDgXcjAD3igVMu+6TO7Rh8WfVj0YdGHRR8WfVj0YdGHlelTM8fLuXT7UuJ91nS/d37da5Zq9mqwb8Zlbc1nJ8r3xzaaDNusJcPnafP2edsi/18PW5TPyxb0jV1tI6N0Z/06w7Viz373AvwaB28=
+  </data>
+ </layer>
+ <layer id="6" name="knives" width="40" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJztw6ENAAAIA7BJ/r8YM49DtUkTAAAAALhNf1saIAAR
   </data>
  </layer>
- <objectgroup id="2" name="obj">
+ <objectgroup id="2" name="obj" visible="0">
   <object id="15" gid="4" x="896" y="1408" width="64" height="64"/>
   <object id="17" gid="4" x="640" y="1408" width="64" height="64"/>
   <object id="29" gid="4" x="704" y="1408" width="64" height="64"/>
@@ -64,26 +81,24 @@
   <object id="73" gid="5" x="1280" y="1344" width="64" height="64"/>
   <object id="74" gid="5" x="1344" y="1280" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="7" name="forks">
+ <objectgroup id="7" name="forks" visible="0">
   <object id="222" gid="9" x="1024" y="1920" width="64" height="128"/>
  </objectgroup>
- <imagelayer id="8" name="bg"/>
- <objectgroup id="4" name="pepper">
-  <object id="219" gid="6" x="1344" y="1728" width="64" height="64"/>
- </objectgroup>
- <layer id="5" name="limits" width="40" height="30">
+ <imagelayer id="8" name="bg" visible="0"/>
+ <layer id="15" name="nonc" width="40" height="30" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztziEBAAAIA7B7+velwh2CLcESAACAf+Y6AEBtAVF8AAw=
+  </data>
+ </layer>
+ <objectgroup id="4" name="pepper" visible="0"/>
+ <layer id="5" name="limits" width="40" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJzty6ERAAAIxLB37L8xG3AoDImqaQIAAADApVr09HzTMZgAHQ==
   </data>
  </layer>
- <layer id="10" name="nonc" width="40" height="30">
+ <layer id="11" name="win" width="40" height="30" visible="0" offsetx="-2" offsety="38">
   <data encoding="base64" compression="zlib">
-   eJztzkEJAAAIBLAD+3c2guBHkC3BEgAAAICdug4M/H5oIsgACg==
-  </data>
- </layer>
- <layer id="11" name="win" width="40" height="30">
-  <data encoding="base64" compression="zlib">
-   eJztziEBAAAIA7AL+memwh2CLcESAAD4aa4DAEBlATGQAAU=
+   eJzt0DERAAAIA7EO9a8ZEQwMJAr+PgEAgJ96HfBA4zMAewNkAAAN
   </data>
  </layer>
 </map>

@@ -30,6 +30,7 @@ class GameLevel(arcade.View):
 
         # sprites
         self.character_cont_list = None
+        self.bg_block_list = None
         self.block_list = None
         self.noncoll_block_list = None
         self.win_block_list = None
@@ -62,6 +63,7 @@ class GameLevel(arcade.View):
 
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
+        self.bg_block_list = arcade.SpriteList(use_spatial_hash=True)
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
         self.noncoll_block_list = arcade.SpriteList(use_spatial_hash=True)
         self.win_block_list = arcade.SpriteList(use_spatial_hash=True)
@@ -92,6 +94,10 @@ class GameLevel(arcade.View):
 
         # map static
         self.lvl_map = TEST_MAP
+        self.bg_block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
+                                                       layer_name=MAP_LAYER['terrain0'],
+                                                       scaling=MAP_SCALING,
+                                                       use_spatial_hash=True)
         self.block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                        layer_name=MAP_LAYER['terrain1'],
                                                        scaling=MAP_SCALING,
@@ -175,8 +181,10 @@ class GameLevel(arcade.View):
             (1 - (addit_x / (map_end_length + self.view_left)))
         arcade.draw_texture_rectangle(bg_center_x, WINDOW_HEIGHT/2+self.view_bottom,
                                       WINDOW_WIDTH + addit_x, WINDOW_HEIGHT, image_background[1])
-        self.maklowicz.draw()
+        
         self.block_list.draw()
+        self.bg_block_list.draw()
+        self.maklowicz.draw()
         self.dill_list.draw()
         self.pepper_enemy_list.draw()
         self.pepper_item_list.draw()
@@ -340,6 +348,6 @@ class GameLevel(arcade.View):
             #self.window.close()
             print("PRZEGRAŁ HAHAHA!!!")
         if self.level_end == 1:
-
+            pass
             #self.window.close()
-            print("OBSYPAĆ GO ZŁOTEM!!!")
+            #print("OBSYPAĆ GO ZŁOTEM!!!")
