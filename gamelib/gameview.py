@@ -151,8 +151,9 @@ class GameLevel(arcade.View):
             self.keys_pressed['left'] = True
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.keys_pressed['right'] = True
-
-        self.maklowicz.process_keychange(self.keys_pressed)
+        
+        if self.level_end == 0:
+            self.maklowicz.process_keychange(self.keys_pressed)
 
     def on_key_release(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
@@ -162,7 +163,8 @@ class GameLevel(arcade.View):
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.keys_pressed['right'] = False
 
-        self.maklowicz.process_keychange(self.keys_pressed)
+        if self.level_end == 0:
+            self.maklowicz.process_keychange(self.keys_pressed)
 
     def on_draw(self):
         arcade.start_render()
@@ -229,7 +231,10 @@ class GameLevel(arcade.View):
 
         # winning place
         if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
+            self.maklowicz.change_x = 0
+            self.maklowicz.change_y = 0
             self.level_end = 1
+            
 
         # pots collisions and action
         self.pots_picked.update(set(arcade.check_for_collision_with_list(
@@ -263,22 +268,21 @@ class GameLevel(arcade.View):
                     and self.maklowicz.change_y < 0 and not pepper.killed:
                 self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
                 pepper.killed = True
-                # self.pepper_enemy_list.remove(pepper)
             # hurt maklowicz
-            if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed:
+            if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed and self.level_end == 0:
                 self.maklowicz_lives = self.maklowicz.hurt_action(
                     self.maklowicz_lives)
 
         # knives and forks collision
         knives_collision = arcade.check_for_collision_with_list(
             self.maklowicz_shoes_collider2, self.knives_list)
-        if knives_collision:
+        if knives_collision and self.level_end == 0:
             self.maklowicz_lives = self.maklowicz.hurt_action(
                 self.maklowicz_lives)
 
         fork_collision = arcade.check_for_collision_with_list(
             self.maklowicz_shoes_collider2, self.fork_list)
-        if fork_collision:
+        if fork_collision and self.level_end == 0:
             self.maklowicz_lives = self.maklowicz.hurt_action(
                 self.maklowicz_lives)
 
@@ -329,9 +333,13 @@ class GameLevel(arcade.View):
 
         if self.maklowicz_lives <= 0:
             self.level_end = -1
+            self.maklowicz.change_x = 0
+            self.maklowicz.change_y = 0
         if self.level_end == -1:
+            
             #self.window.close()
             print("PRZEGRAŁ HAHAHA!!!")
         if self.level_end == 1:
+
             #self.window.close()
             print("OBSYPAĆ GO ZŁOTEM!!!")
