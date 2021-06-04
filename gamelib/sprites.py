@@ -26,13 +26,11 @@ class Maklowicz(arcade.Sprite):
         self.current_texture = 0
         self.animation_ratio = 5
 
-        self.immunity = False
-        self.immunity_counter = 0
-
         # sound players
         self.pepper_sound_player = media.Player()
         self.run_sound_player = media.Player()
         self.dill_sound_player = media.Player()
+        self.pain_sound_player = media.Player()
 
         # characteer status
         self.run_state = False
@@ -40,7 +38,10 @@ class Maklowicz(arcade.Sprite):
         self.in_air = False
         self.previous_q_in_air = True
         self.jump_state = False
-        self.dill_collected = False
+        self.item_collected = False
+        self.hurt = False
+        self.immunity = False
+        self.immunity_counter = 0
 
     def figure_mirror(self, facing):
         if self.facing == facing:
@@ -69,6 +70,7 @@ class Maklowicz(arcade.Sprite):
 
     def hurt_action(self, lives):
         if not self.immunity:
+            self.hurt = True
             self.center_x = self.center_x - MAKLOWICZ_KICKBACK
             self.change_y = MAKLOWICZ_JUMP_SPEED
             self.immunity = True
@@ -91,10 +93,15 @@ class Maklowicz(arcade.Sprite):
 
     def update_sound(self, jump_action):
         # laugh in the moment of dill picking
-        if self.dill_collected:
+        if self.item_collected:
             self.dill_sound_player = auxfunctions.play_sound(
                 sounds_roberto['hihihi'], self.dill_sound_player)
-            self.dill_collected = False
+            self.item_collected = False
+        
+        if self.hurt:
+            self.pain_sound_player = auxfunctions.play_sound(
+                sounds_roberto['oaa'], self.pain_sound_player)
+            self.hurt = False
 
         # start looped run sound when he lands or begins movement; stop when he stops or jumps
         if (not self.previous_q_run_state and self.run_state and not self.in_air)\
@@ -150,6 +157,7 @@ class PepperEnemy(arcade.Sprite):
         self.killed = False
         self.killed_counter = 0
         self.animation_ratio = 6
+        self.transform_to_item = False
         self.change_x = -PEPPER_SPEED
 
     def update_texture(self):
@@ -180,6 +188,8 @@ class PepperEnemy(arcade.Sprite):
         self.update_texture()
         if self.killed:
             self.killed_counter += 1
+        if self.killed_counter == PEPPER_AGONY_TIME:
+            self.transform_to_item = True
         if self.killed_counter > PEPPER_AGONY_TIME:
             for sprite_list in self.sprite_lists:
                 sprite_list.remove(self)
@@ -207,6 +217,12 @@ class Pot(arcade.Sprite):
             self.center_y = self.init_center_y
             self.active = False
 
+class PepperItem(arcade.Sprite):
+    def __init__(self, parent: arcade.Sprite = None):
+        super().__init__(scale=MAP_SCALING)
+        self.texture = image_collectable['pepper']
+        if parent != None:
+            self.position = parent.position
 
 class Dill(arcade.Sprite):
     def __init__(self, parent: arcade.Sprite = None):

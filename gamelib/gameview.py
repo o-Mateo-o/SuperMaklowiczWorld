@@ -21,6 +21,7 @@ class GameLevel(arcade.View):
         self.keys_pressed = {'jump': False, 'left': False, 'right': False}
         self.view_bottom = 0
         self.view_left = 0
+        self.ttt = 0
 
         # counters
         self.level_end = None
@@ -156,7 +157,8 @@ class GameLevel(arcade.View):
         map_end_length = self.lvl_map.tile_size[0] * \
             MAP_SCALING*self.lvl_map.map_size[0]
         addit_x = WINDOW_WIDTH / 2
-        bg_center_x = WINDOW_WIDTH / 2 + self.view_left * (1 - (addit_x / (map_end_length + self.view_left)))
+        bg_center_x = WINDOW_WIDTH / 2 + self.view_left * \
+            (1 - (addit_x / (map_end_length + self.view_left)))
         arcade.draw_texture_rectangle(bg_center_x, WINDOW_HEIGHT/2+self.view_bottom,
                                       WINDOW_WIDTH + addit_x, WINDOW_HEIGHT, image_background[1])
         self.maklowicz.draw()
@@ -182,6 +184,16 @@ class GameLevel(arcade.View):
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
                                       TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
+
+        if self.maklowicz.hurt:
+            self.ttt += 1
+        if self.ttt > 0:
+            self.ttt += 1
+        if self.ttt > 8:
+            self.ttt = 0
+        if self.ttt != 0:
+            arcade.draw_rectangle_filled(self.view_left+WINDOW_WIDTH/2, self.view_bottom+WINDOW_HEIGHT/2,
+                                        WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
 
     def on_update(self, delta_time):
         # physics update
@@ -212,13 +224,19 @@ class GameLevel(arcade.View):
                         new_dill = sprites.Dill(pot)
                         self.dill_list.append(new_dill)
                         self.physics_engine_pymunk.add_sprite(
-                            new_dill, friction=1, collision_type="player")
+                            new_dill, friction=1, collision_type="item")
                         self.physics_engine_pymunk.apply_force(new_dill, (random.randint(
                             -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
                 pot.pick_action()
 
         # pepper enemy collsisions
         for pepper in self.pepper_enemy_list:
+            if pepper.transform_to_item:
+                new_pepper = sprites.PepperItem(pepper)
+                self.pepper_item_list.append(new_pepper)
+                self.physics_engine_pymunk.add_sprite(
+                            new_pepper, friction=1, collision_type="item")
+                pepper.transform_to_item = False
             # limit - reverse speed
             if arcade.check_for_collision_with_list(pepper, self.limit_list):
                 pepper.change_x = -pepper.change_x
@@ -233,7 +251,7 @@ class GameLevel(arcade.View):
                 self.maklowicz_lives = self.maklowicz.hurt_action(
                     self.maklowicz_lives)
 
-        # knives collision
+        # knives and forks collision
         knives_collision = arcade.check_for_collision_with_list(
             self.maklowicz_shoes_collider2, self.knives_list)
         if knives_collision:
@@ -250,9 +268,17 @@ class GameLevel(arcade.View):
         dill_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.dill_list)
         for picked in dill_collisions:
-            self.maklowicz.dill_collected = True
+            self.maklowicz.item_collected = True
             self.dill_list.remove(picked)
             self.collectable_counters['dill'] += 1
+            
+        # pepper item collision
+        pepper_item_collisions = arcade.check_for_collision_with_list(
+            self.maklowicz, self.pepper_item_list)
+        for picked in pepper_item_collisions:
+            self.maklowicz.item_collected = True
+            self.pepper_item_list.remove(picked)
+            self.collectable_counters['pepper'] += 1
 
         # SCREEN SCROLLING
 
@@ -286,5 +312,5 @@ class GameLevel(arcade.View):
         if self.maklowicz_lives <= 0:
             self.level_end = -1
         if self.level_end == -1:
-            self.window.close()
+            #self.window.close()
             print("PRZEGRAŁ HAHAHA!!!")

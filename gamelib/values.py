@@ -23,7 +23,7 @@ MAKLOWICZ_KICKBACK = 100
 
 PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
-PEPPER_AGONY_TIME = 60
+PEPPER_AGONY_TIME = 30
 
 KNIVES_DISLOCATION = 10
 
@@ -85,7 +85,8 @@ image_background = {
 # sounds
 SND_DIR = "assets\sounds"
 sounds_roberto = {
-    'hihihi': arcade.Sound(f"{SND_DIR}\\roberto\hihihi.ogg")}
+    'hihihi': arcade.Sound(f"{SND_DIR}\\roberto\hihihi.ogg"),
+    'oaa': arcade.Sound(f"{SND_DIR}\\roberto\oaa.ogg")}
 sound_pepper = {
     'papryka': arcade.Sound(f"{SND_DIR}\\pepper\papryka.ogg"),
     'papryczka': arcade.Sound(f"{SND_DIR}\\pepper\papryczka.ogg"),
