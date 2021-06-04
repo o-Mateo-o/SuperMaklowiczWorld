@@ -40,6 +40,9 @@ def play_sound(sound: arcade.Sound, player: media.Player,\
      volume: float = standard_sound_volume, loop: bool = False):
     # play sound, but stick with one per audio-layer rule
     new_player = sound.play(volume=volume, loop=loop)
+    def _on_player_eos():
+        pass
+    new_player.on_player_eos = _on_player_eos
     if sound.is_playing(player):
         sound.stop(player)
 

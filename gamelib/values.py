@@ -18,8 +18,9 @@ GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
+MAKLOWICZ_IMMUNITY_TIME = 60
 
-PEPPER_SPEED = 3
+PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
 
 PYMUNK_GRAVITY = -GRAVITY * 1000
@@ -31,7 +32,7 @@ POPPING_Y_FORCE = 20000
 POT_ACTION_SPEED = 15
 POT_ACTION_HEIGHT = 20
 MAKLOWICZ_HEAD_EXTENSION = 10
-MAKLOWICZ_SHOES_EXTENSION = -10
+MAKLOWICZ_SHOES_EXTENSION = -30
 
 DILL_DROP = 2
 
@@ -68,7 +69,10 @@ image_collectable = {
     'pepper': arcade.load_texture(f"{IMG_DIR}\pepper\pepper_item.png")}
 
 image_hearts = {
-    3: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts3.png")}
+    3: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts3.png"),
+    2: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts2.png"),
+    1: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts1.png"),
+    0: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts0.png")}
 
 # sounds
 SND_DIR = "assets\sounds"
@@ -91,7 +95,8 @@ step_volume = 0.5 * sound_volume_factor
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 
 # map layers
-MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill", 'pepper_enemy': "pepper"}
+MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
+             'pepper_enemy': "pepper", 'limits': "limits"}
 
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

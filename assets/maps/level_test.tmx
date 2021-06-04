@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="220">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="220">
  <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
@@ -7,18 +7,17 @@
   <image source="../images/blocks/dill.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="6" source="../../assets_prepare/tiles/terrain1.tsx"/>
+ <tileset firstgid="7" name="BOX_center_collider" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../images/blocks/BOX_center_collider.png" width="64" height="64"/>
+ </tileset>
  <layer id="1" name="layer" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1EEKwCAMRNG2uf+derRW6CKIkcBMxMJ8CIIVfBtrx77ZN7smH5Z8WPJhyYclH5Z8WPJhyYe10mdursH3szvjZ4Xpvf+Ozs1sVb6MK2Or8DFtbF9ky1pW+Jg2pq/CFvnMrdbt+f3ZG2XYqt4vy1bhY9rajP7nO7j+MA9fEwhC
+   eJzt0zEKwDAMQ9G2vv+dcrR26BBKUgySjAd98BRDHoTE0bd4p2v2YdmHZR+WfVj2YdmHZR+WfViVvpjmWpyfn515KkzP/WO392dT+TKujE3hY9rYvp0ta6nwMW1sH9um/L8Mm8rHsonemGpjGVWuznMD8GYHag==
   </data>
  </layer>
  <objectgroup id="2" name="obj">
-  <object id="11" gid="4" x="448" y="1664" width="64" height="64"/>
-  <object id="12" gid="4" x="640" y="1664" width="64" height="64"/>
-  <object id="13" gid="4" x="832" y="1664" width="64" height="64"/>
   <object id="15" gid="4" x="896" y="1408" width="64" height="64"/>
   <object id="17" gid="4" x="640" y="1408" width="64" height="64"/>
-  <object id="28" gid="4" x="768" y="1664" width="64" height="64"/>
   <object id="29" gid="4" x="704" y="1408" width="64" height="64"/>
   <object id="30" gid="4" x="768" y="1408" width="64" height="64"/>
   <object id="31" gid="4" x="832" y="1408" width="64" height="64"/>
@@ -26,27 +25,12 @@
   <object id="33" gid="4" x="512" y="1408" width="64" height="64"/>
   <object id="34" gid="4" x="448" y="1408" width="64" height="64"/>
   <object id="35" gid="4" x="384" y="1408" width="64" height="64"/>
-  <object id="36" gid="4" x="320" y="1664" width="64" height="64"/>
   <object id="37" gid="4" x="960" y="1408" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="dill">
-  <object id="38" gid="5" x="832" y="1600" width="64" height="64"/>
-  <object id="39" gid="5" x="832" y="1600" width="64" height="64"/>
-  <object id="40" gid="5" x="768" y="1600" width="64" height="64"/>
-  <object id="41" gid="5" x="640" y="1600" width="64" height="64"/>
-  <object id="42" gid="5" x="704" y="1600" width="64" height="64"/>
-  <object id="43" gid="5" x="704" y="1536" width="64" height="64"/>
   <object id="44" gid="5" x="768" y="1536" width="64" height="64"/>
   <object id="45" gid="5" x="832" y="1536" width="64" height="64"/>
-  <object id="46" gid="5" x="896" y="1536" width="64" height="64"/>
-  <object id="47" gid="5" x="896" y="1600" width="64" height="64"/>
-  <object id="48" gid="5" x="640" y="1536" width="64" height="64"/>
-  <object id="49" gid="5" x="512" y="1536" width="64" height="64"/>
-  <object id="50" gid="5" x="576" y="1600" width="64" height="64"/>
-  <object id="51" gid="5" x="576" y="1536" width="64" height="64"/>
-  <object id="52" gid="5" x="512" y="1600" width="64" height="64"/>
   <object id="53" gid="5" x="960" y="1536" width="64" height="64"/>
-  <object id="54" gid="5" x="960" y="1600" width="64" height="64"/>
   <object id="55" gid="5" x="1024" y="1600" width="64" height="64"/>
   <object id="56" gid="5" x="1024" y="1536" width="64" height="64"/>
   <object id="57" gid="5" x="1088" y="1600" width="64" height="64"/>
@@ -71,7 +55,12 @@
  <objectgroup id="4" name="pepper">
   <object id="214" gid="6" x="576" y="1856" width="64" height="64"/>
   <object id="217" gid="6" x="832" y="1856" width="64" height="64"/>
-  <object id="218" gid="6" x="1088" y="1856" width="64" height="64"/>
+  <object id="218" gid="6" x="320" y="1856" width="64" height="64"/>
   <object id="219" gid="6" x="1344" y="1728" width="64" height="64"/>
  </objectgroup>
+ <layer id="5" name="limits" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzty6ERAAAIxLB37L8xG3AoDImqaQIAAADApVr09HzTMZgAHQ==
+  </data>
+ </layer>
 </map>

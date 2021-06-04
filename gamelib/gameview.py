@@ -13,15 +13,19 @@ import random
 sys.path.append(".")
 
 
-class Game(arcade.View):
+class GameLevel(arcade.View):
 
     def __init__(self):
         super().__init__()
-
         # keys handled and projection properities
         self.keys_pressed = {'jump': False, 'left': False, 'right': False}
         self.view_bottom = 0
         self.view_left = 0
+
+        # counters
+        self.level_end = None
+        self.maklowicz_lives = None
+        self.collectable_counters = None
 
         # sprites
         self.character_cont_list = None
@@ -35,14 +39,10 @@ class Game(arcade.View):
         self.maklowicz = None
         self.maklowicz_head_collider = None
         self.maklowicz_shoes_collider = None
-        self.pepper_physics_engines = []
+        self.pepper_physics_engines = None
 
         # sounds
         
-               
-
-        # counters
-        self.collectable_counters = {'dill': 0, 'pepper': 0}
 
         # map
         self.lvl_map = None
@@ -50,9 +50,15 @@ class Game(arcade.View):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def setup(self):
+        # counters
+        self.level_end = 0 # 0 - not finished yet; 1 - won; -1 - lost 
+        self.maklowicz_lives = 3
+        self.collectable_counters = {'dill': 0, 'pepper': 0}
+
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
+        self.limit_list = arcade.SpriteList(use_spatial_hash=True)
         self.pots_picked = set()
         self.dill_list = arcade.SpriteList()
         self.pepper_enemy_list = arcade.SpriteList()
@@ -80,7 +86,10 @@ class Game(arcade.View):
                                                        layer_name=MAP_LAYER['terrain1'],
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
-
+        self.limit_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
+                                                       layer_name=MAP_LAYER['limits'],
+                                                       scaling=MAP_SCALING,
+                                                       use_spatial_hash=True)
         # map objects
         self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
                                                          MAP_LAYER['pots'], True)
@@ -90,6 +99,7 @@ class Game(arcade.View):
                                                             self.lvl_map, MAP_LAYER['pepper_enemy'], True)
 
         # physic engines
+        self.pepper_physics_engines = []
         self.physics_engine_maklowicz = arcade.PhysicsEnginePlatformer(self.maklowicz,
                                                                        self.block_list,
                                                                        GRAVITY)
@@ -140,7 +150,7 @@ class Game(arcade.View):
         scores_place_x = self.view_left
         scores_place_y = self.view_bottom + WINDOW_HEIGHT
         arcade.draw_texture_rectangle(scores_place_x + 3*TL//2 + 10, scores_place_y - TL//2,
-                         3*TL*SCORE_SCALING, TL*SCORE_SCALING, image_hearts[3])
+                         3*TL*SCORE_SCALING, TL*SCORE_SCALING, image_hearts[self.maklowicz_lives])
         dill_text = str(self.collectable_counters['dill'])
         arcade.draw_text(dill_text, scores_place_x + TL + 20, scores_place_y - 2*TL - TL//2 + 10,
                          arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
@@ -154,7 +164,7 @@ class Game(arcade.View):
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
                          TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
-        self.pepper_enemy_list.draw_hit_boxes()
+       # self.pepper_enemy_list.draw_hit_boxes()
 
     def on_update(self, delta_time):
         # physics update
@@ -189,8 +199,23 @@ class Game(arcade.View):
 
         # pepper enemy collsisions
         for pepper in self.pepper_enemy_list:
-             if arcade.check_for_collision(pepper, self.maklowicz):
+            # limit - reverse speed
+            if arcade.check_for_collision_with_list(pepper, self.limit_list):
                  pepper.change_x = -pepper.change_x
+            # pepper kiled
+            if arcade.check_for_collision(self.maklowicz_shoes_collider, pepper) and self.maklowicz.change_y<0:
+                self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
+                pepper.killed = True
+                self.pepper_enemy_list.remove(pepper)
+            # hurt maklowicz
+            if arcade.check_for_collision(self.maklowicz, pepper):
+                if not self.maklowicz.immunity:
+                    self.maklowicz_lives -= 1
+                    self.maklowicz.center_x = self.maklowicz.center_x - 100
+                    self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
+                self.maklowicz.immunity = True         
+
+             
 
         # dill collisions
         dill_collisions = arcade.check_for_collision_with_list(
@@ -228,4 +253,11 @@ class Game(arcade.View):
             self.view_left = int(self.view_left)
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
                                 self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
+        
+
+        if self.maklowicz_lives <= 0:
+            self.level_end = -1
+        if self.level_end == -1:
+            self.window.close()
+            print("PRZEGRAŁ HAHAHA!!!")
 

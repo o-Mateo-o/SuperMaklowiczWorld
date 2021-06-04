@@ -25,6 +25,8 @@ class Maklowicz(arcade.Sprite):
         self.center_y = center_y
         self.current_texture = 0
         self.animation_ratio = 5
+        self.immunity = False
+        self.immunity_counter = 0
 
         #sound players
         self.pepper_sound_player = media.Player()
@@ -114,6 +116,12 @@ class Maklowicz(arcade.Sprite):
         if not self.previous_q_in_air and self.in_air and self.jump_state:
             jump_action = True
             self.jump_state = False
+
+        # immunity update
+        if self.immunity:
+            self.immunity_counter += 1        
+        if self.immunity_counter > MAKLOWICZ_IMMUNITY_TIME:
+            self.immunity = False            
             
         # call visual and audio update methods
         self.update_texture() 
@@ -128,23 +136,14 @@ class PepperEnemy(arcade.Sprite):
         super().__init__(scale=MAP_SCALING)
         self.facing = RIGHT_F
         self.current_texture = 0
+        self.killed = False
         self.live = True
         self.animation_ratio = 6
         self.change_x = -PEPPER_SPEED
-        
-    # def figure_mirror(self, facing):
-    #     if self.facing == facing:
-    #         ratio = 1
-    #     else:
-    #         ratio = -1
-    #     # character hitbox symmetry and facing variable update
-    #     self.set_hit_box([[ratio*point[0], point[1]]
-    #                      for point in self.get_hit_box()])
-    #     self.facing = facing
 
     def update_texture(self):
         # textures for proper movement states
-        if self.live:
+        if not self.killed:
             self.current_texture += 1
             if self.current_texture > 4 * self.animation_ratio - 1:
                 self.current_texture = 0
@@ -161,9 +160,12 @@ class PepperEnemy(arcade.Sprite):
             self.texture = image_pepper_enemy['killed']
  
     def update(self):
+        if self.change_x < 0:
+            self.facing = RIGHT_F
+        else:
+            self.facing = LEFT_F
         if self.current_texture == 0:
             self.change_y = PEPPER_JUMP_SPEED
-        #self.position = [self._position[0] + self.change_x, self._position[1] + self.change_y]
         self.update_texture()
 
 
