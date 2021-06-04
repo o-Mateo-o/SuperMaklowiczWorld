@@ -35,14 +35,16 @@ class GameLevel(arcade.View):
         self.dill_list = None
         self.pepper_enemy_list = None
         self.pepper_item_list = None
+        self.knives_list = None
+        self.fork_list = None
 
         self.maklowicz = None
         self.maklowicz_head_collider = None
         self.maklowicz_shoes_collider = None
+        self.maklowicz_shoes_collider2 = None
         self.pepper_physics_engines = None
 
         # sounds
-        
 
         # map
         self.lvl_map = None
@@ -51,7 +53,7 @@ class GameLevel(arcade.View):
 
     def setup(self):
         # counters
-        self.level_end = 0 # 0 - not finished yet; 1 - won; -1 - lost 
+        self.level_end = 0  # 0 - not finished yet; 1 - won; -1 - lost
         self.maklowicz_lives = 3
         self.collectable_counters = {'dill': 0, 'pepper': 0}
 
@@ -65,7 +67,6 @@ class GameLevel(arcade.View):
         self.pepper_item_list = arcade.SpriteList()
 
         # sounds empty lists
-             
 
         # main character and head-box
         self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
@@ -73,12 +74,16 @@ class GameLevel(arcade.View):
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
         self.maklowicz_shoes_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
+        self.maklowicz_shoes_collider2 = arcade.Sprite(
+            scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
         self.maklowicz_head_collider.texture = image_maklowicz['box_h'][0]
         self.maklowicz_shoes_collider.texture = image_maklowicz['box_s'][0]
+        self.maklowicz_shoes_collider2.texture = image_maklowicz['box_s'][0]
 
         self.character_cont_list.append(self.maklowicz)
         self.character_cont_list.append(self.maklowicz_head_collider)
         self.character_cont_list.append(self.maklowicz_shoes_collider)
+        self.character_cont_list.append(self.maklowicz_shoes_collider2)
 
         # map static
         self.lvl_map = TEST_MAP
@@ -92,11 +97,19 @@ class GameLevel(arcade.View):
                                                        use_spatial_hash=True)
         # map objects
         self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
-                                                         MAP_LAYER['pots'], True)
+                                                              MAP_LAYER['pots'], True)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
-                                                         MAP_LAYER['dill'], True)
+                                                            MAP_LAYER['dill'], False)
         self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self.pepper_enemy_list,
-                                                            self.lvl_map, MAP_LAYER['pepper_enemy'], True)
+                                                                    self.lvl_map, MAP_LAYER['pepper_enemy'], False)
+        self.knives_list = auxfunctions.init_objects_from_map(sprites.Knives, self.block_list,
+                                                              self.lvl_map, MAP_LAYER['knives'], True)
+        self.fork_list = auxfunctions.init_objects_from_map(sprites.Fork, self.block_list,
+                                                            self.lvl_map, MAP_LAYER['forks'], False)
+        for knives in self.knives_list:
+            knives.initial_move()
+        for fork in self.fork_list:
+            fork.adjust_hitbox()
 
         # physic engines
         self.pepper_physics_engines = []
@@ -104,7 +117,8 @@ class GameLevel(arcade.View):
                                                                        self.block_list,
                                                                        GRAVITY)
         for papryka in self.pepper_enemy_list:
-            self.pepper_physics_engines.append(arcade.PhysicsEnginePlatformer(papryka, self.block_list, GRAVITY))
+            self.pepper_physics_engines.append(
+                arcade.PhysicsEnginePlatformer(papryka, self.block_list, GRAVITY))
 
         self.physics_engine_pymunk = arcade.PymunkPhysicsEngine(
             (0, PYMUNK_GRAVITY), PYMUNK_DAMP)
@@ -139,7 +153,12 @@ class GameLevel(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-
+        map_end_length = self.lvl_map.tile_size[0] * \
+            MAP_SCALING*self.lvl_map.map_size[0]
+        addit_x = WINDOW_WIDTH / 2
+        bg_center_x = WINDOW_WIDTH / 2 + self.view_left * (1 - (addit_x / (map_end_length + self.view_left)))
+        arcade.draw_texture_rectangle(bg_center_x, WINDOW_HEIGHT/2+self.view_bottom,
+                                      WINDOW_WIDTH + addit_x, WINDOW_HEIGHT, image_background[1])
         self.maklowicz.draw()
         self.block_list.draw()
         self.dill_list.draw()
@@ -150,26 +169,25 @@ class GameLevel(arcade.View):
         scores_place_x = self.view_left
         scores_place_y = self.view_bottom + WINDOW_HEIGHT
         arcade.draw_texture_rectangle(scores_place_x + 3*TL//2 + 10, scores_place_y - TL//2,
-                         3*TL*SCORE_SCALING, TL*SCORE_SCALING, image_hearts[self.maklowicz_lives])
+                                      3*TL*SCORE_SCALING, TL*SCORE_SCALING, image_hearts[self.maklowicz_lives])
         dill_text = str(self.collectable_counters['dill'])
         arcade.draw_text(dill_text, scores_place_x + TL + 20, scores_place_y - 2*TL - TL//2 + 10,
                          arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 2*TL + 10,
-                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['dill'])
+                                      TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['dill'])
         pepper_text = str(self.collectable_counters['pepper'])
         arcade.draw_text(pepper_text, scores_place_x + TL + 20, scores_place_y - 3*TL - TL//2 + 10,
                          arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
-                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
-
-       # self.pepper_enemy_list.draw_hit_boxes()
+                                      TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
     def on_update(self, delta_time):
         # physics update
         self.maklowicz.update()
         self.pepper_enemy_list.update()
+        self.fork_list.update()
         self.physics_engine_maklowicz.update()
         self.physics_engine_pymunk.step()
         for engine in self.pepper_physics_engines:
@@ -180,7 +198,9 @@ class GameLevel(arcade.View):
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
         self.maklowicz_shoes_collider.position = (
             self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION)
-        
+        self.maklowicz_shoes_collider2.position = (
+            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION_ITEMS)
+
         # pots collisions and action
         self.pots_picked.update(set(arcade.check_for_collision_with_list(
             self.maklowicz_head_collider, self.pot_sublist)))
@@ -201,30 +221,38 @@ class GameLevel(arcade.View):
         for pepper in self.pepper_enemy_list:
             # limit - reverse speed
             if arcade.check_for_collision_with_list(pepper, self.limit_list):
-                 pepper.change_x = -pepper.change_x
+                pepper.change_x = -pepper.change_x
             # pepper kiled
-            if arcade.check_for_collision(self.maklowicz_shoes_collider, pepper) and self.maklowicz.change_y<0:
+            if arcade.check_for_collision(self.maklowicz_shoes_collider, pepper)\
+                    and self.maklowicz.change_y < 0 and not pepper.killed:
                 self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
                 pepper.killed = True
-                self.pepper_enemy_list.remove(pepper)
+                # self.pepper_enemy_list.remove(pepper)
             # hurt maklowicz
-            if arcade.check_for_collision(self.maklowicz, pepper):
-                if not self.maklowicz.immunity:
-                    self.maklowicz_lives -= 1
-                    self.maklowicz.center_x = self.maklowicz.center_x - 100
-                    self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
-                self.maklowicz.immunity = True         
+            if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed:
+                self.maklowicz_lives = self.maklowicz.hurt_action(
+                    self.maklowicz_lives)
 
-             
+        # knives collision
+        knives_collision = arcade.check_for_collision_with_list(
+            self.maklowicz_shoes_collider2, self.knives_list)
+        if knives_collision:
+            self.maklowicz_lives = self.maklowicz.hurt_action(
+                self.maklowicz_lives)
+
+        fork_collision = arcade.check_for_collision_with_list(
+            self.maklowicz_shoes_collider2, self.fork_list)
+        if fork_collision:
+            self.maklowicz_lives = self.maklowicz.hurt_action(
+                self.maklowicz_lives)
 
         # dill collisions
         dill_collisions = arcade.check_for_collision_with_list(
             self.maklowicz, self.dill_list)
         for picked in dill_collisions:
-            self.maklowicz.dill_collected = True            
+            self.maklowicz.dill_collected = True
             self.dill_list.remove(picked)
             self.collectable_counters['dill'] += 1
-
 
         # SCREEN SCROLLING
 
@@ -233,7 +261,8 @@ class GameLevel(arcade.View):
         left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN - 5
         right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN + 5
         bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        map_end_length = self.lvl_map.tile_size[0]*MAP_SCALING*self.lvl_map.map_size[0]
+        map_end_length = self.lvl_map.tile_size[0] * \
+            MAP_SCALING*self.lvl_map.map_size[0]
 
         if self.maklowicz.center_x < left_boundary:
             self.view_left = max(
@@ -253,11 +282,9 @@ class GameLevel(arcade.View):
             self.view_left = int(self.view_left)
             arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
                                 self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
-        
 
         if self.maklowicz_lives <= 0:
             self.level_end = -1
         if self.level_end == -1:
             self.window.close()
             print("PRZEGRAŁ HAHAHA!!!")
-

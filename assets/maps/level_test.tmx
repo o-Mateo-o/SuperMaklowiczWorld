@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="220">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="223">
  <tileset firstgid="1" name="SET1" tilewidth="64" tileheight="64" tilecount="4" columns="2">
   <image source="../images/blocks/SET1.png" width="128" height="128"/>
  </tileset>
@@ -10,9 +10,20 @@
  <tileset firstgid="7" name="BOX_center_collider" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/BOX_center_collider.png" width="64" height="64"/>
  </tileset>
+ <tileset firstgid="8" name="knives" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../images/blocks/knives.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="9" name="fork" tilewidth="64" tileheight="128" tilecount="1" columns="1">
+  <image source="../images/blocks/fork.png" width="64" height="128"/>
+ </tileset>
  <layer id="1" name="layer" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0zEKwDAMQ9G2vv+dcrR26BBKUgySjAd98BRDHoTE0bd4p2v2YdmHZR+WfVj2YdmHZR+WfViVvpjmWpyfn515KkzP/WO392dT+TKujE3hY9rYvp0ta6nwMW1sH9um/L8Mm8rHsonemGpjGVWuznMD8GYHag==
+   eJzt00EKwCAMRNHa3P9OHs0uupBQJWUmwcV8yEIUfCDadW72zqnJhyUflnxY8mHJhyUflnxY8mFV+mya+2O/uTPzVJie+/vq3M6W5Yu4IrYMH9PG9q1sUUuFj2lj+9i2zP/LsGX5WLakN6badsbm9vy6wvXHXn3vAPZKB2w=
+  </data>
+ </layer>
+ <layer id="6" name="knives" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztw6ENAAAIA7BJ/r8YM49DtUkTAAAAALhNf1saIAAR
   </data>
  </layer>
  <objectgroup id="2" name="obj">
@@ -28,8 +39,8 @@
   <object id="37" gid="4" x="960" y="1408" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="dill">
-  <object id="44" gid="5" x="768" y="1536" width="64" height="64"/>
-  <object id="45" gid="5" x="832" y="1536" width="64" height="64"/>
+  <object id="44" gid="5" x="1009" y="1684" width="64" height="64"/>
+  <object id="45" gid="5" x="1187" y="1703" width="64" height="64"/>
   <object id="53" gid="5" x="960" y="1536" width="64" height="64"/>
   <object id="55" gid="5" x="1024" y="1600" width="64" height="64"/>
   <object id="56" gid="5" x="1024" y="1536" width="64" height="64"/>
@@ -52,10 +63,10 @@
   <object id="73" gid="5" x="1280" y="1344" width="64" height="64"/>
   <object id="74" gid="5" x="1344" y="1280" width="64" height="64"/>
  </objectgroup>
+ <objectgroup id="7" name="forks">
+  <object id="222" gid="9" x="1024" y="1920" width="64" height="128"/>
+ </objectgroup>
  <objectgroup id="4" name="pepper">
-  <object id="214" gid="6" x="576" y="1856" width="64" height="64"/>
-  <object id="217" gid="6" x="832" y="1856" width="64" height="64"/>
-  <object id="218" gid="6" x="320" y="1856" width="64" height="64"/>
   <object id="219" gid="6" x="1344" y="1728" width="64" height="64"/>
  </objectgroup>
  <layer id="5" name="limits" width="40" height="30">

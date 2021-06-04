@@ -25,13 +25,14 @@ class Maklowicz(arcade.Sprite):
         self.center_y = center_y
         self.current_texture = 0
         self.animation_ratio = 5
+
         self.immunity = False
         self.immunity_counter = 0
 
-        #sound players
+        # sound players
         self.pepper_sound_player = media.Player()
         self.run_sound_player = media.Player()
-        self.dill_sound_player = media.Player() 
+        self.dill_sound_player = media.Player()
 
         # characteer status
         self.run_state = False
@@ -54,7 +55,7 @@ class Maklowicz(arcade.Sprite):
     def process_keychange(self, keys_pressed):
         # character actions depending on user controll
         if keys_pressed['jump'] and all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
-                                       for engine in self.physics_engines]):
+                                         for engine in self.physics_engines]):
             self.change_y = MAKLOWICZ_JUMP_SPEED
             self.jump_state = True
         if keys_pressed['right']:
@@ -65,6 +66,15 @@ class Maklowicz(arcade.Sprite):
             self.figure_mirror(LEFT_F)
         elif not keys_pressed['right'] and not keys_pressed['left']:
             self.change_x = 0
+
+    def hurt_action(self, lives):
+        if not self.immunity:
+            self.center_x = self.center_x - MAKLOWICZ_KICKBACK
+            self.change_y = MAKLOWICZ_JUMP_SPEED
+            self.immunity = True
+            return lives - 1
+        else:
+            return lives
 
     def update_texture(self):
         # textures for proper movement states - running animated
@@ -88,7 +98,7 @@ class Maklowicz(arcade.Sprite):
 
         # start looped run sound when he lands or begins movement; stop when he stops or jumps
         if (not self.previous_q_run_state and self.run_state and not self.in_air)\
-            or (self.run_state and not self.in_air and self.previous_q_in_air):
+                or (self.run_state and not self.in_air and self.previous_q_in_air):
             self.run_sound_player = auxfunctions.play_sound(
                 sound_environ['running'], self.run_sound_player, volume=step_volume, loop=True)
         elif self.previous_q_run_state and not self.run_state or self.in_air:
@@ -99,7 +109,7 @@ class Maklowicz(arcade.Sprite):
             jump_sound = random.choice(list(sound_pepper.values()))
             self.pepper_sound_player = auxfunctions.play_sound(
                 jump_sound, self.pepper_sound_player)
-    
+
     def update(self):
         # update the info about the movement - running and jumping
         if all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
@@ -119,25 +129,26 @@ class Maklowicz(arcade.Sprite):
 
         # immunity update
         if self.immunity:
-            self.immunity_counter += 1        
+            self.immunity_counter += 1
         if self.immunity_counter > MAKLOWICZ_IMMUNITY_TIME:
-            self.immunity = False            
-            
+            self.immunity = False
+
         # call visual and audio update methods
-        self.update_texture() 
-        self.update_sound(jump_action)       
+        self.update_texture()
+        self.update_sound(jump_action)
 
         # update previous quant variables to aquire differences
         self.previous_q_run_state = self.run_state
         self.previous_q_in_air = self.in_air
-        
+
+
 class PepperEnemy(arcade.Sprite):
     def __init__(self):
         super().__init__(scale=MAP_SCALING)
         self.facing = RIGHT_F
         self.current_texture = 0
         self.killed = False
-        self.live = True
+        self.killed_counter = 0
         self.animation_ratio = 6
         self.change_x = -PEPPER_SPEED
 
@@ -157,8 +168,8 @@ class PepperEnemy(arcade.Sprite):
                 texture_key = 'live2'
             self.texture = image_pepper_enemy[texture_key][self.facing]
         else:
-            self.texture = image_pepper_enemy['killed']
- 
+            self.texture = image_pepper_enemy['killed'][0]
+
     def update(self):
         if self.change_x < 0:
             self.facing = RIGHT_F
@@ -167,6 +178,11 @@ class PepperEnemy(arcade.Sprite):
         if self.current_texture == 0:
             self.change_y = PEPPER_JUMP_SPEED
         self.update_texture()
+        if self.killed:
+            self.killed_counter += 1
+        if self.killed_counter > PEPPER_AGONY_TIME:
+            for sprite_list in self.sprite_lists:
+                sprite_list.remove(self)
 
 
 class Pot(arcade.Sprite):
@@ -198,3 +214,29 @@ class Dill(arcade.Sprite):
         self.texture = image_collectable['dill']
         if parent != None:
             self.position = (parent.center_x, parent.center_y + TL)
+
+
+class Knives(arcade.Sprite):
+    def __init__(self):
+        super().__init__(scale=MAP_SCALING)
+
+    def initial_move(self):
+        self.center_y = self.center_y + KNIVES_DISLOCATION
+
+
+class Fork(arcade.Sprite):
+    def __init__(self):
+        super().__init__(scale=MAP_SCALING)
+        self.init_height = self.center_y
+        self.change_y = 5
+
+    def adjust_hitbox(self):
+        self.set_hit_box([[0.7*point[0], point[1]]
+                         for point in self.get_hit_box()])
+
+    def update(self):
+        if self.center_y > self.init_height + 100:
+            self.change_y = -2
+        elif self.center_y < self.init_height:
+            self.change_y = 2
+        return super().update()

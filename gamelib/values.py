@@ -18,10 +18,14 @@ GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
-MAKLOWICZ_IMMUNITY_TIME = 60
+MAKLOWICZ_IMMUNITY_TIME = 40
+MAKLOWICZ_KICKBACK = 100
 
 PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
+PEPPER_AGONY_TIME = 60
+
+KNIVES_DISLOCATION = 10
 
 PYMUNK_GRAVITY = -GRAVITY * 1000
 PYMUNK_DAMP = 0.1
@@ -33,6 +37,7 @@ POT_ACTION_SPEED = 15
 POT_ACTION_HEIGHT = 20
 MAKLOWICZ_HEAD_EXTENSION = 10
 MAKLOWICZ_SHOES_EXTENSION = -30
+MAKLOWICZ_SHOES_EXTENSION_ITEMS = -10
 
 DILL_DROP = 2
 
@@ -74,6 +79,9 @@ image_hearts = {
     1: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts1.png"),
     0: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts0.png")}
 
+image_background = {
+    1: arcade.load_texture(f"{IMG_DIR}\\bg.jpg")}
+
 # sounds
 SND_DIR = "assets\sounds"
 sounds_roberto = {
@@ -96,7 +104,8 @@ COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 
 # map layers
 MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
-             'pepper_enemy': "pepper", 'limits': "limits"}
+             'pepper_enemy': "pepper", 'limits': "limits", 'knives': "knives",
+             'forks': "forks"}
 
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
