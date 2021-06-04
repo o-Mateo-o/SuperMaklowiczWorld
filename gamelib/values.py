@@ -18,7 +18,7 @@ GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
-MAKLOWICZ_IMMUNITY_TIME = 40
+MAKLOWICZ_IMMUNITY_TIME = 30
 MAKLOWICZ_KICKBACK = 100
 
 PEPPER_SPEED = 2
@@ -115,6 +115,8 @@ MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
              'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg",
              'mterrain': "moving"}
 
+bg_move_x_extension = 1000
+bg_move_y_extension = 200
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 TEST_MAP = arcade.tilemap.read_tmx("assets\maps\level_test.tmx")

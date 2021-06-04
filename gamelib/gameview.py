@@ -178,13 +178,18 @@ class GameLevel(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-        map_end_length = self.lvl_map.tile_size[0] * \
+        map_end_length_x = self.lvl_map.tile_size[0] * \
             MAP_SCALING*self.lvl_map.map_size[0]
-        addit_x = WINDOW_WIDTH / 2
+        map_end_length_y = self.lvl_map.tile_size[1] * \
+            MAP_SCALING*self.lvl_map.map_size[1]
+        addit_x = WINDOW_WIDTH + bg_move_x_extension
+        addit_y = WINDOW_HEIGHT + bg_move_y_extension
         bg_center_x = WINDOW_WIDTH / 2 + self.view_left * \
-            (1 - (addit_x / (map_end_length + self.view_left)))
-        arcade.draw_texture_rectangle(bg_center_x, WINDOW_HEIGHT/2+self.view_bottom,
-                                      WINDOW_WIDTH + addit_x, WINDOW_HEIGHT, image_background[1])
+            (1 - (addit_x / (map_end_length_x + self.view_left)))
+        bg_center_y = WINDOW_HEIGHT / 2 + self.view_bottom * \
+            (1 - (addit_y / (map_end_length_y + self.view_bottom)))
+        arcade.draw_texture_rectangle(bg_center_x, bg_center_y, WINDOW_WIDTH + addit_x,
+                                     WINDOW_HEIGHT + addit_y, image_background[1])
         
         self.block_list.draw()
         self.bg_block_list.draw()
