@@ -29,10 +29,13 @@ class Game(arcade.View):
         self.pot_sublist = None
         self.pots_picked = None
         self.dill_list = None
+        self.pepper_enemy_list = None
+        self.pepper_item_list = None
 
         self.maklowicz = None
         self.maklowicz_head_collider = None
         self.maklowicz_shoes_collider = None
+        self.pepper_physics_engines = []
 
         # sounds
         
@@ -52,6 +55,8 @@ class Game(arcade.View):
         self.block_list = arcade.SpriteList(use_spatial_hash=True)
         self.pots_picked = set()
         self.dill_list = arcade.SpriteList()
+        self.pepper_enemy_list = arcade.SpriteList()
+        self.pepper_item_list = arcade.SpriteList()
 
         # sounds empty lists
              
@@ -81,11 +86,16 @@ class Game(arcade.View):
                                                          MAP_LAYER['pots'], True)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
                                                          MAP_LAYER['dill'], True)
+        self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self.pepper_enemy_list,
+                                                            self.lvl_map, MAP_LAYER['pepper_enemy'], True)
 
         # physic engines
         self.physics_engine_maklowicz = arcade.PhysicsEnginePlatformer(self.maklowicz,
                                                                        self.block_list,
                                                                        GRAVITY)
+        for papryka in self.pepper_enemy_list:
+            self.pepper_physics_engines.append(arcade.PhysicsEnginePlatformer(papryka, self.block_list, GRAVITY))
+
         self.physics_engine_pymunk = arcade.PymunkPhysicsEngine(
             (0, PYMUNK_GRAVITY), PYMUNK_DAMP)
 
@@ -95,6 +105,7 @@ class Game(arcade.View):
         self.physics_engine_pymunk.add_sprite_list(
             self.block_list, body_type=arcade.PymunkPhysicsEngine.STATIC)
         self.physics_engine_pymunk.add_sprite_list(self.dill_list)
+        self.physics_engine_pymunk.add_sprite_list(self.pepper_item_list)
 
     def on_key_press(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
@@ -122,6 +133,8 @@ class Game(arcade.View):
         self.maklowicz.draw()
         self.block_list.draw()
         self.dill_list.draw()
+        self.pepper_enemy_list.draw()
+        self.pepper_item_list.draw()
 
         # current score info
         scores_place_x = self.view_left
@@ -139,15 +152,18 @@ class Game(arcade.View):
                          arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
 
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
-                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['dill'])
+                         TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
-        # self.dill_list.draw_hit_boxes()
+        self.pepper_enemy_list.draw_hit_boxes()
 
     def on_update(self, delta_time):
         # physics update
         self.maklowicz.update()
+        self.pepper_enemy_list.update()
         self.physics_engine_maklowicz.update()
         self.physics_engine_pymunk.step()
+        for engine in self.pepper_physics_engines:
+            engine.update()
 
         # accomp hitbox move
         self.maklowicz_head_collider.position = (
@@ -170,6 +186,11 @@ class Game(arcade.View):
                         self.physics_engine_pymunk.apply_force(new_dill, (random.randint(
                             -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
                 pot.pick_action()
+
+        # pepper enemy collsisions
+        for pepper in self.pepper_enemy_list:
+             if arcade.check_for_collision(pepper, self.maklowicz):
+                 pepper.change_x = -pepper.change_x
 
         # dill collisions
         dill_collisions = arcade.check_for_collision_with_list(

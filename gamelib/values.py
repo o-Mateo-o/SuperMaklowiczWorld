@@ -19,6 +19,9 @@ MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
 
+PEPPER_SPEED = 3
+PEPPER_JUMP_SPEED = 7
+
 PYMUNK_GRAVITY = -GRAVITY * 1000
 PYMUNK_DAMP = 0.1
 POPPING_X_FORCE_RANGE_LIMIT = 1000
@@ -51,11 +54,18 @@ image_maklowicz = {
     'box_h': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_head.png"),
     'box_s': arcade.load_texture_pair(f"{IMG_DIR}\maklowicz\BOX_maklowicz_shoes.png")}
 
+image_pepper_enemy = {
+    'live1': arcade.load_texture_pair(f"{IMG_DIR}\pepper\pepper_enemy1.png"),
+    'live2': arcade.load_texture_pair(f"{IMG_DIR}\pepper\pepper_enemy2.png"),
+    'live3': arcade.load_texture_pair(f"{IMG_DIR}\pepper\pepper_enemy3.png"),
+    'killed': arcade.load_texture_pair(f"{IMG_DIR}\pepper\pepper_enemy_killed.png")}
+
 image_pot = {
     'picked': arcade.load_texture(f"{IMG_DIR}\\blocks\pot_picked.png")}
 
 image_collectable = {
-    'dill': arcade.load_texture(f"{IMG_DIR}\\blocks\dill.png")}
+    'dill': arcade.load_texture(f"{IMG_DIR}\\blocks\dill.png"),
+    'pepper': arcade.load_texture(f"{IMG_DIR}\pepper\pepper_item.png")}
 
 image_hearts = {
     3: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts3.png")}
@@ -81,7 +91,7 @@ step_volume = 0.5 * sound_volume_factor
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 
 # map layers
-MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill"}
+MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill", 'pepper_enemy': "pepper"}
 
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

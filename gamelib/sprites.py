@@ -6,6 +6,7 @@ import sys
 
 import arcade
 import random
+from arcade import texture
 from pyglet import media
 from pytiled_parser.objects import TileMap
 from gamelib import auxfunctions
@@ -23,6 +24,7 @@ class Maklowicz(arcade.Sprite):
         self.center_x = center_x
         self.center_y = center_y
         self.current_texture = 0
+        self.animation_ratio = 5
 
         #sound players
         self.pepper_sound_player = media.Player()
@@ -68,9 +70,9 @@ class Maklowicz(arcade.Sprite):
             self.texture = image_maklowicz['jump'][self.facing]
         elif self.run_state and not self.in_air:
             self.current_texture += 1
-            if self.current_texture > 9:
+            if self.current_texture > self.animation_ratio * 2 - 1:
                 self.current_texture = 0
-            texture_key = 'run1' if self.current_texture > 4 else 'run2'
+            texture_key = 'run1' if self.current_texture > self.animation_ratio else 'run2'
             self.texture = image_maklowicz[texture_key][self.facing]
         else:
             self.texture = image_maklowicz['idle'][self.facing]
@@ -121,7 +123,48 @@ class Maklowicz(arcade.Sprite):
         self.previous_q_run_state = self.run_state
         self.previous_q_in_air = self.in_air
         
+class PepperEnemy(arcade.Sprite):
+    def __init__(self):
+        super().__init__(scale=MAP_SCALING)
+        self.facing = RIGHT_F
+        self.current_texture = 0
+        self.live = True
+        self.animation_ratio = 6
+        self.change_x = -PEPPER_SPEED
         
+    # def figure_mirror(self, facing):
+    #     if self.facing == facing:
+    #         ratio = 1
+    #     else:
+    #         ratio = -1
+    #     # character hitbox symmetry and facing variable update
+    #     self.set_hit_box([[ratio*point[0], point[1]]
+    #                      for point in self.get_hit_box()])
+    #     self.facing = facing
+
+    def update_texture(self):
+        # textures for proper movement states
+        if self.live:
+            self.current_texture += 1
+            if self.current_texture > 4 * self.animation_ratio - 1:
+                self.current_texture = 0
+            if self.current_texture < self.animation_ratio:
+                texture_key = 'live1'
+            elif self.current_texture < 2 * self.animation_ratio:
+                texture_key = 'live2'
+            elif self.current_texture < 3 * self.animation_ratio:
+                texture_key = 'live3'
+            else:
+                texture_key = 'live2'
+            self.texture = image_pepper_enemy[texture_key][self.facing]
+        else:
+            self.texture = image_pepper_enemy['killed']
+ 
+    def update(self):
+        if self.current_texture == 0:
+            self.change_y = PEPPER_JUMP_SPEED
+        #self.position = [self._position[0] + self.change_x, self._position[1] + self.change_y]
+        self.update_texture()
 
 
 class Pot(arcade.Sprite):
