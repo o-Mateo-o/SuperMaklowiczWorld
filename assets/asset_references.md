@@ -7,7 +7,7 @@ They've been modified and used **only for educational purposes**, so mind that s
 The game itself cannot be used in non university-related context.
 
 
-### Images
+### Images 
 - Main character:
 
     http://www.maklowicz.pl/pl/programy-tv/maklowicz-w-podrozy/odc-181-peljesac-i-konavle?i=1&i214=19#Episode_214_gallery
