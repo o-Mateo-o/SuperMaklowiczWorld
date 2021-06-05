@@ -9,17 +9,18 @@ import random
 from pyglet import media
 from pytiled_parser.objects import TileMap
 from gamelib import auxfunctions
-from gamelib.values import *
+from gamelib.constants import *
 
 sys.path.append(".")
 
 
 class Maklowicz(arcade.Sprite):
-    def __init__(self, sound_player_register=None, center_x=2*TL, center_y=6*TL):
+    def __init__(self, parent_view, center_x=2*TL, center_y=6*TL):
         super().__init__(scale=CHARACTER_SCALING)
+        self.view = parent_view
         # figure properities
         self.facing = RIGHT_F
-        self.sound_player_register = sound_player_register
+        self.sound_player_register = self.view.window.sound_player_register
         self.texture = image_maklowicz['idle'][self.facing]
         self.center_x = center_x
         self.center_y = center_y
@@ -95,28 +96,25 @@ class Maklowicz(arcade.Sprite):
             self.texture = image_maklowicz['idle'][self.facing]
 
     def update_sound(self, jump_action):
-        if self.sound_player_register != None:
-            self.sound_player_register['pepper'] = self.pepper_sound_player
-            self.sound_player_register['run'] = self.run_sound_player
-            self.sound_player_register['dill'] = self.dill_sound_player
-            self.sound_player_register['pain'] = self.pain_sound_player
+        
         # laugh in the moment of dill picking
         if self.item_collected:
             self.dill_sound_player = auxfunctions.play_sound(
-                sounds_roberto['hihihi'], self.dill_sound_player)
+                sounds_roberto['hihihi'], self.dill_sound_player,
+                volume=self.view.window.standard_sound_volume)
             self.item_collected = False
 
         if self.hurt:
             self.pain_sound_player = auxfunctions.play_sound(
                 sounds_roberto['oaa'], self.pain_sound_player,
-                volume=pain_volume)
+                volume=self.view.window.pain_volume)
             self.hurt = False
 
         # start looped run sound when he lands or begins movement; stop when he stops or jumps
         if (not self.previous_q_run_state and self.run_state and not self.in_air)\
                 or (self.run_state and not self.in_air and self.previous_q_in_air):
             self.run_sound_player = auxfunctions.play_sound(
-                sound_environ['running'], self.run_sound_player, volume=step_volume, loop=True)
+                sound_environ['running'], self.run_sound_player, volume=self.view.window.step_volume, loop=True)
         elif self.previous_q_run_state and not self.run_state or self.in_air:
             arcade.stop_sound(self.run_sound_player)
         elif not self.run_state:
@@ -126,7 +124,14 @@ class Maklowicz(arcade.Sprite):
         if jump_action:
             jump_sound = random.choice(list(sound_pepper.values()))
             self.pepper_sound_player = auxfunctions.play_sound(
-                jump_sound, self.pepper_sound_player)
+                jump_sound, self.pepper_sound_player, 
+                volume=self.view.window.standard_sound_volume)
+
+        
+        self.view.window.sound_player_register['pepper'] = self.pepper_sound_player
+        self.view.window.sound_player_register['run'] = self.run_sound_player
+        self.view.window.sound_player_register['dill'] = self.dill_sound_player
+        self.view.window.sound_player_register['pain'] = self.pain_sound_player
 
     def update(self):
         # update the info about the movement - running and jumping
@@ -161,8 +166,9 @@ class Maklowicz(arcade.Sprite):
 
 
 class PepperEnemy(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
+        self.view = parent_view
         self.facing = RIGHT_F
         self.current_texture = 0
         self.killed = False
@@ -207,9 +213,10 @@ class PepperEnemy(arcade.Sprite):
 
 
 class Pot(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
         # pot is picked after a collision and desactivetad after picking action
+        self.view = parent_view
         self.picked = False
         self.active = True
 
@@ -219,7 +226,7 @@ class Pot(arcade.Sprite):
             self.init_center_y = self.center_y+1
             self.picked = True
             self.texture = image_pot['picked']
-            sound_environ['pot'].play(volume=standard_sound_volume)
+            sound_environ['pot'].play(volume=self.view.window.standard_sound_volume)
 
         elif self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
             self.change_y = -POT_ACTION_SPEED
@@ -231,32 +238,36 @@ class Pot(arcade.Sprite):
 
 
 class PepperItem(arcade.Sprite):
-    def __init__(self, parent: arcade.Sprite = None):
+    def __init__(self, parent_view, parent: arcade.Sprite = None):
         super().__init__(scale=MAP_SCALING)
+        self.view = parent_view
         self.texture = image_collectable['pepper']
         if parent != None:
             self.position = parent.position
 
 
 class Dill(arcade.Sprite):
-    def __init__(self, parent: arcade.Sprite = None):
+    def __init__(self, parent_view, parent: arcade.Sprite = None):
         super().__init__(scale=MAP_SCALING)
+        self.view = parent_view
         self.texture = image_collectable['dill']
         if parent != None:
             self.position = (parent.center_x, parent.center_y + TL)
 
 
 class Knives(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
+        self.view = parent_view
 
     def initial_move(self):
         self.center_y = self.center_y + KNIVES_DISLOCATION
 
 
 class Fork(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
+        self.view = parent_view
         self.init_height = self.center_y
         self.change_y = 5
 
@@ -273,8 +284,8 @@ class Fork(arcade.Sprite):
 
 
 class MovingBlockSimple(arcade.Sprite):
-    def __init__(self):
+    def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
-
+        self.view = parent_view
     def start_movement(self):
         self.change_x = -MOVING_BLOCK_SPEED

@@ -3,11 +3,10 @@ Main game view module to handle all the actions in the gameplay and display it.
 """
 
 from pyglet import media
-from gamelib.values import *
+from gamelib.constants import *
 from gamelib import sprites
 from gamelib import auxfunctions
 from gamelib import optionviews
-from gamelib.auxfunctions import sound_player_register
 import arcade
 import sys
 import random
@@ -30,6 +29,7 @@ class GameLevel(arcade.View):
         self.level_ended_action = None
         self.maklowicz_lives = None
         self.collectable_counters = None
+        self.final_time_counter = None
 
         # sprites
         self.character_cont_list = None
@@ -64,6 +64,7 @@ class GameLevel(arcade.View):
         self.level_ended_action = False
         self.maklowicz_lives = LIVES_NUMBER
         self.collectable_counters = {'dill': 0, 'pepper': 0}
+        self.final_time_counter = 0
 
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
@@ -80,7 +81,7 @@ class GameLevel(arcade.View):
         # sounds empty lists
 
         # main character and head-box
-        self.maklowicz = sprites.Maklowicz(sound_player_register, 2*TL, 6*TL)
+        self.maklowicz = sprites.Maklowicz(self, 2*TL, 6*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
         self.maklowicz_shoes_collider = arcade.Sprite(
@@ -119,17 +120,17 @@ class GameLevel(arcade.View):
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
         # map objects
-        self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self.block_list, self.lvl_map,
+        self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self, self.block_list, self.lvl_map,
                                                               MAP_LAYER['pots'], True)
-        self.moving_block_sublist = auxfunctions.init_objects_from_map(sprites.MovingBlockSimple, self.block_list, self.lvl_map,
+        self.moving_block_sublist = auxfunctions.init_objects_from_map(sprites.MovingBlockSimple, self, self.block_list, self.lvl_map,
                                                               MAP_LAYER['mterrain'], True)
-        self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self.dill_list, self.lvl_map,
+        self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self, self.dill_list, self.lvl_map,
                                                             MAP_LAYER['dill'], False)
-        self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self.pepper_enemy_list,
+        self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self, self.pepper_enemy_list,
                                                                     self.lvl_map, MAP_LAYER['pepper_enemy'], False)
-        self.knives_list = auxfunctions.init_objects_from_map(sprites.Knives, self.block_list,
+        self.knives_list = auxfunctions.init_objects_from_map(sprites.Knives, self, self.block_list,
                                                               self.lvl_map, MAP_LAYER['knives'], True)
-        self.fork_list = auxfunctions.init_objects_from_map(sprites.Fork, self.block_list,
+        self.fork_list = auxfunctions.init_objects_from_map(sprites.Fork, self, self.block_list,
                                                             self.lvl_map, MAP_LAYER['forks'], False)
         for knives in self.knives_list:
             knives.initial_move()
@@ -189,8 +190,8 @@ class GameLevel(arcade.View):
             MAP_SCALING*self.lvl_map.map_size[0]
         map_end_length_y = self.lvl_map.tile_size[1] * \
             MAP_SCALING*self.lvl_map.map_size[1]
-        addit_x = WINDOW_WIDTH + bg_move_x_extension
-        addit_y = WINDOW_HEIGHT + bg_move_y_extension
+        addit_x = WINDOW_WIDTH + self.window.bg_move_x_extension
+        addit_y = WINDOW_HEIGHT + self.window.bg_move_y_extension
         bg_center_x = WINDOW_WIDTH / 2 + self.view_left * \
             (1 - (addit_x / (map_end_length_x + self.view_left)))
         bg_center_y = WINDOW_HEIGHT / 2 + self.view_bottom * \
@@ -224,6 +225,7 @@ class GameLevel(arcade.View):
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
                                       TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
+        
         # hurt warning on screen
         if self.maklowicz.hurt:
             self.hurt_warn_counter += 1
@@ -233,7 +235,7 @@ class GameLevel(arcade.View):
             self.hurt_warn_counter = 0
         if self.hurt_warn_counter != 0:
             arcade.draw_rectangle_filled(self.view_left+WINDOW_WIDTH/2, self.view_bottom+WINDOW_HEIGHT/2,
-                                        WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
+                                            WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
 
     def on_update(self, delta_time):
         # physics update
@@ -257,7 +259,7 @@ class GameLevel(arcade.View):
         if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
             self.maklowicz.change_x = 0
             self.maklowicz.change_y = 0
-            for player in sound_player_register.values():
+            for player in self.window.sound_player_register.values():
                 player.pause()
             self.level_end = 1
             
@@ -285,7 +287,7 @@ class GameLevel(arcade.View):
         # pepper enemy collsisions
         for pepper in self.pepper_enemy_list:
             if pepper.transform_to_item:
-                new_pepper = sprites.PepperItem(pepper)
+                new_pepper = sprites.PepperItem(self, pepper)
                 self.pepper_item_list.append(new_pepper)
                 self.physics_engine_pymunk.add_sprite(
                             new_pepper, friction=1, collision_type="item")
@@ -368,18 +370,21 @@ class GameLevel(arcade.View):
             self.maklowicz.dead = True
             self.maklowicz.change_x = 0
             self.maklowicz.change_y = 0
-            for player in sound_player_register.values():
-                player.pause()
-        if self.level_end == -1 and not self.level_ended_action:
-            sound_environ['loose'].play(volume=standard_sound_volume)
+
+        if self.level_end != 0:
+            self.final_time_counter += 1
+
+        if self.level_end == -1 and not self.level_ended_action and self.final_time_counter > FINAL_TIME:
+            sound_environ['loose'].play(volume=self.window.standard_sound_volume)
             self.level_ended_action = True
-            #self.window.close()
-            #print("PRZEGRAŁ HAHAHA!!!")
+            game_over = optionviews.GameOverView(self)
+            self.window.show_view(game_over)
+
+
         if self.level_end == 1 and not self.level_ended_action:
             self.level_ended_action = True
 
-            #self.window.close()
-            #print("OBSYPAĆ GO ZŁOTEM!!!")
+            pass
 
 
 

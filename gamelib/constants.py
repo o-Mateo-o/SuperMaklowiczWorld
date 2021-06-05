@@ -48,6 +48,8 @@ LIVES_NUMBER = 3
 
 DILL_DROP = 2
 
+FINAL_TIME = 80
+
 # window properities
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 450
@@ -56,6 +58,8 @@ WINDOW_HEADING = "Makłowicz Super World"
 LEFT_VIEWPORT_MARGIN = WINDOW_WIDTH/2
 RIGHT_VIEWPORT_MARGIN = WINDOW_WIDTH/2
 BOTTOM_VIEWPORT_MARGIN = WINDOW_HEIGHT/3
+
+
 
 # images
 IMG_DIR = "assets\images"
@@ -108,11 +112,7 @@ sound_environ = {
     'pot': arcade.Sound(f"{SND_DIR}\\environment\\pot.ogg"),
     'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg")}
 
-# sound volumes
-sound_volume_factor = 1
-standard_sound_volume = 1 * sound_volume_factor
-step_volume = 0.5 * sound_volume_factor
-pain_volume = 0.8*sound_volume_factor
+
 
 # font paths
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
@@ -123,8 +123,7 @@ MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
              'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg",
              'mterrain': "moving"}
 
-bg_move_x_extension = 1000
-bg_move_y_extension = 200
+
 # maps
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 TEST_MAP = arcade.tilemap.read_tmx("assets\maps\level_test.tmx")
