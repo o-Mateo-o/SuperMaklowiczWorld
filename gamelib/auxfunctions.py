@@ -14,8 +14,6 @@ from gamelib.values import *
 sys.path.append(".")
 
 
-
-
 def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,
                           layer_name: str, use_spatial_hash: bool):
     # raw objects from map
@@ -35,6 +33,7 @@ def init_objects_from_map(object_class, sprite_list: list, map_object: TileMap,
         new_object_sub_list.append(new_object)
     return new_object_sub_list
 
+sound_player_register = {}
 
 def play_sound(sound: arcade.Sound, player: media.Player,\
      volume: float = standard_sound_volume, loop: bool = False):

@@ -1,7 +1,10 @@
 """
 Constant values defining the static and dynamic game elements.
 """
+
 import arcade
+
+STANDARD_CONTROLL_KEYSET = {'jump': False, 'left': False, 'right': False}
 
 # object scaling
 MAP_SCALING = 0.7

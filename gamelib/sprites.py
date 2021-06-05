@@ -6,7 +6,6 @@ import sys
 
 import arcade
 import random
-from arcade import texture
 from pyglet import media
 from pytiled_parser.objects import TileMap
 from gamelib import auxfunctions
@@ -16,10 +15,11 @@ sys.path.append(".")
 
 
 class Maklowicz(arcade.Sprite):
-    def __init__(self, center_x=2*TL, center_y=6*TL):
+    def __init__(self, sound_player_register=None, center_x=2*TL, center_y=6*TL):
         super().__init__(scale=CHARACTER_SCALING)
         # figure properities
         self.facing = RIGHT_F
+        self.sound_player_register = sound_player_register
         self.texture = image_maklowicz['idle'][self.facing]
         self.center_x = center_x
         self.center_y = center_y
@@ -31,6 +31,7 @@ class Maklowicz(arcade.Sprite):
         self.run_sound_player = media.Player()
         self.dill_sound_player = media.Player()
         self.pain_sound_player = media.Player()
+        
 
         # characteer status
         self.run_state = False
@@ -95,6 +96,11 @@ class Maklowicz(arcade.Sprite):
             self.texture = image_maklowicz['idle'][self.facing]
 
     def update_sound(self, jump_action):
+        if self.sound_player_register != None:
+            self.sound_player_register['pepper'] = self.pepper_sound_player
+            self.sound_player_register['run'] = self.run_sound_player
+            self.sound_player_register['dill'] = self.dill_sound_player
+            self.sound_player_register['pain'] = self.pain_sound_player
         # laugh in the moment of dill picking
         if self.item_collected:
             self.dill_sound_player = auxfunctions.play_sound(

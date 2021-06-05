@@ -6,6 +6,8 @@ from pyglet import media
 from gamelib.values import *
 from gamelib import sprites
 from gamelib import auxfunctions
+from gamelib import optionviews
+from gamelib.auxfunctions import sound_player_register
 import arcade
 import sys
 import random
@@ -18,7 +20,7 @@ class GameLevel(arcade.View):
     def __init__(self):
         super().__init__()
         # keys handled and projection properities
-        self.keys_pressed = {'jump': False, 'left': False, 'right': False}
+        self.c_keys_pressed_gny = STANDARD_CONTROLL_KEYSET.copy()
         self.view_bottom = 0
         self.view_left = 0
         self.hurt_warn_counter = 0
@@ -76,7 +78,7 @@ class GameLevel(arcade.View):
         # sounds empty lists
 
         # main character and head-box
-        self.maklowicz = sprites.Maklowicz(2*TL, 6*TL)
+        self.maklowicz = sprites.Maklowicz(sound_player_register, 2*TL, 6*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x, center_y=self.maklowicz.center_y)
         self.maklowicz_shoes_collider = arcade.Sprite(
@@ -156,25 +158,28 @@ class GameLevel(arcade.View):
 
     def on_key_press(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
-            self.keys_pressed['jump'] = True
+            self.c_keys_pressed_gny['jump'] = True
         elif key in [arcade.key.A, arcade.key.LEFT]:
-            self.keys_pressed['left'] = True
+            self.c_keys_pressed_gny['left'] = True
         elif key in [arcade.key.D, arcade.key.RIGHT]:
-            self.keys_pressed['right'] = True
+            self.c_keys_pressed_gny['right'] = True
+        elif key == arcade.key.ESCAPE:
+            pause = optionviews.PauseView(self)
+            self.window.show_view(pause)
         
         if self.level_end == 0:
-            self.maklowicz.process_keychange(self.keys_pressed)
+            self.maklowicz.process_keychange(self.c_keys_pressed_gny)
 
     def on_key_release(self, key, modifiers):
         if key in [arcade.key.W, arcade.key.UP]:
-            self.keys_pressed['jump'] = False
+            self.c_keys_pressed_gny['jump'] = False
         elif key in [arcade.key.A, arcade.key.LEFT]:
-            self.keys_pressed['left'] = False
+            self.c_keys_pressed_gny['left'] = False
         elif key in [arcade.key.D, arcade.key.RIGHT]:
-            self.keys_pressed['right'] = False
+            self.c_keys_pressed_gny['right'] = False
 
         if self.level_end == 0:
-            self.maklowicz.process_keychange(self.keys_pressed)
+            self.maklowicz.process_keychange(self.c_keys_pressed_gny)
 
     def on_draw(self):
         arcade.start_render()
@@ -367,3 +372,6 @@ class GameLevel(arcade.View):
             pass
             #self.window.close()
             #print("OBSYPAĆ GO ZŁOTEM!!!")
+
+
+
