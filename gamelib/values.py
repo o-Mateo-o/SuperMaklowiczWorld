@@ -101,7 +101,9 @@ sound_pepper = {
     'papryke': arcade.Sound(f"{SND_DIR}\\pepper\papryke.ogg"),
     'paprykowo': arcade.Sound(f"{SND_DIR}\\pepper\paprykowo.ogg")}
 sound_environ = {
-    'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg")}
+    'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg"),
+    'pot': arcade.Sound(f"{SND_DIR}\\environment\\pot.ogg"),
+    'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg")}
 
 # sound volumes
 sound_volume_factor = 1

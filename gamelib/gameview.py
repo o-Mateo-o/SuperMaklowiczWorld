@@ -27,6 +27,7 @@ class GameLevel(arcade.View):
 
         # counters
         self.level_end = None
+        self.level_ended_action = None
         self.maklowicz_lives = None
         self.collectable_counters = None
 
@@ -60,6 +61,7 @@ class GameLevel(arcade.View):
     def setup(self):
         # counters
         self.level_end = 0  # 0 - not finished yet; 1 - won; -1 - lost
+        self.level_ended_action = False
         self.maklowicz_lives = LIVES_NUMBER
         self.collectable_counters = {'dill': 0, 'pepper': 0}
 
@@ -163,7 +165,7 @@ class GameLevel(arcade.View):
             self.c_keys_pressed_gny['left'] = True
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.c_keys_pressed_gny['right'] = True
-        elif key == arcade.key.ESCAPE:
+        elif key == arcade.key.ESCAPE and self.level_end == 0:
             pause = optionviews.PauseView(self)
             self.window.show_view(pause)
         
@@ -255,6 +257,8 @@ class GameLevel(arcade.View):
         if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
             self.maklowicz.change_x = 0
             self.maklowicz.change_y = 0
+            for player in sound_player_register.values():
+                player.pause()
             self.level_end = 1
             
 
@@ -364,12 +368,16 @@ class GameLevel(arcade.View):
             self.maklowicz.dead = True
             self.maklowicz.change_x = 0
             self.maklowicz.change_y = 0
-        if self.level_end == -1:
-            pass
+            for player in sound_player_register.values():
+                player.pause()
+        if self.level_end == -1 and not self.level_ended_action:
+            sound_environ['loose'].play(volume=standard_sound_volume)
+            self.level_ended_action = True
             #self.window.close()
             #print("PRZEGRAŁ HAHAHA!!!")
-        if self.level_end == 1:
-            pass
+        if self.level_end == 1 and not self.level_ended_action:
+            self.level_ended_action = True
+
             #self.window.close()
             #print("OBSYPAĆ GO ZŁOTEM!!!")
 

@@ -27,7 +27,7 @@ from gamelib import gameview
 
 
 def run_game():
-    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING, fullscreen=False)
+    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING, fullscreen=True)
     game_view = gameview.GameLevel()
     window.show_view(game_view)
     game_view.setup()
