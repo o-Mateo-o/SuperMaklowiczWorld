@@ -39,6 +39,8 @@ The game itself cannot be used in non university-related context.
 
     https://pl.dreamstime.com/zdj%C4%99cie-royalty-free-kie%C5%82basy-w-serce-formie-image39012805
     https://www.empik.com/deska-do-krojenia-41-x-27-cm-drewno-akacjowe-zeller-zeller,p1243954923,dom-i-ogrod-p
+    https://allegro.pl/oferta/duzy-garnek-gastronomiczny-garnki-indukcja-20-l-6727697784
+    https://mowic.pl/motywacja/czego-mozemy-nauczyc-sie-od-roberta-maklowicza/
 
 # Sounds
 - Environment:
@@ -58,6 +60,7 @@ The game itself cannot be used in non university-related context.
 - Comic Sans:
 
     https://www.wfonts.com/font/comic-sans-ms
+    https://www.wfonts.com/font/impact
 
 ---
 

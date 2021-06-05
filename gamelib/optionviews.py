@@ -24,23 +24,7 @@ class PauseView(arcade.View):
 
 
     def setup(self):
-        y_slot = WINDOW_HEIGHT // 4
-        left_column_x = WINDOW_WIDTH // 4
-        right_column_x = 3 * WINDOW_WIDTH // 4
-        self.ui_manager = UIManager()
-        button_normal = image_maklowicz['idle'][0]
-        hovered_texture = image_maklowicz['idle'][0]
-        pressed_texture = image_maklowicz['idle'][0]
-
-        button = widgets.StandardButton(
-            center_x=left_column_x,
-            center_y=y_slot * 2,
-            normal_texture=button_normal,
-            hover_texture=hovered_texture,
-            press_texture=pressed_texture,
-            text='UIImageButton'
-        )
-        self.ui_manager.add_ui_element(button)
+        pass
 
     def on_hide_view(self):
         self.ui_manager.unregister_handlers()

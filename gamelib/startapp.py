@@ -4,11 +4,10 @@ Game running module.
 
 import sys
 from pyglet.media.exceptions import MediaDecodeException
-from gamelib import gamewindow
-
-sys.path.append(".")
 
 import arcade
+
+sys.path.append(".")
 
 decode_error_counter = 1
 while decode_error_counter < 5:
@@ -24,12 +23,13 @@ while decode_error_counter < 5:
             raise Exception("Windows decode error cannot be fixed. Please restart the app.")
         decode_error_counter += 1       
 
-from gamelib import gameview
+from gamelib import gamewindow
+from gamelib import menuview
+
 
 
 def run_game():
     window = gamewindow.GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
-    game_view = gameview.GameLevel()
-    window.show_view(game_view)
-    game_view.setup()
+    menu_view = menuview.MainMenuView()
+    window.show_view(menu_view)
     arcade.run()

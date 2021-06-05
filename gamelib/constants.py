@@ -92,7 +92,28 @@ image_hearts = {
     0: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts0.png")}
 
 image_gui = {
-    'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png")}
+    'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png"),
+    'full_false_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
+    'full_false_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
+    'full_false_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
+    'full_true_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_0.png"),
+    'full_true_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_1.png"),
+    'full_true_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_2.png"),
+    'quit_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_0.png"),
+    'quit_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_1.png"),
+    'quit_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_2.png"),
+    'start_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_0.png"),
+    'start_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_1.png"),
+    'start_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_2.png"),
+    'std_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_0.png"),
+    'std_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_1.png"),
+    'std_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_2.png"),
+    't_start': arcade.load_texture(f"{IMG_DIR}\\widget\\label_start.png"),
+    't_scores': arcade.load_texture(f"{IMG_DIR}\\widget\\label_scores.png"),
+    't_options': arcade.load_texture(f"{IMG_DIR}\\widget\\label_options.png"),
+    't_controls': arcade.load_texture(f"{IMG_DIR}\\widget\\label_controls.png"),
+    't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png")
+    }
 
 image_background = {
     1: arcade.load_texture(f"{IMG_DIR}\\bg.jpg")}
