@@ -6,49 +6,42 @@
  <tileset firstgid="5" name="dill" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/dill.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="6" source="../../assets_prepare/tiles/terrain1.tsx"/>
- <tileset firstgid="7" name="BOX_center_collider" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="6" name="BOX_center_collider" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/BOX_center_collider.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="8" name="knives" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="7" name="knives" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/knives.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="9" name="fork" tilewidth="64" tileheight="128" tilecount="1" columns="1">
+ <tileset firstgid="8" name="fork" tilewidth="64" tileheight="128" tilecount="1" columns="1">
   <image source="../images/blocks/fork.png" width="64" height="128"/>
  </tileset>
- <tileset firstgid="10" name="sd" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
- <tileset firstgid="10" name="kettle_whole" tilewidth="256" tileheight="192" tilecount="1" columns="1">
+ <tileset firstgid="9" name="sd" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
+ <tileset firstgid="9" name="kettle_whole" tilewidth="256" tileheight="192" tilecount="1" columns="1">
   <image source="../images/blocks/kettle_whole.png" width="256" height="192"/>
  </tileset>
- <tileset firstgid="11" name="kettle_front" tilewidth="256" tileheight="192" tilecount="1" columns="1">
+ <tileset firstgid="10" name="kettle_front" tilewidth="256" tileheight="192" tilecount="1" columns="1">
   <image source="../images/blocks/kettle_front.png" width="256" height="192"/>
  </tileset>
- <tileset firstgid="12" name="kettle_right" tilewidth="64" tileheight="192" tilecount="0" columns="4">
-  <image source="../images/blocks/kettle_right.png" width="256" height="192"/>
- </tileset>
- <tileset firstgid="12" name="kettle_left" tilewidth="64" tileheight="192" tilecount="0" columns="4">
-  <image source="../images/blocks/kettle_left.png" width="256" height="192"/>
- </tileset>
- <tileset firstgid="12" name="BOX_win_floor" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="11" name="BOX_win_floor" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/blocks/BOX_win_floor.png" width="64" height="64"/>
  </tileset>
  <objectgroup id="17" name="moving">
   <object id="224" gid="3" x="1152" y="1408" width="64" height="64"/>
-  <object id="227" gid="9" x="832" y="1600" width="64" height="128" rotation="90"/>
+  <object id="227" gid="8" x="832" y="1600" width="64" height="128" rotation="90"/>
  </objectgroup>
  <layer id="13" name="bg" width="40" height="30" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztziEBAAAIA7Br+gemwh2CLcESAACAf+Y6AEBtAUvIAAs=
+   eJztziEBAAAIA7Bb+hemwh2CLcESAACAf+Y6AEBtAUYUAAo=
   </data>
  </layer>
  <layer id="1" name="layer" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt00sKwCAMRVHTgPtfUpfWDioEaUX7kuDgXcjAD3igVMu+6TO7Rh8WfVj0YdGHRR8WfVj0YdGHlelTM8fLuXT7UuJ91nS/d37da5Zq9mqwb8Zlbc1nJ8r3xzaaDNusJcPnafP2edsi/18PW5TPyxb0jV1tI6N0Z/06w7Viz373AvwaB28=
+   eJzt1EsOgCAMhOFi738nj6YLTQgRAk6nYTF/0o2P8AUjbvvmz+yafFjyYcmHJR+WfFjyYcmHJR9Wps+rOT7ul+Z6Mb6vNt3rnb3nXkvvfUYzLrPxPrF8f2yjybDNWjJ8kbZoX7SN+f9G2Fi+KBvpG4faRsb27OydpUzXij173QsoIgdL
   </data>
  </layer>
  <layer id="6" name="knives" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztw6ENAAAIA7BJ/r8YM49DtUkTAAAAALhNf1saIAAR
+   eJztw6ENAAAIA7A5/v8YM49DtUkTAAAAALhNf1sZNAAP
   </data>
  </layer>
  <objectgroup id="2" name="obj">
@@ -89,23 +82,23 @@
   <object id="74" gid="5" x="1344" y="1280" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="7" name="forks">
-  <object id="222" gid="9" x="1024" y="1920" width="64" height="128"/>
+  <object id="222" gid="8" x="1024" y="1920" width="64" height="128"/>
  </objectgroup>
  <imagelayer id="8" name="bg"/>
  <layer id="15" name="nonc" width="40" height="30" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztziEBAAAIA7B7+velwh2CLcESAACAf+Y6AEBtAVF8AAw=
+   eJztziEBAAAIA7Br+gemwh2CLcESAACAf+Y6AEBtAUvIAAs=
   </data>
  </layer>
  <objectgroup id="4" name="pepper"/>
  <layer id="5" name="limits" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0CESACAIRUEa97+xgS6OY2HcTRB+eREAAAC8kM1PT7Ny20G/OfLg3m1+swDCvABA
+   eJzt0CESACAIRUES9z+ygS6OY2HcTRB+eREAAAC8kM1PT7Ny20G/OfLg3m1+swCpmAA3
   </data>
  </layer>
  <layer id="11" name="win" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7AJwL9enjkgfG3SBAAA4Mc0AFwsqhAAGQ==
+   eJztw7ENAAAIA6Du/v+vSz8wbpCQAAAA/JgGgIsFnXQAFw==
   </data>
  </layer>
 </map>
