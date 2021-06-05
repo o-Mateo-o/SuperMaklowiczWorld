@@ -50,7 +50,7 @@ DILL_DROP = 2
 
 # window properities
 WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 500
+WINDOW_HEIGHT = 450
 WINDOW_HEADING = "Makłowicz Super World"
 
 LEFT_VIEWPORT_MARGIN = WINDOW_WIDTH/2
@@ -86,6 +86,9 @@ image_hearts = {
     2: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts2.png"),
     1: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts1.png"),
     0: arcade.load_texture(f"{IMG_DIR}\\widget\hearts\hearts0.png")}
+
+image_gui = {
+    'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png")}
 
 image_background = {
     1: arcade.load_texture(f"{IMG_DIR}\\bg.jpg")}

@@ -38,12 +38,14 @@ The game itself cannot be used in non university-related context.
 - Widget elements:
 
     https://pl.dreamstime.com/zdj%C4%99cie-royalty-free-kie%C5%82basy-w-serce-formie-image39012805
+    https://www.empik.com/deska-do-krojenia-41-x-27-cm-drewno-akacjowe-zeller-zeller,p1243954923,dom-i-ogrod-p
 
 # Sounds
 - Environment:
 
     https://www.storyblocks.com/audio/stock/running-on-dirt-path-hxgmp433uvbk0wxs064.html
     https://www.youtube.com/watch?v=1ptnee_3WcE
+    https://www.youtube.com/watch?v=QsoTForBVSU
 
 - Main character:
 

@@ -31,7 +31,6 @@ class Maklowicz(arcade.Sprite):
         self.run_sound_player = media.Player()
         self.dill_sound_player = media.Player()
         self.pain_sound_player = media.Player()
-        
 
         # characteer status
         self.run_state = False
@@ -106,7 +105,7 @@ class Maklowicz(arcade.Sprite):
             self.dill_sound_player = auxfunctions.play_sound(
                 sounds_roberto['hihihi'], self.dill_sound_player)
             self.item_collected = False
-        
+
         if self.hurt:
             self.pain_sound_player = auxfunctions.play_sound(
                 sounds_roberto['oaa'], self.pain_sound_player,
@@ -119,6 +118,8 @@ class Maklowicz(arcade.Sprite):
             self.run_sound_player = auxfunctions.play_sound(
                 sound_environ['running'], self.run_sound_player, volume=step_volume, loop=True)
         elif self.previous_q_run_state and not self.run_state or self.in_air:
+            arcade.stop_sound(self.run_sound_player)
+        elif not self.run_state:
             arcade.stop_sound(self.run_sound_player)
 
         # jump sounds in the moment of rebounding
@@ -228,12 +229,14 @@ class Pot(arcade.Sprite):
             self.center_y = self.init_center_y
             self.active = False
 
+
 class PepperItem(arcade.Sprite):
     def __init__(self, parent: arcade.Sprite = None):
         super().__init__(scale=MAP_SCALING)
         self.texture = image_collectable['pepper']
         if parent != None:
             self.position = parent.position
+
 
 class Dill(arcade.Sprite):
     def __init__(self, parent: arcade.Sprite = None):
@@ -268,8 +271,10 @@ class Fork(arcade.Sprite):
             self.change_y = 2
         return super().update()
 
+
 class MovingBlockSimple(arcade.Sprite):
     def __init__(self):
         super().__init__(scale=MAP_SCALING)
+
     def start_movement(self):
         self.change_x = -MOVING_BLOCK_SPEED
