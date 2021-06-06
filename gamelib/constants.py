@@ -51,7 +51,7 @@ DILL_DROP = 2
 FINAL_TIME = 80
 
 # window properities
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 450
 WINDOW_HEADING = "Makłowicz Super World"
 

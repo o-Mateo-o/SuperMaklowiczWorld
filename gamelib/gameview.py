@@ -6,7 +6,7 @@ from pyglet import media
 from gamelib.constants import *
 from gamelib import sprites
 from gamelib import auxfunctions
-from gamelib import optionviews
+from gamelib import onscreenviews
 import arcade
 import sys
 import random
@@ -167,7 +167,7 @@ class GameLevel(arcade.View):
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.c_keys_pressed_gny['right'] = True
         elif key == arcade.key.ESCAPE and self.level_end == 0:
-            pause = optionviews.PauseView(self)
+            pause = onscreenviews.PauseView(self)
             self.window.show_view(pause)
         
         if self.level_end == 0:
@@ -377,14 +377,12 @@ class GameLevel(arcade.View):
         if self.level_end == -1 and not self.level_ended_action and self.final_time_counter > FINAL_TIME:
             sound_environ['loose'].play(volume=self.window.standard_sound_volume)
             self.level_ended_action = True
-            game_over = optionviews.GameOverView(self)
+            game_over = onscreenviews.GameOverView(self)
             self.window.show_view(game_over)
 
 
         if self.level_end == 1 and not self.level_ended_action:
             self.level_ended_action = True
-
-            pass
 
 
 

@@ -10,36 +10,23 @@ from gamelib.constants import *
 from gamelib import widgets
 
 
-class PauseView(arcade.View):
+class PauseView(widgets.OptionView):
     def __init__(self, game_view):
-        super().__init__()
+        super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         self.c_keys_pressed = STANDARD_CONTROLL_KEYSET.copy()
         self.c_keys_released = STANDARD_CONTROLL_KEYSET.copy()
         self.game_view = game_view
         self.previous_keyset = self.game_view.c_keys_pressed_gny
         for player in self.window.sound_player_register.values():
             player.pause()
+        self.board = image_gui['board']
         
-        self.ui_manager = UIManager()
+        self.widgets.append(self.board)
 
 
     def setup(self):
-        pass
+        super().setup()
 
-    def on_hide_view(self):
-        self.ui_manager.unregister_handlers()
-
-    def on_show(self):
-        self.setup()
-        arcade.set_background_color(arcade.color.BLACK)
-
-    def on_draw(self):
-        arcade.start_render()
-        self.game_view.on_draw()
-        arcade.draw_texture_rectangle(WINDOW_WIDTH / 2 + self.game_view.view_left,
-         WINDOW_HEIGHT/2 + self.game_view.view_bottom,
-         WINDOW_WIDTH*0.8, WINDOW_HEIGHT, texture=image_gui['board'])
-        self.ui_manager.on_draw()
 
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ESCAPE:
@@ -73,37 +60,16 @@ class PauseView(arcade.View):
             self.c_keys_pressed['right'] = False
             self.c_keys_released['right'] = True
 
-    def on_update(self, delta_time: float):
-        for widget in self.ui_manager._ui_elements:
-            widget.place_update(self.game_view.view_left, self.game_view.view_bottom)
 
-class GameOverView(arcade.View):
+
+class GameOverView(widgets.OptionView):
     def __init__(self, game_view):
-        super().__init__()
-        self.game_view = game_view
+        super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
-        self.ui_manager = UIManager()
+        self.board = image_gui['board']
+        self.widgets.append(self.board)
 
     def setup(self):
-        pass
+        super().setup()
 
-    def on_hide_view(self):
-        self.ui_manager.unregister_handlers()
-
-    def on_show(self):
-        self.setup()
-        arcade.set_background_color(arcade.color.BLACK)
-
-    def on_draw(self):
-        arcade.start_render()
-        self.game_view.on_draw()
-        arcade.draw_texture_rectangle(WINDOW_WIDTH / 2 + self.game_view.view_left,
-         WINDOW_HEIGHT/2 + self.game_view.view_bottom,
-         WINDOW_WIDTH*0.8, WINDOW_HEIGHT, texture=image_gui['board'])
-        self.ui_manager.on_draw()
-
-    def on_update(self, delta_time: float):
-        
-        for widget in self.ui_manager._ui_elements:
-            widget.place_update(self.game_view.view_left, self.game_view.view_bottom)

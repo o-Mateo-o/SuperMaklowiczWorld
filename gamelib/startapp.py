@@ -27,9 +27,9 @@ from gamelib import gamewindow
 from gamelib import menuview
 
 
-
 def run_game():
     window = gamewindow.GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
     menu_view = menuview.MainMenuView()
+    menu_view.setup()
     window.show_view(menu_view)
     arcade.run()
