@@ -93,12 +93,12 @@ image_hearts = {
 
 image_gui = {
     'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png"),
-    'full_false_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
-    'full_false_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
-    'full_false_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
-    'full_true_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_0.png"),
-    'full_true_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_1.png"),
-    'full_true_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_2.png"),
+    'full_True_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
+    'full_True_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
+    'full_True_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
+    'full_False_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_0.png"),
+    'full_False_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_1.png"),
+    'full_False_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_2.png"),
     'quit_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_0.png"),
     'quit_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_1.png"),
     'quit_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_2.png"),
@@ -108,6 +108,9 @@ image_gui = {
     'return_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_0.png"),
     'return_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_1.png"),
     'return_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_2.png"),
+    'pause_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_pause_0.png"),
+    'pause_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_pause_1.png"),
+    'pause_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_pause_2.png"),
     'std_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_0.png"),
     'std_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_1.png"),
     'std_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_2.png"),
@@ -117,6 +120,8 @@ image_gui = {
     't_controls': arcade.load_texture(f"{IMG_DIR}\\widget\\label_controls.png"),
     't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png"),
     't_return': arcade.load_texture(f"{IMG_DIR}\\widget\\label_return.png"),
+    't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
+    't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
     }
 
 image_background = {

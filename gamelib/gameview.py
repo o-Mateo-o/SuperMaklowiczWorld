@@ -7,6 +7,7 @@ from gamelib.constants import *
 from gamelib import sprites
 from gamelib import auxfunctions
 from gamelib import onscreenviews
+from gamelib import widgets
 import arcade
 import sys
 import random
@@ -23,6 +24,7 @@ class GameLevel(arcade.View):
         self.view_bottom = 0
         self.view_left = 0
         self.hurt_warn_counter = 0
+        self.mouse_button_colliding = False
 
         # counters
         self.level_end = None
@@ -54,6 +56,7 @@ class GameLevel(arcade.View):
         self.last_ch_view = None
         self.reshow = False
         self.paused = False
+        self.button_list = None
 
         # sounds
 
@@ -61,8 +64,23 @@ class GameLevel(arcade.View):
         self.lvl_map = None
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+    
+    def pause(self):
+        pause = onscreenviews.PauseView(self)
+        pause.setup()
+        self.window.show_view(pause)
 
     def setup(self):
+        self.button_list = []
+        self.mouse_button_colliding = True
+        self.mouse_pressed = False
+        self.current_button = None
+        self.click = False
+        self.unclick = False
+        self.height = WINDOW_HEIGHT
+        self.width = WINDOW_WIDTH
+        self.mouse = self.mouse = arcade.SpriteCircle(1, arcade.csscolor.BLACK)
+
         # counters
         self.level_end = 0  # 0 - not finished yet; 1 - won; -1 - lost
         self.level_ended_action = False
@@ -143,6 +161,17 @@ class GameLevel(arcade.View):
         for block in self.moving_block_sublist:
             block.start_movement()
 
+        self.button_pause = widgets.StandardButton(
+            self, 10,
+            center_x=self.width * 0.93,
+            center_y=self.height * 0.9,
+            normal_texture=image_gui['pause_0'],
+            hover_texture=image_gui['pause_1'],
+            press_texture=image_gui['pause_2'],
+            callback=lambda: self.pause()
+        )
+        self.button_list.append(self.button_pause)
+
         # physic engines
         self.pepper_physics_engines = []
         self.physics_engine_maklowicz = arcade.PhysicsEnginePlatformer(self.maklowicz,
@@ -171,9 +200,7 @@ class GameLevel(arcade.View):
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.c_keys_pressed_gny['right'] = True
         elif key == arcade.key.ESCAPE and self.level_end == 0:
-            pause = onscreenviews.PauseView(self)
-            pause.setup()
-            self.window.show_view(pause)
+            self.pause()
         
         if self.level_end == 0:
             self.maklowicz.process_keychange(self.c_keys_pressed_gny)
@@ -188,6 +215,28 @@ class GameLevel(arcade.View):
 
         if self.level_end == 0:
             self.maklowicz.process_keychange(self.c_keys_pressed_gny)
+
+    def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
+
+        if not self.window.fullscreen:
+            ratio_x = self.width/WINDOW_WIDTH
+            ratio_y = self.height/WINDOW_HEIGHT
+        else:
+            ratio_x = self.width/self.window.width
+            ratio_y = self.height/self.window.height
+        self.mouse.center_x = x * ratio_x + self.view_left
+        self.mouse.center_y = y * ratio_y + self.view_bottom
+        self.mouse_button_colliding = True
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        self.mouse_pressed = True
+        self.click = True
+    def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
+        self.mouse_pressed = False
+        self.unclick = True
+
+    def on_show(self):
+        super().on_show()
+        self.mouse_button_colliding = False
 
     def on_draw(self):
         arcade.start_render()
@@ -230,6 +279,11 @@ class GameLevel(arcade.View):
         arcade.draw_texture_rectangle(scores_place_x + TL//2 + 10, scores_place_y - 3*TL + 10,
                                       TL*SCORE_SCALING, TL*SCORE_SCALING, image_collectable['pepper'])
 
+        for button in self.button_list:
+            button.center_x = button.init_center_x + self.view_left
+            button.center_y = button.init_center_y + self.view_bottom
+            button.draw()
+
         
         # hurt warning on screen
         if self.maklowicz.hurt:
@@ -246,6 +300,31 @@ class GameLevel(arcade.View):
         if self.reshow and self.last_ch_view:
             self.window.show_view(self.last_ch_view)
             self.reshow = False
+
+        # mouse
+        current_button_set = False
+        for button in self.button_list:
+            if arcade.check_for_collision(self.mouse, button) and self.mouse_button_colliding:
+                if not current_button_set:
+                    self.current_button = button
+                    current_button_set = True
+                if self.click:
+                    button.clicked = True
+                if self.mouse_pressed and button.clicked and button == self.current_button:
+                    button.texture_change(2)
+       
+                elif not self.mouse_pressed and button == self.current_button:
+                    button.texture_change(1)
+                else:
+                    button.texture_change(0)
+                if self.unclick:
+                    button.on_click()
+
+            else:
+                button.clicked = False
+                button.texture_change(0)
+        self.click = False
+        self.unclick = False
 
         if not self.paused:
             # physics update
@@ -388,6 +467,7 @@ class GameLevel(arcade.View):
                 sound_environ['loose'].play(volume=self.window.standard_sound_volume)
                 self.level_ended_action = True
                 game_over = onscreenviews.GameOverView(self)
+                game_over.setup()
                 self.window.show_view(game_over)
 
 

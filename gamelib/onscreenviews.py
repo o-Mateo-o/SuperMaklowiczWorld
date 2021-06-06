@@ -9,6 +9,8 @@ import arcade.gui as gui
 from arcade.gui import UIManager
 from gamelib.constants import *
 from gamelib import widgets
+from gamelib import menuviews
+from gamelib import gameview
 
 
 class PauseView(widgets.OptionView):
@@ -22,6 +24,14 @@ class PauseView(widgets.OptionView):
             player.pause()
         self.game_view.paused = True
 
+    def return_to_main(self):
+        menu_view = menuviews.MainMenuView()
+        menu_view.setup()
+        self.window.show_view(menu_view)
+    def start_game(self):
+        game_view = gameview.GameLevel()
+        game_view.setup()
+        self.window.show_view(game_view)
     def resize_pause(self):
         self.window.show_view(self.game_view)
         self.fullscreen_resize()
@@ -36,13 +46,38 @@ class PauseView(widgets.OptionView):
         y_slot = WINDOW_HEIGHT // 5 
         x_slot = WINDOW_WIDTH // 6
         move_up = self.height * 0.15
+
+        self.button_back = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 2,
+            center_y= y_slot * 3,
+            normal_texture=image_gui[f'std_0'],
+            hover_texture=image_gui[f'std_1'],
+            press_texture=image_gui[f'std_2'],
+            text_label=image_gui['t_menu'],
+            callback=lambda: self.return_to_main()
+        )
+        self.button_list.append(self.button_back)
+
+        self.button_retry = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 4,
+            center_y= y_slot * 3,
+            normal_texture=image_gui[f'std_0'],
+            hover_texture=image_gui[f'std_1'],
+            press_texture=image_gui[f'std_2'],
+            text_label=image_gui['t_restart'],
+            callback=lambda: self.start_game()
+        )
+        self.button_list.append(self.button_retry)
+
         self.button_scrsize = widgets.StandardButton(
             self, 13,
             center_x=x_slot * 4,
             center_y= move_up + self.height // 40,
-            normal_texture=image_gui['full_true_0'],
-            hover_texture=image_gui['full_true_1'],
-            press_texture=image_gui['full_true_2'],
+            normal_texture=image_gui[f'full_{self.window.fullscreen}_0'],
+            hover_texture=image_gui[f'full_{self.window.fullscreen}_1'],
+            press_texture=image_gui[f'full_{self.window.fullscreen}_2'],
             callback=lambda: self.resize_pause()
         )
 
@@ -95,6 +130,12 @@ class PauseView(widgets.OptionView):
             self.c_keys_pressed['right'] = False
             self.c_keys_released['right'] = True
 
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
+        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
+        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+
 
 
 class GameOverView(widgets.OptionView):
@@ -102,8 +143,77 @@ class GameOverView(widgets.OptionView):
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
-        self.board = image_gui['board']
+
+    def return_to_main(self):
+        menu_view = menuviews.MainMenuView()
+        menu_view.setup()
+        self.window.show_view(menu_view)
+    def start_game(self):
+        game_view = gameview.GameLevel()
+        game_view.setup()
+        self.window.show_view(game_view)
+    
 
     def setup(self):
         super().setup()
+        self.board = image_gui['board']
+        y_slot = self.height // 6 
+        x_slot = self.width // 6
+        move_up = self.height * 0.15
+
+        self.button_back = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 2,
+            center_y= y_slot * 3 - self.height // 40,
+            normal_texture=image_gui[f'std_0'],
+            hover_texture=image_gui[f'std_1'],
+            press_texture=image_gui[f'std_2'],
+            text_label=image_gui['t_menu'],
+            callback=lambda: self.return_to_main()
+        )
+        self.button_list.append(self.button_back)
+
+        self.button_retry = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 4,
+            center_y= y_slot * 3 - self.height // 40,
+            normal_texture=image_gui[f'std_0'],
+            hover_texture=image_gui[f'std_1'],
+            press_texture=image_gui[f'std_2'],
+            text_label=image_gui['t_restart'],
+            callback=lambda: self.start_game()
+        )
+        self.button_list.append(self.button_retry)
+
+        self.button_scrsize = widgets.StandardButton(
+            self, 13,
+            center_x=x_slot * 4,
+            center_y= move_up + self.height // 40,
+            normal_texture=image_gui[f'full_{self.window.fullscreen}_0'],
+            hover_texture=image_gui[f'full_{self.window.fullscreen}_1'],
+            press_texture=image_gui[f'full_{self.window.fullscreen}_2'],
+            callback=lambda: self.fullscreen_resize()
+            
+        )
+
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.StandardButton(
+            self, 13,
+            center_x=x_slot * 5 - self.width // 30,
+            center_y= move_up + self.height // 40,
+            normal_texture=image_gui['quit_0'],
+            hover_texture=image_gui['quit_1'],
+            press_texture=image_gui['quit_2'],
+            callback=lambda: self.window.close()
+        )
+
+        self.button_list.append(self.button_quit)
+
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
+        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
+        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+
 
