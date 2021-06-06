@@ -50,6 +50,10 @@ class GameLevel(arcade.View):
         self.maklowicz_shoes_collider = None
         self.maklowicz_shoes_collider2 = None
         self.pepper_physics_engines = None
+        
+        self.last_ch_view = None
+        self.reshow = False
+        self.paused = False
 
         # sounds
 
@@ -168,6 +172,7 @@ class GameLevel(arcade.View):
             self.c_keys_pressed_gny['right'] = True
         elif key == arcade.key.ESCAPE and self.level_end == 0:
             pause = onscreenviews.PauseView(self)
+            pause.setup()
             self.window.show_view(pause)
         
         if self.level_end == 0:
@@ -238,151 +243,156 @@ class GameLevel(arcade.View):
                                             WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
 
     def on_update(self, delta_time):
-        # physics update
-        self.maklowicz.update()
-        self.pepper_enemy_list.update()
-        self.fork_list.update()
-        self.physics_engine_maklowicz.update()
-        self.physics_engine_pymunk.step()
-        for engine in self.pepper_physics_engines:
-            engine.update()
+        if self.reshow and self.last_ch_view:
+            self.window.show_view(self.last_ch_view)
+            self.reshow = False
 
-        # accomp hitbox move
-        self.maklowicz_head_collider.position = (
-            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
-        self.maklowicz_shoes_collider.position = (
-            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION)
-        self.maklowicz_shoes_collider2.position = (
-            self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION_ITEMS)
+        if not self.paused:
+            # physics update
+            self.maklowicz.update()
+            self.pepper_enemy_list.update()
+            self.fork_list.update()
+            self.physics_engine_maklowicz.update()
+            self.physics_engine_pymunk.step()
+            for engine in self.pepper_physics_engines:
+                engine.update()
 
-        # winning place
-        if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
-            self.maklowicz.change_x = 0
-            self.maklowicz.change_y = 0
-            for player in self.window.sound_player_register.values():
-                player.pause()
-            self.level_end = 1
-            
+            # accomp hitbox move
+            self.maklowicz_head_collider.position = (
+                self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_HEAD_EXTENSION)
+            self.maklowicz_shoes_collider.position = (
+                self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION)
+            self.maklowicz_shoes_collider2.position = (
+                self.maklowicz.center_x, self.maklowicz.center_y + MAKLOWICZ_SHOES_EXTENSION_ITEMS)
 
-        # pots collisions and action
-        self.pots_picked.update(set(arcade.check_for_collision_with_list(
-            self.maklowicz_head_collider, self.pot_sublist)))
+            # winning place
+            if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
+                self.maklowicz.change_x = 0
+                self.maklowicz.change_y = 0
+                for player in self.window.sound_player_register.values():
+                    player.pause()
+                self.level_end = 1
+                
 
-        for pot in self.pots_picked:
-            if pot.active:
-                if not pot.picked:
-                    for _ in range(0, DILL_DROP):
-                        new_dill = sprites.Dill(pot)
-                        self.dill_list.append(new_dill)
-                        self.physics_engine_pymunk.add_sprite(
-                            new_dill, friction=1, collision_type="item")
-                        self.physics_engine_pymunk.apply_force(new_dill, (random.randint(
-                            -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
-                pot.pick_action()
+            # pots collisions and action
+            self.pots_picked.update(set(arcade.check_for_collision_with_list(
+                self.maklowicz_head_collider, self.pot_sublist)))
 
-        # moving block bounce
-        for block in self.moving_block_sublist:
-            if arcade.check_for_collision_with_list(block, self.limit_list):
-                block.change_x = -block.change_x
-        # pepper enemy collsisions
-        for pepper in self.pepper_enemy_list:
-            if pepper.transform_to_item:
-                new_pepper = sprites.PepperItem(self, pepper)
-                self.pepper_item_list.append(new_pepper)
-                self.physics_engine_pymunk.add_sprite(
-                            new_pepper, friction=1, collision_type="item")
-                pepper.transform_to_item = False
-            # limit - reverse speed
-            if arcade.check_for_collision_with_list(pepper, self.limit_list):
-                pepper.change_x = -pepper.change_x
-            # pepper kiled
-            if arcade.check_for_collision(self.maklowicz_shoes_collider, pepper)\
-                    and self.maklowicz.change_y < 0 and not pepper.killed:
-                self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
-                pepper.killed = True
-            # hurt maklowicz
-            if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed and self.level_end == 0:
+            for pot in self.pots_picked:
+                if pot.active:
+                    if not pot.picked:
+                        for _ in range(0, DILL_DROP):
+                            new_dill = sprites.Dill(pot)
+                            self.dill_list.append(new_dill)
+                            self.physics_engine_pymunk.add_sprite(
+                                new_dill, friction=1, collision_type="item")
+                            self.physics_engine_pymunk.apply_force(new_dill, (random.randint(
+                                -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
+                    pot.pick_action()
+
+            # moving block bounce
+            for block in self.moving_block_sublist:
+                if arcade.check_for_collision_with_list(block, self.limit_list):
+                    block.change_x = -block.change_x
+            # pepper enemy collsisions
+            for pepper in self.pepper_enemy_list:
+                if pepper.transform_to_item:
+                    new_pepper = sprites.PepperItem(self, pepper)
+                    self.pepper_item_list.append(new_pepper)
+                    self.physics_engine_pymunk.add_sprite(
+                                new_pepper, friction=1, collision_type="item")
+                    pepper.transform_to_item = False
+                # limit - reverse speed
+                if arcade.check_for_collision_with_list(pepper, self.limit_list):
+                    pepper.change_x = -pepper.change_x
+                # pepper kiled
+                if arcade.check_for_collision(self.maklowicz_shoes_collider, pepper)\
+                        and self.maklowicz.change_y < 0 and not pepper.killed:
+                    self.maklowicz.change_y = MAKLOWICZ_JUMP_SPEED
+                    pepper.killed = True
+                # hurt maklowicz
+                if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed and self.level_end == 0:
+                    self.maklowicz_lives = self.maklowicz.hurt_action(
+                        self.maklowicz_lives)
+
+            # knives and forks collision
+            knives_collision = arcade.check_for_collision_with_list(
+                self.maklowicz_shoes_collider2, self.knives_list)
+            if knives_collision and self.level_end == 0:
                 self.maklowicz_lives = self.maklowicz.hurt_action(
                     self.maklowicz_lives)
 
-        # knives and forks collision
-        knives_collision = arcade.check_for_collision_with_list(
-            self.maklowicz_shoes_collider2, self.knives_list)
-        if knives_collision and self.level_end == 0:
-            self.maklowicz_lives = self.maklowicz.hurt_action(
-                self.maklowicz_lives)
+            fork_collision = arcade.check_for_collision_with_list(
+                self.maklowicz_shoes_collider2, self.fork_list)
+            if fork_collision and self.level_end == 0:
+                self.maklowicz_lives = self.maklowicz.hurt_action(
+                    self.maklowicz_lives)
 
-        fork_collision = arcade.check_for_collision_with_list(
-            self.maklowicz_shoes_collider2, self.fork_list)
-        if fork_collision and self.level_end == 0:
-            self.maklowicz_lives = self.maklowicz.hurt_action(
-                self.maklowicz_lives)
+            # dill collisions
+            dill_collisions = arcade.check_for_collision_with_list(
+                self.maklowicz, self.dill_list)
+            for picked in dill_collisions:
+                if self.level_end == 0:
+                    self.maklowicz.item_collected = True
+                    self.dill_list.remove(picked)
+                    self.collectable_counters['dill'] += 1
+                
+            # pepper item collision
+            pepper_item_collisions = arcade.check_for_collision_with_list(
+                self.maklowicz, self.pepper_item_list)
+            for picked in pepper_item_collisions:
+                if self.level_end == 0:
+                    self.maklowicz.item_collected = True
+                    self.pepper_item_list.remove(picked)
+                    self.collectable_counters['pepper'] += 1
 
-        # dill collisions
-        dill_collisions = arcade.check_for_collision_with_list(
-            self.maklowicz, self.dill_list)
-        for picked in dill_collisions:
-            if self.level_end == 0:
-                self.maklowicz.item_collected = True
-                self.dill_list.remove(picked)
-                self.collectable_counters['dill'] += 1
-            
-        # pepper item collision
-        pepper_item_collisions = arcade.check_for_collision_with_list(
-            self.maklowicz, self.pepper_item_list)
-        for picked in pepper_item_collisions:
-            if self.level_end == 0:
-                self.maklowicz.item_collected = True
-                self.pepper_item_list.remove(picked)
-                self.collectable_counters['pepper'] += 1
+            # SCREEN SCROLLING
 
-        # SCREEN SCROLLING
+            changed_flag = False
 
-        changed_flag = False
+            left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN - 5
+            right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN + 5
+            bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
+            map_end_length = self.lvl_map.tile_size[0] * \
+                MAP_SCALING*self.lvl_map.map_size[0]
 
-        left_boundary = self.view_left + LEFT_VIEWPORT_MARGIN - 5
-        right_boundary = self.view_left + WINDOW_WIDTH - RIGHT_VIEWPORT_MARGIN + 5
-        bottom_boundary = self.view_bottom + BOTTOM_VIEWPORT_MARGIN
-        map_end_length = self.lvl_map.tile_size[0] * \
-            MAP_SCALING*self.lvl_map.map_size[0]
+            if self.maklowicz.center_x < left_boundary:
+                self.view_left = max(
+                    self.view_left - left_boundary + self.maklowicz.center_x, 0)
+                changed_flag = True
+            if self.maklowicz.center_x > right_boundary:
+                self.view_left = min(self.view_left - right_boundary +
+                                    self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
+                changed_flag = True
+            if self.maklowicz.bottom < bottom_boundary:
+                self.view_bottom = max(
+                    self.view_bottom - bottom_boundary + self.maklowicz.center_y, 0)
+                changed_flag = True
 
-        if self.maklowicz.center_x < left_boundary:
-            self.view_left = max(
-                self.view_left - left_boundary + self.maklowicz.center_x, 0)
-            changed_flag = True
-        if self.maklowicz.center_x > right_boundary:
-            self.view_left = min(self.view_left - right_boundary +
-                                 self.maklowicz.center_x, map_end_length-WINDOW_WIDTH)
-            changed_flag = True
-        if self.maklowicz.bottom < bottom_boundary:
-            self.view_bottom = max(
-                self.view_bottom - bottom_boundary + self.maklowicz.center_y, 0)
-            changed_flag = True
+            if changed_flag:
+                self.view_bottom = int(self.view_bottom)
+                self.view_left = int(self.view_left)
+                arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
+                                    self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
 
-        if changed_flag:
-            self.view_bottom = int(self.view_bottom)
-            self.view_left = int(self.view_left)
-            arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
-                                self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
+            if self.maklowicz_lives <= 0:
+                self.level_end = -1
+                self.maklowicz.dead = True
+                self.maklowicz.change_x = 0
+                self.maklowicz.change_y = 0
 
-        if self.maklowicz_lives <= 0:
-            self.level_end = -1
-            self.maklowicz.dead = True
-            self.maklowicz.change_x = 0
-            self.maklowicz.change_y = 0
+            if self.level_end != 0:
+                self.final_time_counter += 1
 
-        if self.level_end != 0:
-            self.final_time_counter += 1
-
-        if self.level_end == -1 and not self.level_ended_action and self.final_time_counter > FINAL_TIME:
-            sound_environ['loose'].play(volume=self.window.standard_sound_volume)
-            self.level_ended_action = True
-            game_over = onscreenviews.GameOverView(self)
-            self.window.show_view(game_over)
+            if self.level_end == -1 and not self.level_ended_action and self.final_time_counter > FINAL_TIME:
+                sound_environ['loose'].play(volume=self.window.standard_sound_volume)
+                self.level_ended_action = True
+                game_over = onscreenviews.GameOverView(self)
+                self.window.show_view(game_over)
 
 
-        if self.level_end == 1 and not self.level_ended_action:
-            self.level_ended_action = True
+            if self.level_end == 1 and not self.level_ended_action:
+                self.level_ended_action = True
 
-
+        
 

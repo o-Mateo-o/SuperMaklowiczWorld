@@ -51,7 +51,7 @@ DILL_DROP = 2
 FINAL_TIME = 80
 
 # window properities
-WINDOW_WIDTH = 600
+WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 450
 WINDOW_HEADING = "Makłowicz Super World"
 
@@ -105,6 +105,9 @@ image_gui = {
     'start_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_0.png"),
     'start_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_1.png"),
     'start_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_start_2.png"),
+    'return_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_0.png"),
+    'return_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_1.png"),
+    'return_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_ret_2.png"),
     'std_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_0.png"),
     'std_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_1.png"),
     'std_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_2.png"),
@@ -112,7 +115,8 @@ image_gui = {
     't_scores': arcade.load_texture(f"{IMG_DIR}\\widget\\label_scores.png"),
     't_options': arcade.load_texture(f"{IMG_DIR}\\widget\\label_options.png"),
     't_controls': arcade.load_texture(f"{IMG_DIR}\\widget\\label_controls.png"),
-    't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png")
+    't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png"),
+    't_return': arcade.load_texture(f"{IMG_DIR}\\widget\\label_return.png"),
     }
 
 image_background = {

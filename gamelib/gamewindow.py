@@ -6,7 +6,7 @@ import arcade
 
 class GameWindow(arcade.Window):
     def __init__(self, width, height, heading):
-        super().__init__(width, height, heading, fullscreen=False)
+        super().__init__(width, height, heading, fullscreen=True)
         # sound volumes
         self.sound_volume_factor = 1
         self.standard_sound_volume = 1 * self.sound_volume_factor

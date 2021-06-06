@@ -2,6 +2,7 @@
 Initial, pause and other additional view classes.
 """
 
+import time
 import arcade
 
 import arcade.gui as gui
@@ -19,17 +20,51 @@ class PauseView(widgets.OptionView):
         self.previous_keyset = self.game_view.c_keys_pressed_gny
         for player in self.window.sound_player_register.values():
             player.pause()
-        self.board = image_gui['board']
-        
-        self.widgets.append(self.board)
+        self.game_view.paused = True
 
+    def resize_pause(self):
+        self.window.show_view(self.game_view)
+        self.fullscreen_resize()
+        
+        self.game_view.last_ch_view = self
+        self.game_view.reshow = True
+        
 
     def setup(self):
         super().setup()
+        self.board = image_gui['board']
+        y_slot = WINDOW_HEIGHT // 5 
+        x_slot = WINDOW_WIDTH // 6
+        move_up = self.height * 0.15
+        self.button_scrsize = widgets.StandardButton(
+            self, 13,
+            center_x=x_slot * 4,
+            center_y= move_up + self.height // 40,
+            normal_texture=image_gui['full_true_0'],
+            hover_texture=image_gui['full_true_1'],
+            press_texture=image_gui['full_true_2'],
+            callback=lambda: self.resize_pause()
+        )
 
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.StandardButton(
+            self, 13,
+            center_x=x_slot * 5 - self.width // 30,
+            center_y= move_up + self.height // 40,
+            normal_texture=image_gui['quit_0'],
+            hover_texture=image_gui['quit_1'],
+            press_texture=image_gui['quit_2'],
+            callback=lambda: self.window.close()
+        )
+
+        self.button_list.append(self.button_quit)
+    
 
     def on_key_press(self, key, _modifiers):
+        print(self.mouse.center_y, self.button_quit.center_y, "--", self.mouse.center_x, self.button_quit.center_x)
         if key == arcade.key.ESCAPE:
+            self.game_view.paused = False
             self.window.show_view(self.game_view)
             for player in self.window.sound_player_register.values():
                 player.play()
@@ -68,7 +103,6 @@ class GameOverView(widgets.OptionView):
         for player in self.window.sound_player_register.values():
             player.pause()
         self.board = image_gui['board']
-        self.widgets.append(self.board)
 
     def setup(self):
         super().setup()

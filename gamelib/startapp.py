@@ -24,12 +24,17 @@ while decode_error_counter < 5:
         decode_error_counter += 1       
 
 from gamelib import gamewindow
-from gamelib import menuview
+from gamelib import menuviews
 
 
 def run_game():
     window = gamewindow.GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
-    menu_view = menuview.MainMenuView()
+
+    # from gamelib.gameview import GameLevel
+    # menu_view = GameLevel()
+    # menu_view.setup()
+
+    menu_view = menuviews.MainMenuView()
     menu_view.setup()
     window.show_view(menu_view)
     arcade.run()
