@@ -26,11 +26,15 @@ class GameWindow(arcade.Window):
         self.pepper_speed = D_PEPPER_SPEED
         self.moving_block_speed = D_MOVING_BLOCK_SPEED
 
-        try:
-            self.available_levels = auxfunctions.get_user_data('available_levels')
-            self.available_levels = auxfunctions.get_user_data('best_scores')
+        # try:
+        #     self.available_levels = auxfunctions.get_user_data('available_levels')
+        #     self.available_levels = auxfunctions.get_user_data('best_scores')
             
-        except:
-            print("huba")
-            self.available_levels = {1: True, 2: False, 3: False, 4: False}
-            self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}
+        # except:
+            
+        #     self.available_levels = {1: True, 2: False, 3: False, 4: False}
+        #     self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}
+
+        #DELETE THAT
+        self.available_levels = {1: True, 2: False, 3: False, 4: False}
+        self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}

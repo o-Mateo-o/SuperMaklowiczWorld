@@ -138,6 +138,7 @@ class GameLevel(arcade.View):
 
         # map static
         self.lvl_map = LEVEL_MAPS[self.window.current_level]
+
         self.bg_block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                           layer_name=MAP_LAYER['terrain0'],
                                                           scaling=MAP_SCALING,

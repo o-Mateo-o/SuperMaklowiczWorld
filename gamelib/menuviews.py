@@ -109,7 +109,15 @@ class LevelChoiceView(widgets.OptionView):
         self.level_button_list = []
 
     def load_level(self, number):
-        if number in LEVEL_MAPS.keys():
+        ###################################################################
+        ###################          DEMO         #########################
+        ###################################################################
+
+        if number in FORBIDDEN_LEVELS:
+            self.show_new_view(DemoView)
+
+        ##################################################################
+        elif number in LEVEL_MAPS.keys():
             self.window.current_level = number
             self.show_new_view(gameview.GameLevel)
         else:

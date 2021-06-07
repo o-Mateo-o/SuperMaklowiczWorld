@@ -50,3 +50,12 @@ def play_sound(sound: arcade.Sound, player: media.Player,\
 
     return new_player
 
+def save_user_data(best_scores, available_levels):
+    pass
+
+def get_user_data(data_type):
+    if data_type == 'best_scores':
+        pass
+    elif data_type == 'available_levels':
+        pass
+

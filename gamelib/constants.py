@@ -188,4 +188,4 @@ LEVEL_MAPS = {
 
 # saved data
 USER_DATA_PATH = "scores\\user_data"
-
+FORBIDDEN_LEVELS = [2]
