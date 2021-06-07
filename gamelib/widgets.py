@@ -133,6 +133,7 @@ class StandardButton(arcade.Sprite):
          normal_texture, hover_texture, press_texture,
                  text_label=None, callback=lambda: None):
         super().__init__()
+        self.locked = False
         self.texture_0 = normal_texture
         self.texture_1 = hover_texture
         self.texture_2 = press_texture
@@ -152,10 +153,11 @@ class StandardButton(arcade.Sprite):
         self.clicked = False
 
     def on_click(self, arg=None):
-        if arg:
-            self.callback(arg)
-        else:
-            self.callback()
+        if not self.locked:
+            if arg:
+                self.callback(arg)
+            else:
+                self.callback()
 
     def texture_change(self, t_type):
         if t_type == 0:
@@ -196,8 +198,8 @@ class QuitButton(StandardButton):
 
 class ReturnButton(StandardButton):
      def __init__(self, parent_view, return_view_class):
-        super().__init__(parent_view, 22,
-         parent_view.width // 6 * 2 + parent_view.width // 15,
+        super().__init__(parent_view, 24,
+         parent_view.width // 6 * 2,
          parent_view.height * 0.15 + parent_view.height // 40,
          normal_texture=image_gui['return_0'],
          hover_texture=image_gui['return_1'],

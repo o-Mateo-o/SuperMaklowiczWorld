@@ -74,12 +74,10 @@ class GameLevel(arcade.View):
         self.window.show_view(pause)
 
     def setup(self):
-
-        spicy_ratio = 5
         if self.window.difficulty == 'normal':
             self.window.fork_speed = D_FORK_SPEED
             self.window.pepper_speed = D_PEPPER_SPEED
-            self.window.movin_block_speed = D_MOVING_BLOCK_SPEED
+            self.window.moving_block_speed = D_MOVING_BLOCK_SPEED
         else:
             self.window.fork_speed = D_FORK_SPEED * SPICY_RATIO
             self.window.pepper_speed = D_PEPPER_SPEED * SPICY_RATIO

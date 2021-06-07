@@ -103,6 +103,7 @@ image_gui = {
     'board_controls': arcade.load_texture(f"{IMG_DIR}\\widget\\board_controls.png"),
     'board_scores': arcade.load_texture(f"{IMG_DIR}\\widget\\board_scores.png"),
     'board_options': arcade.load_texture(f"{IMG_DIR}\\widget\\board_options.png"),
+    'board_demo': arcade.load_texture(f"{IMG_DIR}\\widget\\board_demo.png"),
     'full_True_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
     'full_True_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
     'full_True_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
@@ -130,6 +131,7 @@ image_gui = {
     'std_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_0.png"),
     'std_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_1.png"),
     'std_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_2.png"),
+    'locked': arcade.load_texture(f"{IMG_DIR}\\widget\\button_std_gray.png"),
     't_start': arcade.load_texture(f"{IMG_DIR}\\widget\\label_start.png"),
     't_scores': arcade.load_texture(f"{IMG_DIR}\\widget\\label_scores.png"),
     't_options': arcade.load_texture(f"{IMG_DIR}\\widget\\label_options.png"),
@@ -183,4 +185,7 @@ LEVEL_MAPS = {
     2: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
     3: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
     4: arcade.tilemap.read_tmx("assets\maps\level_test.tmx")}
+
+# saved data
+USER_DATA_PATH = "scores\\user_data"
 

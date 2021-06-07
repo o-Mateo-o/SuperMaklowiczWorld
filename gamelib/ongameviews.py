@@ -11,6 +11,7 @@ from gamelib.constants import *
 from gamelib import widgets
 from gamelib import menuviews
 from gamelib import gameview
+from gamelib import auxfunctions
 
 
 class PauseView(widgets.OptionView):
@@ -193,9 +194,24 @@ class WinningView(widgets.OptionView):
         
 
     def show_post_win_view(self):
-        new_view = PostWinningView(self.game_view)
-        new_view.setup()
-        self.window.show_view(new_view)
+        if self.game_view.collectable_counters['dill']+self.game_view.collectable_counters['pepper'] \
+            > self.window.best_scores[self.window.current_level][0]\
+             + self.window.best_scores[self.window.current_level][1]:
+            self.window.best_scores[self.window.current_level] = (
+                self.game_view.collectable_counters['dill'],
+                self.game_view.collectable_counters['pepper'])
+            auxfunctions.save_user_data(self.window.best_scores, self.window.available_levels)
+
+        self.window.best_scores[self.window.current_level]
+        if self.window.current_level+1 in LEVEL_MAPS.keys():
+            self.window.available_levels[self.window.current_level+1] = True
+            new_view = PostWinningView(self.game_view)
+            new_view.setup()
+            self.window.show_view(new_view)
+        else:
+            new_view = menuviews.MainMenuView()
+            new_view.setup()
+            self.window.show_view(new_view)
 
     def setup(self):
         super().setup()

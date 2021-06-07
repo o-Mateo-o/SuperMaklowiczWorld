@@ -42,6 +42,7 @@ The game itself cannot be used in non university-related context.
     https://allegro.pl/oferta/duzy-garnek-gastronomiczny-garnki-indukcja-20-l-6727697784
     https://mowic.pl/motywacja/czego-mozemy-nauczyc-sie-od-roberta-maklowicza/
     https://eu.usatoday.com/story/news/nation-now/2018/07/11/ratemyprofessors-drops-chili-pepper-rating/774032002/
+    https://commons.wikimedia.org/wiki/File:Lock_font_awesome.svg
 
 # Sounds
 - Environment:

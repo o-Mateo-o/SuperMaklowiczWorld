@@ -106,6 +106,15 @@ class LevelChoiceView(widgets.OptionView):
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
+        self.level_button_list = []
+
+    def load_level(self, number):
+        if number in LEVEL_MAPS.keys():
+            self.window.current_level = number
+            self.show_new_view(gameview.GameLevel)
+        else:
+            print('No such a level defined.')
+
     def setup(self):
         self.background = image_background[1]
         self.board = image_gui['board']
@@ -121,9 +130,10 @@ class LevelChoiceView(widgets.OptionView):
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
             text_label=image_gui['t_level1'],
-            callback=lambda: self.show_new_view(gameview.GameLevel)
+            callback=lambda: self.load_level(1)
         )
         self.button_list.append(self.button_l1)
+        self.level_button_list.append(self.button_l1)
 
         self.button_l2 = widgets.StandardButton(
             self, choice_scale,
@@ -132,9 +142,11 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_level2']
+            text_label=image_gui['t_level2'],
+            callback=lambda: self.load_level(2)
         )
         self.button_list.append(self.button_l2)
+        self.level_button_list.append(self.button_l2)
 
         self.button_l3 = widgets.StandardButton(
             self, choice_scale,
@@ -143,9 +155,11 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_level3']
+            text_label=image_gui['t_level3'],
+            callback=lambda: self.load_level(3)
         )
         self.button_list.append(self.button_l3)
+        self.level_button_list.append(self.button_l3)
 
         self.button_l4 = widgets.StandardButton(
             self, choice_scale,
@@ -154,9 +168,14 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_level4']
+            text_label=image_gui['t_level4'],
+            callback=lambda: self.load_level(4)
         )
         self.button_list.append(self.button_l4)
+        self.level_button_list.append(self.button_l4)
+        for idx, button in enumerate(self.level_button_list):
+            button.locked = not self.window.available_levels[idx+1]
+        
 
         self.button_return = widgets.ReturnButton(self, MainMenuView)
         self.button_list.append(self.button_return)
@@ -169,6 +188,9 @@ class LevelChoiceView(widgets.OptionView):
     
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
+        for button in self.level_button_list:
+            if button.locked:
+                button.texture_0 = button.texture_1 = button.texture_2 = image_gui['locked']
         self.button_scrsize.textures_update()
 
 class OptionsMenuView(widgets.OptionView):
@@ -273,6 +295,28 @@ class ScoresMenuView(widgets.OptionView):
     def setup(self):
         self.background = image_background[1]
         self.board = image_gui['board_scores']
+
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
+        self.button_list.append(self.button_return)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+    
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.textures_update()
+    
+class DemoView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board_demo']
 
         self.button_return = widgets.ReturnButton(self, MainMenuView)
         self.button_list.append(self.button_return)
