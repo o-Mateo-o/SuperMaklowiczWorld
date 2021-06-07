@@ -28,7 +28,7 @@ PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
 PEPPER_AGONY_TIME = 30
 
-MOVING_BLOCK_SPEED = 2
+MOVING_BLOCK_SPEED = 1
 
 KNIVES_DISLOCATION = 10
 
@@ -125,6 +125,10 @@ image_gui = {
     't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
     't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
     't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
+    't_level1': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level1.png"),
+    't_level2': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level2.png"),
+    't_level3': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level3.png"),
+    't_level4': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level4.png"),
     }
 
 image_background = {

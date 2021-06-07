@@ -369,13 +369,12 @@ class GameLevel(arcade.View):
                 if pot.active:
                     if not pot.picked:
                         for _ in range(0, DILL_DROP):
-                            new_dill = sprites.Dill(pot)
+                            new_dill = sprites.Dill(self, pot)
                             self.dill_list.append(new_dill)
                             self.physics_engine_pymunk.add_sprite(
                                 new_dill, friction=1, collision_type="item")
                             self.physics_engine_pymunk.apply_force(new_dill, (random.randint(
-                                -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT),
-                                 POPPING_Y_FORCE))
+                                -POPPING_X_FORCE_RANGE_LIMIT, POPPING_X_FORCE_RANGE_LIMIT), POPPING_Y_FORCE))
                     pot.pick_action()
 
             # moving block bounce

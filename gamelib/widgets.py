@@ -110,6 +110,9 @@ class OptionView(arcade.View):
     def on_draw(self):
 
         arcade.start_render()
+        if self.background != None:
+            arcade.draw_texture_rectangle(self.width / 2 + self.view_left, self.height/2 + self.view_bottom,
+            self.width, self.height, texture=self.background)
         if self.draw_parent:
             self.parent_view.on_draw()
         arcade.draw_texture_rectangle(self.width / 2 + self.view_left, self.height/2 + self.view_bottom,
@@ -122,13 +125,13 @@ class OptionView(arcade.View):
                 arcade.draw_scaled_texture_rectangle(button.center_x, button.center_y, button.text_label,
                 button.scale)
 
-        arcade.draw_circle_filled(self.mouse.center_x, self.mouse.center_y, 4, (255, 0, 0, 255))
+        
 
 
 class StandardButton(arcade.Sprite):
     def __init__(self, parent_view, percent_width, center_x, center_y,\
          normal_texture, hover_texture, press_texture,
-                 text_label=None, callback=lambda: print('')):
+                 text_label=None, callback=lambda: None):
         super().__init__()
         self.texture_0 = normal_texture
         self.texture_1 = hover_texture
@@ -175,11 +178,10 @@ class ResizeButton(StandardButton):
             self.callback = other_callback
         self.parent_view = parent_view
 
-    def textures_update(self, t_type):
+    def textures_update(self):
         self.texture_0 = image_gui[f'full_{self.parent_view.window.fullscreen}_0']
         self.texture_1 = image_gui[f'full_{self.parent_view.window.fullscreen}_1']
         self.texture_2 = image_gui[f'full_{self.parent_view.window.fullscreen}_2']
-        
 
 class QuitButton(StandardButton):
     def __init__(self, parent_view):
@@ -190,6 +192,18 @@ class QuitButton(StandardButton):
          hover_texture=image_gui['quit_1'],
          press_texture=image_gui['quit_2'],
          callback=lambda: parent_view.window.close())
+        self.parent_view = parent_view
+
+class ReturnButton(StandardButton):
+     def __init__(self, parent_view, return_view_class):
+        super().__init__(parent_view, 24,
+         parent_view.width // 6 * 2,
+         parent_view.height * 0.15 + parent_view.height // 40,
+         normal_texture=image_gui['return_0'],
+         hover_texture=image_gui['return_1'],
+         press_texture=image_gui['return_2'],
+         text_label=image_gui['t_return'],
+         callback=lambda: parent_view.show_new_view(return_view_class))
         self.parent_view = parent_view
 
 

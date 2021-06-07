@@ -121,9 +121,7 @@ class PauseView(widgets.OptionView):
 
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
-        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
-        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+        self.button_scrsize.textures_update()
 
 
 
@@ -172,9 +170,7 @@ class GameOverView(widgets.OptionView):
 
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
-        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
-        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+        self.button_scrsize.textures_update()
 
 class WinningView(widgets.OptionView):
     def __init__(self, game_view):
@@ -191,7 +187,7 @@ class WinningView(widgets.OptionView):
 
         self.button_back = widgets.StandardButton(
             self, 30,
-            center_x=x_slot * 2,
+            center_x=x_slot * 4,
             center_y= y_slot * 3 - self.height // 40,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],

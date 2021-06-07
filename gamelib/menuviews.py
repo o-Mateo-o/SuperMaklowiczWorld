@@ -18,6 +18,7 @@ class MainMenuView(widgets.OptionView):
         self.window.show_view(level_list)
 
     def setup(self):
+        self.background = image_background[1]
         self.board = image_gui['board']
         y_slot = self.height // 5 
         x_slot = self.width // 6
@@ -93,13 +94,14 @@ class MainMenuView(widgets.OptionView):
     
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.textures_update(self)
+        self.button_scrsize.textures_update()
 
     
 
 class LevelChoiceView(widgets.OptionView):
    
     def setup(self):
+        self.background = image_background[1]
         self.board = image_gui['board']
         y_slot = self.height // 6 
         x_slot = self.width // 6
@@ -113,7 +115,7 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_options'],
+            text_label=image_gui['t_level1'],
             callback=lambda: self.show_new_view(gameview.GameLevel)
         )
         self.button_list.append(self.button_l1)
@@ -125,7 +127,7 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_options']
+            text_label=image_gui['t_level2']
         )
         self.button_list.append(self.button_l2)
 
@@ -136,7 +138,7 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_options']
+            text_label=image_gui['t_level3']
         )
         self.button_list.append(self.button_l3)
 
@@ -147,21 +149,11 @@ class LevelChoiceView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_options']
+            text_label=image_gui['t_level4']
         )
         self.button_list.append(self.button_l4)
 
-
-        self.button_return = widgets.StandardButton(
-            self, 24,
-            center_x=x_slot * 2,
-            center_y=move_up + self.height // 40,
-            normal_texture=image_gui['return_0'],
-            hover_texture=image_gui['return_1'],
-            press_texture=image_gui['return_2'],
-            text_label=image_gui['t_return'],
-            callback=lambda: self.show_new_view(MainMenuView)
-        )
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
         self.button_list.append(self.button_return)
 
         self.button_scrsize = widgets.ResizeButton(self)
@@ -172,7 +164,7 @@ class LevelChoiceView(widgets.OptionView):
     
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.textures_update(self)
+        self.button_scrsize.textures_update()
 
         
     
