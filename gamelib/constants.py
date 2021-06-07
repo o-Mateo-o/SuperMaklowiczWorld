@@ -10,6 +10,7 @@ STANDARD_CONTROLL_KEYSET = {'jump': False, 'left': False, 'right': False}
 MAP_SCALING = 0.7
 SCORE_SCALING = 1
 CHARACTER_SCALING = 0.8
+SPICY_RATIO = 4
 
 # units
 TL = 64 * MAP_SCALING
@@ -21,16 +22,17 @@ GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
-MAKLOWICZ_IMMUNITY_TIME = 60
+MAKLOWICZ_IMMUNITY_TIME = 40
 MAKLOWICZ_KICKBACK = 120
 
-PEPPER_SPEED = 2
+D_PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
 PEPPER_AGONY_TIME = 30
 
-MOVING_BLOCK_SPEED = 1
+D_MOVING_BLOCK_SPEED = 1
 
 KNIVES_DISLOCATION = 10
+D_FORK_SPEED = 2
 
 PYMUNK_GRAVITY = -GRAVITY * 1000
 PYMUNK_DAMP = 0.1
@@ -43,6 +45,7 @@ POT_ACTION_HEIGHT = 20
 MAKLOWICZ_HEAD_EXTENSION = 10
 MAKLOWICZ_SHOES_EXTENSION = -30
 MAKLOWICZ_SHOES_EXTENSION_ITEMS = -10
+MAKLOWICZ_ANIMATION_SPEED = 5
 
 LIVES_NUMBER = 3
 
@@ -59,6 +62,7 @@ LEFT_VIEWPORT_MARGIN = WINDOW_WIDTH/2
 RIGHT_VIEWPORT_MARGIN = WINDOW_WIDTH/2
 BOTTOM_VIEWPORT_MARGIN = WINDOW_HEIGHT/3
 
+WIDGET_ANIMATION_SPEED = 3
 
 
 # images
@@ -95,12 +99,22 @@ image_gui = {
     'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png"),
     'board_loose': arcade.load_texture(f"{IMG_DIR}\\widget\\board_loose.png"),
     'board_win': arcade.load_texture(f"{IMG_DIR}\\widget\\board_win.png"),
+    'board_about': arcade.load_texture(f"{IMG_DIR}\\widget\\board_about.png"),
+    'board_controls': arcade.load_texture(f"{IMG_DIR}\\widget\\board_controls.png"),
+    'board_scores': arcade.load_texture(f"{IMG_DIR}\\widget\\board_scores.png"),
+    'board_options': arcade.load_texture(f"{IMG_DIR}\\widget\\board_options.png"),
     'full_True_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
     'full_True_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
     'full_True_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
     'full_False_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_0.png"),
     'full_False_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_1.png"),
     'full_False_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_true_2.png"),
+    'diff_normal_0': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_normal_0.png"),
+    'diff_normal_1': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_normal_1.png"),
+    'diff_normal_2': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_normal_2.png"),
+    'diff_spicy_0': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_spicy_0.png"),
+    'diff_spicy_1': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_spicy_1.png"),
+    'diff_spicy_2': arcade.load_texture(f"{IMG_DIR}\\widget\\toggle_diff_spicy_2.png"),
     'quit_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_0.png"),
     'quit_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_1.png"),
     'quit_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_quit_2.png"),
@@ -128,8 +142,6 @@ image_gui = {
     't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
     't_next_level': arcade.load_texture(f"{IMG_DIR}\\widget\\label_next_level.png"),
     't_accept': arcade.load_texture(f"{IMG_DIR}\\widget\\label_accept.png"),
-    't_normal': arcade.load_texture(f"{IMG_DIR}\\widget\\label_normal.png"),
-    't_spicy': arcade.load_texture(f"{IMG_DIR}\\widget\\label_spicy.png"),
     't_level1': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level1.png"),
     't_level2': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level2.png"),
     't_level3': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level3.png"),

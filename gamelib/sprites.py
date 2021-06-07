@@ -25,7 +25,7 @@ class Maklowicz(arcade.Sprite):
         self.center_x = center_x
         self.center_y = center_y
         self.current_texture = 0
-        self.animation_ratio = 5
+        self.animation_ratio = MAKLOWICZ_ANIMATION_SPEED
 
         # sound players
         self.pepper_sound_player = media.Player()
@@ -175,7 +175,10 @@ class PepperEnemy(arcade.Sprite):
         self.killed_counter = 0
         self.animation_ratio = 6
         self.transform_to_item = False
-        self.change_x = -PEPPER_SPEED
+        self.obj_speed = None
+
+    def add_speed(self):
+        self.change_x = self.obj_speed
 
     def update_texture(self):
         # textures for proper movement states
@@ -269,17 +272,18 @@ class Fork(arcade.Sprite):
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.init_height = self.center_y
-        self.change_y = 5
-
+        self.obj_speed = None
+    def add_speed(self):
+        self.change_y = self.obj_speed
     def adjust_hitbox(self):
         self.set_hit_box([[0.7*point[0], point[1]]
                          for point in self.get_hit_box()])
 
     def update(self):
         if self.center_y > self.init_height + 100:
-            self.change_y = -2
+            self.change_y = -self.obj_speed
         elif self.center_y < self.init_height:
-            self.change_y = 2
+            self.change_y = self.obj_speed
         return super().update()
 
 
@@ -287,5 +291,7 @@ class MovingBlockSimple(arcade.Sprite):
     def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
-    def start_movement(self):
-        self.change_x = -MOVING_BLOCK_SPEED
+        self.obj_speed = None
+    def add_speed(self):
+        self.change_x = self.obj_speed
+

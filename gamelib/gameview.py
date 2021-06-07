@@ -74,6 +74,19 @@ class GameLevel(arcade.View):
         self.window.show_view(pause)
 
     def setup(self):
+
+        spicy_ratio = 5
+        if self.window.difficulty == 'normal':
+            self.window.fork_speed = D_FORK_SPEED
+            self.window.pepper_speed = D_PEPPER_SPEED
+            self.window.movin_block_speed = D_MOVING_BLOCK_SPEED
+        else:
+            self.window.fork_speed = D_FORK_SPEED * SPICY_RATIO
+            self.window.pepper_speed = D_PEPPER_SPEED * SPICY_RATIO
+            self.window.moving_block_speed = D_MOVING_BLOCK_SPEED * SPICY_RATIO
+
+
+
         self.button_list = []
         self.mouse_button_colliding = True
         self.mouse_pressed = False
@@ -153,22 +166,23 @@ class GameLevel(arcade.View):
                                                               MAP_LAYER['pots'], True)
         self.moving_block_sublist = auxfunctions.init_objects_from_map(sprites.MovingBlockSimple,
                                                                      self, self.block_list, self.lvl_map,
-                                                                       MAP_LAYER['mterrain'], True)
+                                                                       MAP_LAYER['mterrain'], True,
+                                                                        self.window.moving_block_speed)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self, self.dill_list, self.lvl_map,
                                                             MAP_LAYER['dill'], False)
         self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self,
                                                                      self.pepper_enemy_list,
-                                                                    self.lvl_map, MAP_LAYER['pepper_enemy'], False)
+                                                                    self.lvl_map, MAP_LAYER['pepper_enemy'],
+                                                                     False, self.window.pepper_speed)
         self.knives_list = auxfunctions.init_objects_from_map(sprites.Knives, self, self.block_list,
                                                               self.lvl_map, MAP_LAYER['knives'], True)
         self.fork_list = auxfunctions.init_objects_from_map(sprites.Fork, self, self.block_list,
-                                                            self.lvl_map, MAP_LAYER['forks'], False)
+                                                            self.lvl_map, MAP_LAYER['forks'], False,
+                                                            self.window.fork_speed)
         for knives in self.knives_list:
             knives.initial_move()
         for fork in self.fork_list:
             fork.adjust_hitbox()
-        for block in self.moving_block_sublist:
-            block.start_movement()
 
         self.button_pause = widgets.StandardButton(
             self, 10,

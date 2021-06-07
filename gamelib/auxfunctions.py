@@ -15,7 +15,7 @@ sys.path.append(".")
 
 
 def init_objects_from_map(object_class, parent_view, sprite_list: list, map_object: TileMap,
-                          layer_name: str, use_spatial_hash: bool):
+                          layer_name: str, use_spatial_hash: bool, obj_speed:float = None):
     # raw objects from map
     object_sub_list = arcade.tilemap.process_layer(
         map_object=map_object, layer_name=layer_name, scaling=MAP_SCALING,
@@ -28,6 +28,9 @@ def init_objects_from_map(object_class, parent_view, sprite_list: list, map_obje
         new_object = object_class(parent_view)
         new_object.center_x = obj.center_x
         new_object.center_y = obj.center_y
+        if obj_speed != None:
+            new_object.obj_speed = obj_speed
+            new_object.add_speed()
         new_object.texture = obj.texture
         sprite_list.append(new_object)
         new_object_sub_list.append(new_object)

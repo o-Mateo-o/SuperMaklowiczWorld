@@ -3,6 +3,7 @@ Game window class.
 """
 
 import arcade
+from gamelib.constants import *
 
 class GameWindow(arcade.Window):
     def __init__(self, width, height, heading):
@@ -18,4 +19,8 @@ class GameWindow(arcade.Window):
         # data containers
         self.sound_player_register = {}
         # level variable
+        self.difficulty = 'normal'
         self.current_level = 1
+        self.fork_speed = D_FORK_SPEED
+        self.pepper_speed = D_PEPPER_SPEED
+        self.moving_block_speed = D_MOVING_BLOCK_SPEED

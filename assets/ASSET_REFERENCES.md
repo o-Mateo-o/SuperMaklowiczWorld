@@ -41,6 +41,7 @@ The game itself cannot be used in non university-related context.
     https://www.empik.com/deska-do-krojenia-41-x-27-cm-drewno-akacjowe-zeller-zeller,p1243954923,dom-i-ogrod-p
     https://allegro.pl/oferta/duzy-garnek-gastronomiczny-garnki-indukcja-20-l-6727697784
     https://mowic.pl/motywacja/czego-mozemy-nauczyc-sie-od-roberta-maklowicza/
+    https://eu.usatoday.com/story/news/nation-now/2018/07/11/ratemyprofessors-drops-chili-pepper-rating/774032002/
 
 # Sounds
 - Environment:

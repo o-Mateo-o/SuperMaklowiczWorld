@@ -196,8 +196,8 @@ class QuitButton(StandardButton):
 
 class ReturnButton(StandardButton):
      def __init__(self, parent_view, return_view_class):
-        super().__init__(parent_view, 24,
-         parent_view.width // 6 * 2,
+        super().__init__(parent_view, 22,
+         parent_view.width // 6 * 2 + parent_view.width // 15,
          parent_view.height * 0.15 + parent_view.height // 40,
          normal_texture=image_gui['return_0'],
          hover_texture=image_gui['return_1'],

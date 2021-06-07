@@ -15,11 +15,6 @@ class MainMenuView(widgets.OptionView):
         for player in self.window.sound_player_register.values():
             player.pause()
 
-    def show_level_list(self):
-        level_list = LevelChoiceView()
-        level_list.setup()
-        self.window.show_view(level_list)
-
     def setup(self):
         self.background = image_background[1]
         self.board = image_gui['board']
@@ -36,7 +31,7 @@ class MainMenuView(widgets.OptionView):
             hover_texture=image_gui['start_1'],
             press_texture=image_gui['start_2'],
             text_label=image_gui['t_start'],
-            callback=lambda: self.show_level_list()
+            callback=lambda: self.show_new_view(LevelChoiceView)
         )
 
         self.button_list.append(self.button_start)
@@ -48,7 +43,9 @@ class MainMenuView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_scores']
+            text_label=image_gui['t_scores'],
+            callback=lambda: self.show_new_view(ScoresMenuView)
+
         )
 
         self.button_list.append(self.button_scores)
@@ -60,7 +57,8 @@ class MainMenuView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_controls']
+            text_label=image_gui['t_controls'],
+            callback=lambda: self.show_new_view(ControlsMenuView)
         )
 
         self.button_list.append(self.button_controls)
@@ -72,7 +70,8 @@ class MainMenuView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_options']
+            text_label=image_gui['t_options'],
+            callback= lambda: self.show_new_view(OptionsMenuView)
         )
 
         self.button_list.append(self.button_options)
@@ -84,7 +83,8 @@ class MainMenuView(widgets.OptionView):
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
-            text_label=image_gui['t_about']
+            text_label=image_gui['t_about'],
+            callback=lambda: self.show_new_view(AboutMenuView)
         )
 
         self.button_list.append(self.button_about)
@@ -170,6 +170,125 @@ class LevelChoiceView(widgets.OptionView):
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
+
+class OptionsMenuView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+
+    def swap_difficulty(self):
+        if self.window.difficulty == 'normal':
+            self.window.difficulty = 'spicy'
+        else:
+            self.window.difficulty = 'normal'
+    
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board_options']
+        y_slot = self.height // 6 
+        x_slot = self.width // 6
+        self.button_diffic = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 3,
+            center_y=y_slot * 3 ,
+            normal_texture=image_gui['diff_normal_0'],
+            hover_texture=image_gui['diff_normal_1'],
+            press_texture=image_gui['diff_normal_2'],
+            callback=lambda: self.swap_difficulty()
+        )
+        self.button_list.append(self.button_diffic)
+
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
+        self.button_list.append(self.button_return)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+    
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        if self.window.difficulty == 'normal':
+            self.button_diffic.texture_0 = image_gui['diff_normal_0']
+            self.button_diffic.texture_2 = image_gui['diff_normal_1']
+            self.button_diffic.texture_1 = image_gui['diff_normal_2']
+        else:
+            self.button_diffic.texture_0 = image_gui['diff_spicy_0']
+            self.button_diffic.texture_2 = image_gui['diff_spicy_1']
+            self.button_diffic.texture_1 = image_gui['diff_spicy_2']
+
+        self.button_scrsize.textures_update()
+
+class AboutMenuView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board_about']
+
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
+        self.button_list.append(self.button_return)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+    
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.textures_update()
+
+class ControlsMenuView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board_controls']
+
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
+        self.button_list.append(self.button_return)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+    
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.textures_update()
+
+class ScoresMenuView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board_scores']
+
+        self.button_return = widgets.ReturnButton(self, MainMenuView)
+        self.button_list.append(self.button_return)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+    
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.textures_update()
+    
+    
+
 
         
     

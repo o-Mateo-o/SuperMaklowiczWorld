@@ -132,7 +132,7 @@ class GameOverView(widgets.OptionView):
             player.pause()
         sound_loose = sound_environ['loose'].play(
             volume=self.window.standard_sound_volume)
-        self.view.window.sound_player_register['loose'] = sound_loose
+        self.window.sound_player_register['loose'] = sound_loose
         
         
 
@@ -186,6 +186,10 @@ class WinningView(widgets.OptionView):
         sound_win = sound_environ['win'].play(
                 volume=self.window.standard_sound_volume)
         self.window.sound_player_register['win'] = sound_win
+        self.counter_dill = 0
+        self.counter_pepper = 0
+        self.animation_tick = 0
+        self.animation_done = False
         
 
     def show_post_win_view(self):
@@ -195,10 +199,13 @@ class WinningView(widgets.OptionView):
 
     def setup(self):
         super().setup()
+        self.counter_dill = 0
+        self.counter_pepper = 0
         self.board = image_gui['board_win']
         y_slot = self.height // 6 
         x_slot = self.width // 6
         move_up = self.height * 0.15
+
 
         self.button_back = widgets.StandardButton(
             self, 30,
@@ -217,9 +224,54 @@ class WinningView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
+    
+    def on_draw(self):
+        super().on_draw()
+        arcade.draw_text(str(self.counter_dill), self.button_back.center_x - WINDOW_WIDTH*0.38,
+          self.button_back.center_y, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
+        arcade.draw_text(str(self.counter_pepper), self.button_back.center_x - WINDOW_WIDTH*0.38,
+          self.button_back.center_y - WINDOW_HEIGHT*0.17, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
 
     def on_update(self, delta_time: float):
-        super().on_update(delta_time)
+        self.animation_tick += 1
+        if self.animation_tick > WIDGET_ANIMATION_SPEED:
+            self.animation_tick = 0
+        if self.animation_tick == 0:
+            if self.counter_dill < self.game_view.collectable_counters['dill']:
+                self.counter_dill += 1
+            if self.counter_pepper < self.game_view.collectable_counters['pepper']:
+                self.counter_pepper += 1
+
+        if self.counter_pepper >= self.game_view.collectable_counters['pepper']\
+            and self.counter_dill >= self.game_view.collectable_counters['dill']:
+            self.animation_done = True
+
+        current_button_set = False
+        # mouse
+        for button in self.button_list:
+            if arcade.check_for_collision(self.mouse, button):
+                if not current_button_set:
+                    self.current_button = button
+                    current_button_set = True
+                if self.click:
+                    button.clicked = True
+                if self.mouse_pressed and button.clicked and button == self.current_button\
+                    and self.animation_done:
+                    button.texture_change(2)
+       
+                elif not self.mouse_pressed and button == self.current_button:
+                    button.texture_change(1)
+                else:
+                    button.texture_change(0)
+                if self.unclick and self.animation_done:
+                    button.on_click()
+
+            else:
+                button.clicked = False
+                button.texture_change(0)
+        self.click = False
+        self.unclick = False
+        # size button 
         self.button_scrsize.textures_update()
 
 class PostWinningView(widgets.OptionView):
