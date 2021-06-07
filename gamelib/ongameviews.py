@@ -183,13 +183,7 @@ class WinningView(widgets.OptionView):
         
 
     def show_post_win_view(self):
-        if self.game_view.collectable_counters['dill']+self.game_view.collectable_counters['pepper'] \
-            > self.window.best_scores[self.window.current_level][0]\
-             + self.window.best_scores[self.window.current_level][1]:
-            self.window.best_scores[self.window.current_level] = (
-                self.game_view.collectable_counters['dill'],
-                self.game_view.collectable_counters['pepper'])
-            auxfunctions.save_user_data(self.window.best_scores, self.window.available_levels)
+        
 
         self.window.best_scores[self.window.current_level]
         if self.window.current_level+1 in LEVEL_MAPS.keys():
@@ -201,6 +195,14 @@ class WinningView(widgets.OptionView):
             new_view = menuviews.MainMenuView()
             new_view.setup()
             self.window.show_view(new_view)
+
+        if self.game_view.collectable_counters['dill']+self.game_view.collectable_counters['pepper'] \
+            > self.window.best_scores[self.window.current_level][0]\
+             + self.window.best_scores[self.window.current_level][1]:
+            self.window.best_scores[self.window.current_level] = (
+                self.game_view.collectable_counters['dill'],
+                self.game_view.collectable_counters['pepper'])
+            auxfunctions.save_user_data(self.window.best_scores, self.window.available_levels)
 
     def setup(self):
         super().setup()

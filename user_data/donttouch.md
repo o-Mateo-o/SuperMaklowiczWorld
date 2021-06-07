@@ -1,0 +1,1 @@
+All the modifications in this directory will spoil the game.
