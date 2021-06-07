@@ -101,6 +101,11 @@ class OptionView(arcade.View):
         self.window.set_fullscreen(not self.window.fullscreen)
         self.window.set_viewport(self.view_left, self.view_left+self.width, 
         self.view_bottom, self.view_bottom+self.height)
+
+    def show_new_view(self, view_class):
+        new_view = view_class()
+        new_view.setup()
+        self.window.show_view(new_view)
         
     def on_draw(self):
 
@@ -156,6 +161,37 @@ class StandardButton(arcade.Sprite):
             self.texture = self.texture_1
         elif t_type == 2:
             self.texture = self.texture_2
+
+class ResizeButton(StandardButton):
+    def __init__(self, parent_view, other_callback=None):
+        super().__init__(parent_view, 13,
+         parent_view.width // 6 * 4,
+         parent_view.height * 0.15 + parent_view.height // 40,
+         normal_texture=image_gui[f'full_{parent_view.window.fullscreen}_0'],
+         hover_texture=image_gui[f'full_{parent_view.window.fullscreen}_1'],
+         press_texture=image_gui[f'full_{parent_view.window.fullscreen}_2'],
+         callback=lambda: parent_view.fullscreen_resize())
+        if other_callback:
+            self.callback = other_callback
+        self.parent_view = parent_view
+
+    def textures_update(self, t_type):
+        self.texture_0 = image_gui[f'full_{self.parent_view.window.fullscreen}_0']
+        self.texture_1 = image_gui[f'full_{self.parent_view.window.fullscreen}_1']
+        self.texture_2 = image_gui[f'full_{self.parent_view.window.fullscreen}_2']
+        
+
+class QuitButton(StandardButton):
+    def __init__(self, parent_view):
+        super().__init__(parent_view, 13,
+         parent_view.width // 6 * 5 - parent_view.width // 30,
+         parent_view.height * 0.15 + parent_view.height // 40,
+         normal_texture=image_gui['quit_0'],
+         hover_texture=image_gui['quit_1'],
+         press_texture=image_gui['quit_2'],
+         callback=lambda: parent_view.window.close())
+        self.parent_view = parent_view
+
 
     
     

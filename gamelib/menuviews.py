@@ -85,49 +85,20 @@ class MainMenuView(widgets.OptionView):
 
         self.button_list.append(self.button_about)
 
-        self.button_scrsize = widgets.StandardButton(
-            self, 13,
-            center_x=x_slot * 4,
-            center_y= move_up + self.height // 40,
-            normal_texture=image_gui[f'full_{self.window.fullscreen}_0'],
-            hover_texture=image_gui[f'full_{self.window.fullscreen}_1'],
-            press_texture=image_gui[f'full_{self.window.fullscreen}_2'],
-            callback=lambda: self.fullscreen_resize()
-            
-        )
-
+        self.button_scrsize = widgets.ResizeButton(self)
         self.button_list.append(self.button_scrsize)
 
-        self.button_quit = widgets.StandardButton(
-            self, 13,
-            center_x=x_slot * 5 - self.width // 30,
-            center_y= move_up + self.height // 40,
-            normal_texture=image_gui['quit_0'],
-            hover_texture=image_gui['quit_1'],
-            press_texture=image_gui['quit_2'],
-            callback=lambda: self.window.close()
-        )
-
+        self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
     
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
-        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
-        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+        self.button_scrsize.textures_update(self)
 
     
 
 class LevelChoiceView(widgets.OptionView):
-    def return_to_main(self):
-        menu_view = MainMenuView()
-        menu_view.setup()
-        self.window.show_view(menu_view)
-    def start_game(self):
-        game_view = gameview.GameLevel()
-        game_view.setup()
-        self.window.show_view(game_view)
-    
+   
     def setup(self):
         self.board = image_gui['board']
         y_slot = self.height // 6 
@@ -143,7 +114,7 @@ class LevelChoiceView(widgets.OptionView):
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
             text_label=image_gui['t_options'],
-            callback=lambda: self.start_game()
+            callback=lambda: self.show_new_view(gameview.GameLevel)
         )
         self.button_list.append(self.button_l1)
 
@@ -169,7 +140,7 @@ class LevelChoiceView(widgets.OptionView):
         )
         self.button_list.append(self.button_l3)
 
-        self.button_l3 = widgets.StandardButton(
+        self.button_l4 = widgets.StandardButton(
             self, choice_scale,
             center_x=x_slot * 4,
             center_y=y_slot * 3 ,
@@ -178,7 +149,7 @@ class LevelChoiceView(widgets.OptionView):
             press_texture=image_gui['std_2'],
             text_label=image_gui['t_options']
         )
-        self.button_list.append(self.button_l3)
+        self.button_list.append(self.button_l4)
 
 
         self.button_return = widgets.StandardButton(
@@ -189,40 +160,19 @@ class LevelChoiceView(widgets.OptionView):
             hover_texture=image_gui['return_1'],
             press_texture=image_gui['return_2'],
             text_label=image_gui['t_return'],
-            callback=lambda: self.return_to_main()
+            callback=lambda: self.show_new_view(MainMenuView)
         )
         self.button_list.append(self.button_return)
 
-        self.button_scrsize = widgets.StandardButton(
-            self, 13,
-            center_x=x_slot * 4,
-            center_y= move_up + self.height // 40,
-            normal_texture=image_gui[f'full_{self.window.fullscreen}_0'],
-            hover_texture=image_gui[f'full_{self.window.fullscreen}_1'],
-            press_texture=image_gui[f'full_{self.window.fullscreen}_2'],
-            callback=lambda: self.fullscreen_resize()
-            
-        )
-
+        self.button_scrsize = widgets.ResizeButton(self)
         self.button_list.append(self.button_scrsize)
 
-        self.button_quit = widgets.StandardButton(
-            self, 13,
-            center_x=x_slot * 5 - self.width // 30,
-            center_y= move_up + self.height // 40,
-            normal_texture=image_gui['quit_0'],
-            hover_texture=image_gui['quit_1'],
-            press_texture=image_gui['quit_2'],
-            callback=lambda: self.window.close()
-        )
-
+        self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-
+    
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
-        self.button_scrsize.texture_0 = image_gui[f'full_{self.window.fullscreen}_0']
-        self.button_scrsize.texture_1 = image_gui[f'full_{self.window.fullscreen}_1']
-        self.button_scrsize.texture_2 = image_gui[f'full_{self.window.fullscreen}_2']
+        self.button_scrsize.textures_update(self)
 
         
     

@@ -93,6 +93,8 @@ image_hearts = {
 
 image_gui = {
     'board': arcade.load_texture(f"{IMG_DIR}\\widget\\board.png"),
+    'board_loose': arcade.load_texture(f"{IMG_DIR}\\widget\\board_loose.png"),
+    'board_win': arcade.load_texture(f"{IMG_DIR}\\widget\\board_win.png"),
     'full_True_0': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_0.png"),
     'full_True_1': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_1.png"),
     'full_True_2': arcade.load_texture(f"{IMG_DIR}\\widget\\button_full_false_2.png"),
@@ -122,6 +124,7 @@ image_gui = {
     't_return': arcade.load_texture(f"{IMG_DIR}\\widget\\label_return.png"),
     't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
     't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
+    't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
     }
 
 image_background = {
