@@ -17,3 +17,5 @@ class GameWindow(arcade.Window):
         self.bg_move_y_extension = 200
         # data containers
         self.sound_player_register = {}
+        # level variable
+        self.current_level = 1

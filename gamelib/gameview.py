@@ -2,12 +2,13 @@
 Main game view module to handle all the actions in the gameplay and display it.
 """
 
-from pyglet import media
+
 from gamelib.constants import *
 from gamelib import sprites
 from gamelib import auxfunctions
 from gamelib import ongameviews
 from gamelib import widgets
+from gamelib import physics
 import arcade
 import sys
 import random
@@ -123,7 +124,7 @@ class GameLevel(arcade.View):
         self.character_cont_list.append(self.maklowicz_shoes_collider2)
 
         # map static
-        self.lvl_map = TEST_MAP
+        self.lvl_map = LEVEL_MAPS[self.window.current_level]
         self.bg_block_list = arcade.tilemap.process_layer(map_object=self.lvl_map,
                                                           layer_name=MAP_LAYER['terrain0'],
                                                           scaling=MAP_SCALING,
@@ -185,7 +186,7 @@ class GameLevel(arcade.View):
                                                                        GRAVITY)
         for papryka in self.pepper_enemy_list:
             self.pepper_physics_engines.append(
-                arcade.PhysicsEnginePlatformer(papryka, self.block_list, GRAVITY))
+                physics.PhysicsEngineEnemy(papryka, self.block_list, GRAVITY))
 
         self.physics_engine_pymunk = arcade.PymunkPhysicsEngine(
             (0, PYMUNK_GRAVITY), PYMUNK_DAMP)
@@ -357,8 +358,6 @@ class GameLevel(arcade.View):
             if arcade.check_for_collision_with_list(self.maklowicz, self.win_block_list):
                 self.maklowicz.change_x = 0
                 self.maklowicz.change_y = 0
-                for player in self.window.sound_player_register.values():
-                    player.pause()
                 self.level_end = 1
 
             # pots collisions and action
@@ -462,6 +461,13 @@ class GameLevel(arcade.View):
                 self.view_left = int(self.view_left)
                 arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
                                     self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
+
+            #bug "fix"
+            height_pump = 1
+            while self.maklowicz.center_y < 0:
+                self.maklowicz.center_y += height_pump * TL
+                height_pump += 1
+
             
             # when level finished
 
@@ -478,8 +484,6 @@ class GameLevel(arcade.View):
                 
                 if self.level_end == -1:
                     new_view = ongameviews.GameOverView(self)
-                    sound_environ['loose'].play(
-                    volume=self.window.standard_sound_volume)
                 if self.level_end == 1:
                     new_view = ongameviews.WinningView(self)
                 new_view.setup()

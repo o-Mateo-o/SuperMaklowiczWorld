@@ -21,8 +21,8 @@ GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
 CAN_JUMP_DISTANCE = 20
-MAKLOWICZ_IMMUNITY_TIME = 30
-MAKLOWICZ_KICKBACK = 100
+MAKLOWICZ_IMMUNITY_TIME = 60
+MAKLOWICZ_KICKBACK = 120
 
 PEPPER_SPEED = 2
 PEPPER_JUMP_SPEED = 7
@@ -125,6 +125,10 @@ image_gui = {
     't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
     't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
     't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
+    't_next_level': arcade.load_texture(f"{IMG_DIR}\\widget\\label_next_level.png"),
+    't_accept': arcade.load_texture(f"{IMG_DIR}\\widget\\label_accept.png"),
+    't_normal': arcade.load_texture(f"{IMG_DIR}\\widget\\label_normal.png"),
+    't_spicy': arcade.load_texture(f"{IMG_DIR}\\widget\\label_spicy.png"),
     't_level1': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level1.png"),
     't_level2': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level2.png"),
     't_level3': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level3.png"),
@@ -160,8 +164,9 @@ MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
              'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg",
              'mterrain': "moving"}
 
+LEVEL_MAPS = {
+    1: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
+    2: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
+    3: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
+    4: arcade.tilemap.read_tmx("assets\maps\level_test.tmx")}
 
-# maps
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-TEST_MAP = arcade.tilemap.read_tmx("assets\maps\level_test.tmx")
-TEST_BLOCK_LAYER = "layer"

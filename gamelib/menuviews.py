@@ -106,7 +106,6 @@ class LevelChoiceView(widgets.OptionView):
         y_slot = self.height // 6 
         x_slot = self.width // 6
         choice_scale = 25
-        move_up = self.height * 0.15
 
         self.button_l1 = widgets.StandardButton(
             self, choice_scale,

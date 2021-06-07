@@ -226,8 +226,8 @@ class Pot(arcade.Sprite):
             self.init_center_y = self.center_y+1
             self.picked = True
             self.texture = image_pot['picked']
-            sound_environ['pot'].play(volume=self.view.window.standard_sound_volume)
-
+            pot_player = sound_environ['pot'].play(volume=self.view.window.standard_sound_volume)
+            self.view.window.sound_player_register['pain'] = pot_player
         elif self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
             self.change_y = -POT_ACTION_SPEED
 

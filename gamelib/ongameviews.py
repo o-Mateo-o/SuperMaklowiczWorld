@@ -130,6 +130,8 @@ class GameOverView(widgets.OptionView):
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
+        sound_environ['loose'].play(
+                    volume=self.window.standard_sound_volume)
 
     def setup(self):
         super().setup()
@@ -192,8 +194,50 @@ class WinningView(widgets.OptionView):
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
+            text_label=image_gui['t_accept'],
+            callback=lambda: self.show_new_view(PostWinningView)
+        )
+        self.button_list.append(self.button_back)
+
+        self.button_scrsize = widgets.ResizeButton(self)
+        self.button_list.append(self.button_scrsize)
+
+        self.button_quit = widgets.QuitButton(self)
+        self.button_list.append(self.button_quit)
+
+    def on_update(self, delta_time: float):
+        super().on_update(delta_time)
+        self.button_scrsize.textures_update()
+
+class PostWinningView(widgets.OptionView):
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+
+    def next_level(self):
+        self.window.current_level += 1
+        if self.window.current_level > max(LEVEL_MAPS.keys()):
+            self.show_new_view(menuviews.MainMenuView)
+        else:
+            self.show_new_view(gameview.GameLevel)
+
+    def setup(self):
+        self.background = image_background[1]
+        self.board = image_gui['board']
+        y_slot = self.height // 6 
+        x_slot = self.width // 6
+        move_up = self.height * 0.15
+
+        self.button_back = widgets.StandardButton(
+            self, 30,
+            center_x=x_slot * 4,
+            center_y= y_slot * 3 - self.height // 40,
+            normal_texture=image_gui[f'std_0'],
+            hover_texture=image_gui[f'std_1'],
+            press_texture=image_gui[f'std_2'],
             text_label=image_gui['t_menu'],
-            callback=lambda: self.show_new_view(menuviews.MainMenuView)
+            callback=lambda: self.next_level()
         )
         self.button_list.append(self.button_back)
 
