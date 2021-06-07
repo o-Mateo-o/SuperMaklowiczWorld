@@ -183,8 +183,8 @@ MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
 LEVEL_MAPS = {
     1: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
     2: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
-    3: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
-    4: arcade.tilemap.read_tmx("assets\maps\level_test.tmx")}
+    3: None,
+    4: None}
 
 # saved data
 USER_DATA_PATH = "user_data\\user_data"

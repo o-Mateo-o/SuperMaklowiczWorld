@@ -2,9 +2,7 @@
 Helper functions module.
 """
 
-import sys
-
-import arcade
+import arcade, sys, os
 from pyglet import media
 from pytiled_parser.objects import TileMap
 
@@ -51,6 +49,8 @@ def play_sound(sound: arcade.Sound, player: media.Player,\
     return new_player
 
 def save_user_data(best_scores:dict, available_levels:dict):
+    if not os.path.isdir(os.path.dirname(USER_DATA_PATH)):
+        os.mkdir(os.path.dirname(USER_DATA_PATH))
     lines = []
     max_level = 0
     print(available_levels)
