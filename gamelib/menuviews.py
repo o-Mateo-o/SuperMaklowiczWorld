@@ -12,6 +12,9 @@ from gamelib import gameview
 class MainMenuView(widgets.OptionView):
     def __init__(self):
         super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
+
     def show_level_list(self):
         level_list = LevelChoiceView()
         level_list.setup()
@@ -99,7 +102,10 @@ class MainMenuView(widgets.OptionView):
     
 
 class LevelChoiceView(widgets.OptionView):
-   
+    def __init__(self):
+        super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
     def setup(self):
         self.background = image_background[1]
         self.board = image_gui['board']

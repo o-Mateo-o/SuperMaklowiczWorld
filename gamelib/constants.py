@@ -123,7 +123,8 @@ image_gui = {
     't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png"),
     't_return': arcade.load_texture(f"{IMG_DIR}\\widget\\label_return.png"),
     't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
-    't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
+    't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),\
+    't_levels': arcade.load_texture(f"{IMG_DIR}\\widget\\label_levels.png"),
     't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
     't_next_level': arcade.load_texture(f"{IMG_DIR}\\widget\\label_next_level.png"),
     't_accept': arcade.load_texture(f"{IMG_DIR}\\widget\\label_accept.png"),
@@ -151,7 +152,8 @@ sound_pepper = {
 sound_environ = {
     'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg"),
     'pot': arcade.Sound(f"{SND_DIR}\\environment\\pot.ogg"),
-    'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg")}
+    'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg"),
+    'win': arcade.Sound(f"{SND_DIR}\\environment\\bubububu.ogg"),}
 
 
 

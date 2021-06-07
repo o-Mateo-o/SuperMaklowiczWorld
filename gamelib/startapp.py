@@ -30,8 +30,8 @@ from gamelib import menuviews
 def run_game():
     window = gamewindow.GameWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_HEADING)
 
-    # from gamelib.gameview import GameLevel
-    # menu_view = GameLevel()
+    # from gamelib.ongameviews import PostWinningView
+    # menu_view = PostWinningView()
     # menu_view.setup()
 
     menu_view = menuviews.MainMenuView()

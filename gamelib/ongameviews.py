@@ -130,8 +130,11 @@ class GameOverView(widgets.OptionView):
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
-        sound_environ['loose'].play(
-                    volume=self.window.standard_sound_volume)
+        sound_loose = sound_environ['loose'].play(
+            volume=self.window.standard_sound_volume)
+        self.view.window.sound_player_register['loose'] = sound_loose
+        
+        
 
     def setup(self):
         super().setup()
@@ -179,6 +182,16 @@ class WinningView(widgets.OptionView):
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
+        self.game_view = game_view
+        sound_win = sound_environ['win'].play(
+                volume=self.window.standard_sound_volume)
+        self.window.sound_player_register['win'] = sound_win
+        
+
+    def show_post_win_view(self):
+        new_view = PostWinningView(self.game_view)
+        new_view.setup()
+        self.window.show_view(new_view)
 
     def setup(self):
         super().setup()
@@ -195,7 +208,7 @@ class WinningView(widgets.OptionView):
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
             text_label=image_gui['t_accept'],
-            callback=lambda: self.show_new_view(PostWinningView)
+            callback=lambda: self.show_post_win_view()
         )
         self.button_list.append(self.button_back)
 
@@ -210,11 +223,9 @@ class WinningView(widgets.OptionView):
         self.button_scrsize.textures_update()
 
 class PostWinningView(widgets.OptionView):
-    def __init__(self):
-        super().__init__()
-        for player in self.window.sound_player_register.values():
-            player.pause()
-
+    def __init__(self, game_view):
+        super().__init__(game_view, draw_parent=True, scrolling_parent=True)
+        
     def next_level(self):
         self.window.current_level += 1
         if self.window.current_level > max(LEVEL_MAPS.keys()):
@@ -223,23 +234,64 @@ class PostWinningView(widgets.OptionView):
             self.show_new_view(gameview.GameLevel)
 
     def setup(self):
-        self.background = image_background[1]
+        super().setup()
         self.board = image_gui['board']
         y_slot = self.height // 6 
         x_slot = self.width // 6
-        move_up = self.height * 0.15
+        move_up = self.height * 0.05
+        choice_scale = 28
 
-        self.button_back = widgets.StandardButton(
-            self, 30,
+        self.button_restart = widgets.StandardButton(
+            self, choice_scale,
+            center_x=x_slot * 2,
+            center_y=y_slot * 4 - move_up,
+            normal_texture=image_gui['std_0'],
+            hover_texture=image_gui['std_1'],
+            press_texture=image_gui['std_2'],
+            text_label=image_gui['t_restart'],
+            callback=lambda: self.show_new_view(gameview.GameLevel)
+        )
+
+        self.button_list.append(self.button_restart)
+
+        self.button_next_level = widgets.StandardButton(
+            self, choice_scale,
             center_x=x_slot * 4,
-            center_y= y_slot * 3 - self.height // 40,
-            normal_texture=image_gui[f'std_0'],
-            hover_texture=image_gui[f'std_1'],
-            press_texture=image_gui[f'std_2'],
-            text_label=image_gui['t_menu'],
+            center_y=y_slot * 4 - move_up,
+            normal_texture=image_gui['std_0'],
+            hover_texture=image_gui['std_1'],
+            press_texture=image_gui['std_2'],
+            text_label=image_gui['t_next_level'],
             callback=lambda: self.next_level()
         )
-        self.button_list.append(self.button_back)
+
+        self.button_list.append(self.button_next_level)
+
+        self.button_levels = widgets.StandardButton(
+            self, choice_scale,
+            center_x=x_slot * 2,
+            center_y=y_slot * 2 + 2 * move_up,
+            normal_texture=image_gui['std_0'],
+            hover_texture=image_gui['std_1'],
+            press_texture=image_gui['std_2'],
+            text_label=image_gui['t_levels'],
+            callback=lambda: self.show_new_view(menuviews.LevelChoiceView)
+        )
+
+        self.button_list.append(self.button_levels)
+
+        self.button_menu = widgets.StandardButton(
+            self, choice_scale,
+            center_x=x_slot * 4,
+            center_y=y_slot * 2 + 2 * move_up,
+            normal_texture=image_gui['std_0'],
+            hover_texture=image_gui['std_1'],
+            press_texture=image_gui['std_2'],
+            text_label=image_gui['t_menu'],
+            callback=lambda: self.show_new_view(menuviews.MainMenuView)
+        )
+
+        self.button_list.append(self.button_menu)
 
 
         self.button_scrsize = widgets.ResizeButton(self)

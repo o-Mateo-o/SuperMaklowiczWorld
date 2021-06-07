@@ -20,6 +20,8 @@ class GameLevel(arcade.View):
 
     def __init__(self):
         super().__init__()
+        for player in self.window.sound_player_register.values():
+            player.pause()
         # keys handled and projection properities
         self.c_keys_pressed_gny = STANDARD_CONTROLL_KEYSET.copy()
         self.view_bottom = 0
