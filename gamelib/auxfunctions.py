@@ -50,12 +50,80 @@ def play_sound(sound: arcade.Sound, player: media.Player,\
 
     return new_player
 
-def save_user_data(best_scores, available_levels):
-    pass
-
-def get_user_data(data_type):
-    if data_type == 'best_scores':
+def save_user_data(best_scores:dict, available_levels:dict):
+    lines = []
+    max_level = 0
+    for key in sorted(available_levels):
+        if available_levels[key] == True:
+            max_level = key
+    lines.append('DO NOT MODIFY THIS FILE\n')
+    lines.append('%\n')
+    lines.append(str(max_level)+'\n')
+    for key in  sorted(best_scores):
+        lines.append('#\n')
+        lines.append(str(best_scores[key][0])+'\n')
+        lines.append(str(best_scores[key][1])+'\n')
+    lines.append('%\n')
+    try:
+        with open(USER_DATA_PATH, 'w') as file:
+            file.writelines(lines)
+    except:
         pass
-    elif data_type == 'available_levels':
-        pass
 
+def get_user_data():
+    data_start = False
+    read_levels = False
+    read_score = 0
+    filelines = []
+    available_level_max = 0
+    best_scores_dill = []
+    best_scores_pepper = []
+    best_scores = {}
+    available_levels = {}
+    try:
+        with open(USER_DATA_PATH, 'r') as file:
+            filelines = file.readlines()
+    except:
+        raise Exception("cannot read the file")
+    for line in filelines:
+        if data_start and line[0] == '%':
+            break
+        
+        if data_start and read_levels:
+            try:
+                available_level_max = int(line[:-1])
+            except:
+                raise Exception('not int vals')
+            read_levels = False
+        
+        if data_start and read_score in [1, 2] and not read_levels:
+            
+            if read_score > 2:
+                read_score = 0
+            try:
+                if read_score == 1:
+                    best_scores_dill.append(int(line[:-1]))
+                if read_score == 2:
+                    best_scores_pepper.append(int(line[:-1]))
+            except:
+                raise Exception('not int vals')
+            read_score += 1
+        if line[0] == '%':
+            data_start = True
+            read_levels = True
+        if line[0] == '#' and data_start:
+            read_score = 1
+    if available_level_max < 1 or available_level_max > max(LEVEL_MAPS.keys()):
+        raise Exception('false data')
+
+    for i in range(0, len(best_scores_pepper)):
+        
+        if best_scores_pepper[i] < 0 or best_scores_dill[i] < 0:
+            raise Exception('false data') 
+        best_scores[i+1] = (best_scores_dill[i], best_scores_pepper[i])
+        if i+1 <= available_level_max:
+            available_levels[i+1] = True
+        else:
+            available_levels[i+1] = False
+    
+    return (available_levels, best_scores)

@@ -4,14 +4,8 @@ Main game view module to handle all the actions in the gameplay and display it.
 
 
 from gamelib.constants import *
-from gamelib import sprites
-from gamelib import auxfunctions
-from gamelib import ongameviews
-from gamelib import widgets
-from gamelib import physics
-import arcade
-import sys
-import random
+from gamelib import sprites, auxfunctions, ongameviews, widgets, physics
+import arcade, sys, random
 
 sys.path.append(".")
 

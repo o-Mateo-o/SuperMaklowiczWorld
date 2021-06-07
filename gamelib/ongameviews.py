@@ -2,16 +2,10 @@
 Initial, pause and other additional view classes.
 """
 
-import time
 import arcade
 
-import arcade.gui as gui
-from arcade.gui import UIManager
 from gamelib.constants import *
-from gamelib import widgets
-from gamelib import menuviews
-from gamelib import gameview
-from gamelib import auxfunctions
+from gamelib import widgets, menuviews, gameview, auxfunctions
 
 
 class PauseView(widgets.OptionView):

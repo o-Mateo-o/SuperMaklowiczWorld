@@ -2,9 +2,10 @@
 Game window class.
 """
 
-import arcade
+import arcade, sys
 from gamelib.constants import *
 from gamelib import auxfunctions
+sys.path.append(".")
 
 class GameWindow(arcade.Window):
     def __init__(self, width, height, heading):
@@ -25,16 +26,15 @@ class GameWindow(arcade.Window):
         self.fork_speed = D_FORK_SPEED
         self.pepper_speed = D_PEPPER_SPEED
         self.moving_block_speed = D_MOVING_BLOCK_SPEED
-
-        # try:
-        #     self.available_levels = auxfunctions.get_user_data('available_levels')
-        #     self.available_levels = auxfunctions.get_user_data('best_scores')
+        
+        try:
+            data = auxfunctions.get_user_data()
             
-        # except:
+            self.available_levels = data[0]
+            self.best_scores = data[1]
             
-        #     self.available_levels = {1: True, 2: False, 3: False, 4: False}
-        #     self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}
+        except:
+            
+            self.available_levels = {1: True, 2: False, 3: False, 4: False}
+            self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}
 
-        #DELETE THAT
-        self.available_levels = {1: True, 2: False, 3: False, 4: False}
-        self.best_scores = {1: (0, 0), 2: (0, 0), 3: (0, 0), 4: (0, 0)}

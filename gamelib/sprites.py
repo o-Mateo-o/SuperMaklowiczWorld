@@ -2,12 +2,8 @@
 Sprite classes of characters and special objects.
 """
 
-import sys
-
-import arcade
-import random
+import arcade, random, sys
 from pyglet import media
-from pytiled_parser.objects import TileMap
 from gamelib import auxfunctions
 from gamelib.constants import *
 

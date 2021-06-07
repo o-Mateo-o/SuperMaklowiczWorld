@@ -2,11 +2,8 @@
 Main menu class. (The one activated after the game starts.)
 """
 
-import arcade
-
 from gamelib.constants import *
-from gamelib import widgets
-from gamelib import gameview
+from gamelib import widgets, gameview
     
 
 class MainMenuView(widgets.OptionView):

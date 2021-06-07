@@ -187,5 +187,5 @@ LEVEL_MAPS = {
     4: arcade.tilemap.read_tmx("assets\maps\level_test.tmx")}
 
 # saved data
-USER_DATA_PATH = "scores\\user_data"
-FORBIDDEN_LEVELS = [2]
+USER_DATA_PATH = "user_data\\user_data"
+FORBIDDEN_LEVELS = [3, 4]

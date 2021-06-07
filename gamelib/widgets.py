@@ -1,11 +1,10 @@
 """
 Widget classes for game gui.
 """
+
 import arcade
 import arcade.gui
-from arcade.key import B
 from gamelib.constants import *
-from time import sleep
 
 class OptionView(arcade.View):
     def __init__(self, parent_view=None, draw_parent=False, scrolling_parent=False):
