@@ -131,7 +131,7 @@ dmypy.json
 
 
 #############################################################
-# directory for graphical work
+# added manually
 assets_prepare
 TODO.txt
 user_data/user_data
