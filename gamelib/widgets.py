@@ -199,7 +199,7 @@ class StandardButton(arcade.Sprite):
 
     def __init__(self, parent_view: arcade.View, percent_width: float, center_x: float, center_y: float,
                  normal_texture: arcade.Texture, hover_texture: arcade.Texture, press_texture: arcade.Texture,
-                 text_label: str = None, callback: function = lambda: None):
+                 text_label: str = None, callback = lambda: None):
         """
         Create a button and scale it. 
         Add the nesessary properities.
@@ -256,7 +256,7 @@ class ResizeButton(StandardButton):
     Button which resizes the window.
     """
 
-    def __init__(self, parent_view: arcade.View, other_callback: function = None):
+    def __init__(self, parent_view: arcade.View, other_callback = None):
         """
         Create a button with its textures and placement.
         :param parent_view: object of a parent view
