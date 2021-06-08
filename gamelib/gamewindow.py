@@ -12,9 +12,9 @@ class GameWindow(arcade.Window):
         super().__init__(width, height, heading, fullscreen=True)
         # sound volumes
         self.sound_volume_factor = 1
-        self.standard_sound_volume = 1 * self.sound_volume_factor
-        self.step_volume = 0.5 * self.sound_volume_factor
-        self.pain_volume = 0.8*self.sound_volume_factor
+        self.standard_sound_volume = STANDARD_SOUND_VOUME * self.sound_volume_factor
+        self.step_volume = STEP_VOUME * self.sound_volume_factor
+        self.pain_volume = PAIN_VOLUME * self.sound_volume_factor
         # background
         self.bg_move_x_extension = 1000
         self.bg_move_y_extension = 200

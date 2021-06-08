@@ -34,6 +34,7 @@ The game itself cannot be used in non university-related context.
 - Blocks:
 
     https://chorwacjaautem.pl/regiony/wyspy/wyspa-pag/wyspa-pag-fajne-plaze-dojazd-mostem/
+    https://witek.pl/river/talerz-gleboki-225-cm-river.html
     
 - Widget elements:
 

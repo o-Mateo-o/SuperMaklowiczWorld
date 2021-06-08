@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="1">
+ <tileset firstgid="1" name="SET_NORMAL" tilewidth="64" tileheight="64" tilecount="16" columns="4">
+  <image source="../images/sets/SET_NORMAL.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="17" name="SET_BROAD" tilewidth="128" tileheight="64" tilecount="8" columns="2">
+  <image source="../images/sets/SET_BROAD.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="25" name="SET_HIGH" tilewidth="64" tileheight="128" tilecount="8" columns="4">
+  <image source="../images/sets/SET_HIGH.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="33" name="SET_LARGE" tilewidth="256" tileheight="192" tilecount="2" columns="1">
+  <image source="../images/sets/SET_LARGE.png" width="256" height="384"/>
+ </tileset>
+ <layer id="1" name="terrain normal" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <layer id="2" name="terrain back" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <layer id="3" name="terrain fore" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <objectgroup id="4" name="moving"/>
+ <objectgroup id="6" name="pepper"/>
+ <objectgroup id="7" name="limits"/>
+ <layer id="8" name="knives" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <objectgroup id="9" name="forks"/>
+ <layer id="10" name="win" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <layer id="11" name="pots" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+ <objectgroup id="12" name="dill"/>
+</map>

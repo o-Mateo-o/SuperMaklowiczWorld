@@ -65,7 +65,9 @@ BOTTOM_VIEWPORT_MARGIN = WINDOW_HEIGHT/3
 WIDGET_ANIMATION_SPEED = 3
 
 # sound properities
-
+STANDARD_SOUND_VOUME = 1
+STEP_VOUME = 0.5
+PAIN_VOLUME = 0.7
 
 # images
 IMG_DIR = "assets\images"
@@ -177,14 +179,14 @@ sound_environ = {
 COMIC_SANS_FONT = "assets\\fonts\ComicSans.ttf"
 
 # map layers
-MAP_LAYER = {'terrain1': "layer", 'pots': "obj", 'dill': "dill",
+MAP_LAYER = {'terrain1': "terrain normal", 'pots': "pots", 'dill': "dill",
              'pepper_enemy': "pepper", 'limits': "limits", 'knives': "knives",
-             'forks': "forks", 'terrain2': "nonc", 'win': "win", 'terrain0': "bg",
-             'mterrain': "moving"}
+             'forks': "forks", 'terrain2': "terrain fore", 'win': "win", 'terrain0': "terrain back",
+             'mterrain': "terrain moving"}
 
 LEVEL_MAPS = {
-    1: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
-    2: arcade.tilemap.read_tmx("assets\maps\level_test.tmx"),
+    1: arcade.tilemap.read_tmx("assets\maps\level1.tmx"),
+    2: arcade.tilemap.read_tmx("assets\maps\level2.tmx"),
     3: None,
     4: None}
 
