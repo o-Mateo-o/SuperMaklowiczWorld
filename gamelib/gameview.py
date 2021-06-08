@@ -3,17 +3,28 @@ Main game view module to handle all the actions in the gameplay and display it.
 """
 
 
+import random
+import sys
+
+import arcade
+
+from gamelib import auxfunctions, ongameviews, physics, sprites, widgets
 from gamelib.constants import *
-from gamelib import sprites, auxfunctions, ongameviews, widgets, physics
-import arcade, sys, random
 
 sys.path.append(".")
 
 
 class GameLevel(arcade.View):
+    """
+    Level class. Prepare a level, handle all the events in the game and display it.
+    """
 
     def __init__(self):
+        """
+        Create an arcade view. Prepare blank attributes and pause sounds.
+        """
         super().__init__()
+        # pause previous sounds
         for player in self.window.sound_player_register.values():
             player.pause()
         # keys handled and projection properities
@@ -61,11 +72,18 @@ class GameLevel(arcade.View):
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def pause(self):
+        """
+        Pause the game and show a pause view.
+        """
         pause = ongameviews.PauseView(self)
         pause.setup()
         self.window.show_view(pause)
 
     def setup(self):
+        """
+        Prepare the objects on the map, set the game physics and properities -
+                        according to the chosen level number and difficulty.
+        """
         if self.window.difficulty == 'normal':
             self.window.fork_speed = D_FORK_SPEED
             self.window.pepper_speed = D_PEPPER_SPEED
@@ -74,8 +92,6 @@ class GameLevel(arcade.View):
             self.window.fork_speed = D_FORK_SPEED * SPICY_RATIO
             self.window.pepper_speed = D_PEPPER_SPEED * SPICY_RATIO
             self.window.moving_block_speed = D_MOVING_BLOCK_SPEED * SPICY_RATIO
-
-
 
         self.button_list = []
         self.mouse_button_colliding = True
@@ -93,6 +109,7 @@ class GameLevel(arcade.View):
         self.maklowicz_lives = LIVES_NUMBER
         self.collectable_counters = {'dill': 0, 'pepper': 0}
         self.final_time_counter = 0
+
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
         self.bg_block_list = arcade.SpriteList(use_spatial_hash=True)
@@ -109,13 +126,13 @@ class GameLevel(arcade.View):
         self.maklowicz = sprites.Maklowicz(self, 4*TL, 7*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x,
-             center_y=self.maklowicz.center_y)
+            center_y=self.maklowicz.center_y)
         self.maklowicz_shoes_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x,
-             center_y=self.maklowicz.center_y)
+            center_y=self.maklowicz.center_y)
         self.maklowicz_shoes_collider2 = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x,
-             center_y=self.maklowicz.center_y)
+            center_y=self.maklowicz.center_y)
         self.maklowicz_head_collider.texture = image_maklowicz['box_h'][0]
         self.maklowicz_shoes_collider.texture = image_maklowicz['box_s'][0]
         self.maklowicz_shoes_collider2.texture = image_maklowicz['box_s'][0]
@@ -148,20 +165,21 @@ class GameLevel(arcade.View):
                                                        layer_name=MAP_LAYER['limits'],
                                                        scaling=MAP_SCALING,
                                                        use_spatial_hash=True)
+
         # map objects
         self.pot_sublist = auxfunctions.init_objects_from_map(sprites.Pot, self,
-                                                             self.block_list, self.lvl_map,
+                                                              self.block_list, self.lvl_map,
                                                               MAP_LAYER['pots'], True)
         self.moving_block_sublist = auxfunctions.init_objects_from_map(sprites.MovingBlockSimple,
-                                                                     self, self.block_list, self.lvl_map,
+                                                                       self, self.block_list, self.lvl_map,
                                                                        MAP_LAYER['mterrain'], True,
-                                                                        self.window.moving_block_speed)
+                                                                       self.window.moving_block_speed)
         self.dill_list = auxfunctions.init_objects_from_map(sprites.Dill, self, self.dill_list, self.lvl_map,
                                                             MAP_LAYER['dill'], False)
         self.pepper_enemy_list = auxfunctions.init_objects_from_map(sprites.PepperEnemy, self,
-                                                                     self.pepper_enemy_list,
+                                                                    self.pepper_enemy_list,
                                                                     self.lvl_map, MAP_LAYER['pepper_enemy'],
-                                                                     False, self.window.pepper_speed)
+                                                                    False, self.window.pepper_speed)
         self.knives_list = auxfunctions.init_objects_from_map(sprites.Knives, self, self.block_list,
                                                               self.lvl_map, MAP_LAYER['knives'], True)
         self.fork_list = auxfunctions.init_objects_from_map(sprites.Fork, self, self.block_list,
@@ -172,6 +190,7 @@ class GameLevel(arcade.View):
         for fork in self.fork_list:
             fork.adjust_hitbox()
 
+        # pause button add
         self.button_pause = widgets.StandardButton(
             self, 10,
             center_x=self.width * 0.93,
@@ -204,6 +223,13 @@ class GameLevel(arcade.View):
         self.physics_engine_pymunk.add_sprite_list(self.pepper_item_list)
 
     def on_key_press(self, key, modifiers):
+        """
+        Handle the key press events - 'AWD' or '<^> arrows' and 'ESC' allowed.
+        Use them to move and pause.
+        Send the movement info to character class.
+        :param key: pressed key
+        :param modifiers: key modifiers
+        """
         if key in [arcade.key.W, arcade.key.UP]:
             self.c_keys_pressed_gny['jump'] = True
         elif key in [arcade.key.A, arcade.key.LEFT]:
@@ -217,6 +243,13 @@ class GameLevel(arcade.View):
             self.maklowicz.process_keychange(self.c_keys_pressed_gny)
 
     def on_key_release(self, key, modifiers):
+        """
+        Handle the key release events - 'AWD' or '<^> arrows'.
+        Use them to move.
+        Send the movement info to character class.
+        :param key: released key
+        :param modifiers: key modifiers
+        """
         if key in [arcade.key.W, arcade.key.UP]:
             self.c_keys_pressed_gny['jump'] = False
         elif key in [arcade.key.A, arcade.key.LEFT]:
@@ -228,7 +261,15 @@ class GameLevel(arcade.View):
             self.maklowicz.process_keychange(self.c_keys_pressed_gny)
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
-
+        """
+        Handle the mouse motion events.
+        Used ther only to click the pause button.
+        Send the proper info to the button.
+        :param float x: x position of mouse
+        :param float y: y position of mouse
+        :param float dx: Change in x since the last time this method was called
+        :param float dy: Change in y since the last time this method was called
+        """
         if not self.window.fullscreen:
             ratio_x = self.width/WINDOW_WIDTH
             ratio_y = self.height/WINDOW_HEIGHT
@@ -240,19 +281,47 @@ class GameLevel(arcade.View):
         self.mouse_button_colliding = True
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        """
+        Set the attributes to the conditions of a pressed mouse.
+        :param float x: x position of the mouse
+        :param float y: y position of the mouse
+        :param int button: What button was hit. One of:
+                           arcade.MOUSE_BUTTON_LEFT, arcade.MOUSE_BUTTON_RIGHT,
+                           arcade.MOUSE_BUTTON_MIDDLE
+        :param int modifiers: Bitwise 'and' of all modifiers (shift, ctrl, num lock)
+                              pressed during this event. See :ref:`keyboard_modifiers`.
+        """
         self.mouse_pressed = True
         self.click = True
 
     def on_mouse_release(self, x: float, y: float, button: int, modifiers: int):
+        """
+        Set the attributes to the conditions of a released mouse.
+
+        :param float x:
+        :param float y:
+        :param int button:
+        :param int modifiers: Bitwise 'and' of all modifiers (shift, ctrl, num lock)
+                              pressed during this event. See :ref:`keyboard_modifiers`.
+        """
         self.mouse_pressed = False
         self.unclick = True
 
     def on_show(self):
+        """Called when this view is shown and if window dispatches a on_show event.
+        (first time showing window or resize).
+        Set also the mous properities for that moment.
+        """
         super().on_show()
         self.mouse_button_colliding = False
 
     def on_draw(self):
+        """
+        Draw all the objects on the screen.
+        """
         arcade.start_render()
+
+        # background
         map_end_length_x = self.lvl_map.tile_size[0] * \
             MAP_SCALING*self.lvl_map.map_size[0]
         map_end_length_y = self.lvl_map.tile_size[1] * \
@@ -266,6 +335,7 @@ class GameLevel(arcade.View):
         arcade.draw_texture_rectangle(bg_center_x, bg_center_y, WINDOW_WIDTH + addit_x,
                                       WINDOW_HEIGHT + addit_y, image_background[1])
 
+        # object lists
         self.block_list.draw()
         self.bg_block_list.draw()
         self.maklowicz.draw()
@@ -279,7 +349,7 @@ class GameLevel(arcade.View):
         scores_place_y = self.view_bottom + WINDOW_HEIGHT
         arcade.draw_texture_rectangle(scores_place_x + 3*TL//2 + 10, scores_place_y - TL//2,
                                       3*TL*SCORE_SCALING, TL*SCORE_SCALING,
-                                       image_hearts[self.maklowicz_lives])
+                                      image_hearts[self.maklowicz_lives])
         dill_text = str(self.collectable_counters['dill'])
         arcade.draw_text(dill_text, scores_place_x + TL + 20, scores_place_y - 2*TL - TL//2 + 10,
                          arcade.csscolor.MIDNIGHT_BLUE, 30*SCORE_SCALING, font_name=COMIC_SANS_FONT)
@@ -310,6 +380,11 @@ class GameLevel(arcade.View):
                                          WINDOW_WIDTH, WINDOW_HEIGHT, (255, 0, 0, 50))
 
     def on_update(self, delta_time):
+        """
+        Handle the events in the game depending on the current conditions - collisions,
+                         textures, audio, game state and so on.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         if self.reshow and self.last_ch_view:
             self.window.show_view(self.last_ch_view)
             self.reshow = False
@@ -324,7 +399,7 @@ class GameLevel(arcade.View):
                 if self.click:
                     button.clicked = True
                 if self.mouse_pressed and button.clicked and button == self.current_button\
-                     and self.level_end == 0:
+                        and self.level_end == 0:
                     button.texture_change(2)
 
                 elif not self.mouse_pressed and button == self.current_button:
@@ -340,6 +415,7 @@ class GameLevel(arcade.View):
         self.click = False
         self.unclick = False
 
+        # UPDATE ONLY IF THE GAME IS NOT PAUSED
         if not self.paused:
             # physics update
             self.maklowicz.update()
@@ -384,6 +460,7 @@ class GameLevel(arcade.View):
             for block in self.moving_block_sublist:
                 if arcade.check_for_collision_with_list(block, self.limit_list):
                     block.change_x = -block.change_x
+
             # pepper enemy collsisions
             for pepper in self.pepper_enemy_list:
                 if pepper.transform_to_item:
@@ -402,7 +479,7 @@ class GameLevel(arcade.View):
                     pepper.killed = True
                 # hurt maklowicz
                 if arcade.check_for_collision(self.maklowicz, pepper) and not pepper.killed\
-                     and self.level_end == 0:
+                        and self.level_end == 0:
                     self.maklowicz_lives = self.maklowicz.hurt_action(
                         self.maklowicz_lives)
 
@@ -466,13 +543,12 @@ class GameLevel(arcade.View):
                 arcade.set_viewport(self.view_left, WINDOW_WIDTH + self.view_left,
                                     self.view_bottom, WINDOW_HEIGHT + self.view_bottom)
 
-            #bug "fix"
+            # underground bug "fix"
             height_pump = 1
             while self.maklowicz.center_y < 0:
                 self.maklowicz.center_y += height_pump * TL
                 height_pump += 1
 
-            
             # when level finished
 
             if self.maklowicz_lives <= 0:
@@ -485,7 +561,7 @@ class GameLevel(arcade.View):
                 self.final_time_counter += 1
 
             if not self.level_ended_action and self.final_time_counter > FINAL_TIME:
-                
+
                 if self.level_end == -1:
                     new_view = ongameviews.GameOverView(self)
                 if self.level_end == 1:

@@ -17,7 +17,7 @@ TL = 64 * MAP_SCALING
 RIGHT_F = 0
 LEFT_F = 1
 
-# physics properities
+# physics and objects' properities
 GRAVITY = 1.5
 MAKLOWICZ_SPEED = 5
 MAKLOWICZ_JUMP_SPEED = 20
@@ -144,7 +144,7 @@ image_gui = {
     't_about': arcade.load_texture(f"{IMG_DIR}\\widget\\label_about.png"),
     't_return': arcade.load_texture(f"{IMG_DIR}\\widget\\label_return.png"),
     't_restart': arcade.load_texture(f"{IMG_DIR}\\widget\\label_restart.png"),
-    't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),\
+    't_menu': arcade.load_texture(f"{IMG_DIR}\\widget\\label_menu.png"),
     't_levels': arcade.load_texture(f"{IMG_DIR}\\widget\\label_levels.png"),
     't_resume': arcade.load_texture(f"{IMG_DIR}\\widget\\label_resume.png"),
     't_next_level': arcade.load_texture(f"{IMG_DIR}\\widget\\label_next_level.png"),
@@ -153,7 +153,7 @@ image_gui = {
     't_level2': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level2.png"),
     't_level3': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level3.png"),
     't_level4': arcade.load_texture(f"{IMG_DIR}\\widget\\label_level4.png"),
-    }
+}
 
 image_background = {
     1: arcade.load_texture(f"{IMG_DIR}\\bg.jpg")}
@@ -172,8 +172,7 @@ sound_environ = {
     'running': arcade.Sound(f"{SND_DIR}\\environment\\running.ogg"),
     'pot': arcade.Sound(f"{SND_DIR}\\environment\\pot.ogg"),
     'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg"),
-    'win': arcade.Sound(f"{SND_DIR}\\environment\\bubububu.ogg"),}
-    
+    'win': arcade.Sound(f"{SND_DIR}\\environment\\bubububu.ogg"), }
 
 
 # font paths
@@ -191,6 +190,7 @@ LEVEL_MAPS = {
     3: None,
     4: None}
 
+FORBIDDEN_LEVELS = [3, 4]
+
 # saved data
 USER_DATA_PATH = "user_data\\user_data"
-FORBIDDEN_LEVELS = [3, 4]
