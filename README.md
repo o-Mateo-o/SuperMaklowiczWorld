@@ -2,6 +2,9 @@
 
 ## Author: Mateusz Machaj
 
+![Sample frame](./assets/images/sample.png)
+
+
 ### Short description
 ---
 A short platformer game imitating well known *Super Mario Bros* or *Super Mario Bros*. However, it allows us to experience the cooking adventures of a **REAL** superhero. 
