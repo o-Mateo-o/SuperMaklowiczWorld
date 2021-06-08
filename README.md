@@ -2,14 +2,14 @@
 
 ## Author: Mateusz Machaj
 
-![Sample frame](./assets/images/sample.png)
-
-
 ### Short description
 ---
 A short platformer game imitating well known *Super Mario Bros* or *Super Mario Bros*. However, it allows us to experience the cooking adventures of a **REAL** superhero. 
 
 In *Super Maklowicz World* you can collect the KOPEREK and save the world from EEE PAPRKYKI... PAPRYCZKI PAPRYKOWE. Ultimately you will prepare a delicious dish and satisfy the whole humanity. Good luck!
+
+
+![Sample frame](./assets/images/sample.png)
 
 ### Technologies
 ---
