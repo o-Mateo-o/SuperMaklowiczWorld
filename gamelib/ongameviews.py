@@ -87,7 +87,6 @@ class PauseView(widgets.OptionView):
     
 
     def on_key_press(self, key, _modifiers):
-        print(self.mouse.center_y, self.button_quit.center_y, "--", self.mouse.center_x, self.button_quit.center_x)
         if key == arcade.key.ESCAPE:
             self.resume_game()
         if key in [arcade.key.W, arcade.key.UP]:
@@ -295,7 +294,7 @@ class PostWinningView(widgets.OptionView):
             self.show_new_view(menuviews.DemoView)
 
         ##################################################################
-        elif self.window.current_level in LEVEL_MAPS.keys():
+        elif self.window.current_level not in LEVEL_MAPS.keys():
             self.show_new_view(menuviews.MainMenuView)
         else:
             self.show_new_view(gameview.GameLevel)

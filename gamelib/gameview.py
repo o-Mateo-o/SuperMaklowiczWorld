@@ -93,7 +93,6 @@ class GameLevel(arcade.View):
         self.maklowicz_lives = LIVES_NUMBER
         self.collectable_counters = {'dill': 0, 'pepper': 0}
         self.final_time_counter = 0
-
         # sprite empty lists
         self.character_cont_list = arcade.SpriteList()
         self.bg_block_list = arcade.SpriteList(use_spatial_hash=True)
@@ -107,7 +106,7 @@ class GameLevel(arcade.View):
         self.pepper_item_list = arcade.SpriteList()
 
         # main character and head-box
-        self.maklowicz = sprites.Maklowicz(self, 2*TL, 6*TL)
+        self.maklowicz = sprites.Maklowicz(self, 4*TL, 7*TL)
         self.maklowicz_head_collider = arcade.Sprite(
             scale=CHARACTER_SCALING, center_x=self.maklowicz.center_x,
              center_y=self.maklowicz.center_y)

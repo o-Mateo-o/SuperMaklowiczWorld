@@ -267,16 +267,17 @@ class Fork(arcade.Sprite):
     def __init__(self, parent_view):
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
-        self.init_height = self.center_y
+        self.init_height = None
         self.obj_speed = None
     def add_speed(self):
         self.change_y = self.obj_speed
+        self.init_height = self.center_y
     def adjust_hitbox(self):
         self.set_hit_box([[0.7*point[0], point[1]]
                          for point in self.get_hit_box()])
 
     def update(self):
-        if self.center_y > self.init_height + 100:
+        if self.center_y > self.init_height + FORK_MOVE_DISTANCE:
             self.change_y = -self.obj_speed
         elif self.center_y < self.init_height:
             self.change_y = self.obj_speed

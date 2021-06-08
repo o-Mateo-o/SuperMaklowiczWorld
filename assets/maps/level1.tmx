@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="1">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="75">
  <tileset firstgid="1" name="SET_NORMAL" tilewidth="64" tileheight="64" tilecount="16" columns="4">
   <image source="../images/sets/SET_NORMAL.png" width="256" height="256"/>
  </tileset>
@@ -14,37 +14,84 @@
  </tileset>
  <layer id="1" name="terrain normal" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJzt241umzAAhdGkP3v/R56iDdVyuQRTCDY9R0JL1zTxmD9wk3C/AXPu/zfgO31Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDMn1Apg/I9AGZPmDe500fMKdsQx/wpW5DH/ClbkMf8M/cuUMfkNvQB+Q29AH6gGRpbaUPSo+58rZhe2bt/c6w1IY+rq9lnj/mw3vDY6+9/8etz7n27NzR45jJWo7vr9Ayf3qca8/a6HHMzJuOdS3H96Pp4zg9jeVI9bH8o/i78s/pdr0f7rdta59XuGIf79X3ONa09v5z9kD4Zq6L+nu9mltTjzrHNNKn1Eb5vVFMc2zUTjQyljP7GKnLPZWN7/Fa0/R6Fvs7s4/pd9Q91lCvfk2zFz2+nnUlPa6vrEHW0cbxeuzjQSPzfvI+N22ufP35qOuts98Lv7rP4vY09+eOwa4/5zd4q26Xc72c/2UjI15/Xn/m6ErrrhH2/4imeZ5Ma/i6gb0/01F/PqL8Op27WtYN0/3rMY/eyKvWt0ufY5m+Hn1f1tbu2zWfvXrl8asc95rfLVMbozfS8/r2MbZR9+tDvW+XjsE99dE6J561MWojPa9vy7H1tl/r9VJ6nzV91rB8nHTfs+bY3JxYes61bRw9/nJfrn2Opfez07U4reMv50q9Vt26P1r/j6afaXltbetabq9u11wLNbdtuZ6y9Zq0luft5d+w5Tnqc8JP9sOa56jPQz99zJaxtZ7/9hrbXv3bbFfdWhrRhs12zPYX4PoG/g==
   </data>
  </layer>
  <layer id="2" name="terrain back" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJztzjENAAAIA7BZwb9JPCwhPK2CJgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCl+Q4AAAAAQGkBpwkAIg==
   </data>
  </layer>
  <layer id="3" name="terrain fore" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJztzjENAAAIA7Bpwb9IPCwhPK2CJgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCl+Q4AAAAAQGkBueUAIw==
   </data>
  </layer>
- <objectgroup id="4" name="terrain moving"/>
- <objectgroup id="6" name="pepper"/>
- <objectgroup id="7" name="limits"/>
+ <objectgroup id="4" name="terrain moving">
+  <object id="7" gid="17" x="1728" y="5440" width="128" height="64"/>
+  <object id="57" gid="17" x="9408" y="6144" width="128" height="64"/>
+  <object id="71" gid="17" x="6656" y="5568" width="128" height="64"/>
+ </objectgroup>
+ <objectgroup id="6" name="pepper">
+  <object id="28" gid="15" x="4352" y="6208" width="64" height="64"/>
+  <object id="29" gid="15" x="5120" y="6208" width="64" height="64"/>
+  <object id="42" gid="15" x="6720" y="6208" width="64" height="64"/>
+  <object id="47" gid="15" x="6592" y="5760" width="64" height="64"/>
+  <object id="60" gid="15" x="10368" y="6208" width="64" height="64"/>
+  <object id="61" gid="15" x="10624" y="6208" width="64" height="64"/>
+  <object id="72" gid="15" x="7360" y="5120" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="7" name="limits">
+  <object id="2" gid="12" x="1856" y="5440" width="64" height="64"/>
+  <object id="3" gid="13" x="1472" y="5440" width="64" height="64"/>
+  <object id="18" gid="14" x="3904" y="6208" width="64" height="64"/>
+  <object id="19" gid="14" x="4480" y="6208" width="64" height="64"/>
+  <object id="26" gid="14" x="4800" y="6208" width="64" height="64"/>
+  <object id="27" gid="14" x="5248" y="6208" width="64" height="64"/>
+  <object id="30" gid="14" x="6400" y="6208" width="64" height="64"/>
+  <object id="31" gid="14" x="6912" y="6208" width="64" height="64"/>
+  <object id="43" gid="14" x="6336" y="5760" width="64" height="64"/>
+  <object id="44" gid="14" x="6720" y="5760" width="64" height="64"/>
+  <object id="55" gid="13" x="9280" y="6144" width="64" height="64"/>
+  <object id="56" gid="12" x="9856" y="6144" width="64" height="64"/>
+  <object id="58" gid="14" x="10176" y="6208" width="64" height="64"/>
+  <object id="59" gid="14" x="10752" y="6208" width="64" height="64"/>
+  <object id="69" gid="13" x="6272" y="5568" width="64" height="64"/>
+  <object id="70" gid="12" x="7040" y="5568" width="64" height="64"/>
+  <object id="73" gid="14" x="7104" y="5120" width="64" height="64"/>
+  <object id="74" gid="14" x="7488" y="5120" width="64" height="64"/>
+ </objectgroup>
  <layer id="8" name="knives" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJztwyEKAAAIBDDr/f/DFqtgd4NVAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwC7zgxwDwBcNQqwAbQ==
   </data>
  </layer>
- <objectgroup id="9" name="forks"/>
+ <objectgroup id="9" name="forks">
+  <object id="49" gid="25" x="7104" y="6272" width="64" height="128"/>
+  <object id="51" gid="25" x="7360" y="6272" width="64" height="128"/>
+ </objectgroup>
  <layer id="10" name="win" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJztw7ENAAAIA6Du/v+vS09wMpCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3JgGAAAAAOCHBRvRABc=
   </data>
  </layer>
  <layer id="11" name="pots" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+   eJzt27EKACAIBcBG//+LW8MhoknrDiR3BZfXGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAFcdDDi+w+AAAAtyK9APCz3V2MpQAAAAAAAAAAussZCJmIGnJ+Jf8XNCcAAAAA6G0CqOAAoQ==
   </data>
  </layer>
- <objectgroup id="12" name="dill"/>
+ <objectgroup id="12" name="dill">
+  <object id="8" gid="10" x="1920" y="6144" width="64" height="64"/>
+  <object id="9" gid="10" x="2176" y="5568" width="64" height="64"/>
+  <object id="14" gid="10" x="3200" y="5568" width="64" height="64"/>
+  <object id="15" gid="10" x="3264" y="6208" width="64" height="64"/>
+  <object id="16" gid="10" x="3456" y="6208" width="64" height="64"/>
+  <object id="17" gid="10" x="3648" y="6208" width="64" height="64"/>
+  <object id="62" gid="10" x="11776" y="6016" width="64" height="64"/>
+  <object id="63" gid="10" x="12160" y="6080" width="64" height="64"/>
+  <object id="64" gid="10" x="11584" y="6336" width="64" height="64"/>
+  <object id="65" gid="10" x="11264" y="6336" width="64" height="64"/>
+  <object id="67" gid="10" x="9024" y="6208" width="64" height="64"/>
+  <object id="68" gid="10" x="8832" y="6208" width="64" height="64"/>
+ </objectgroup>
 </map>
