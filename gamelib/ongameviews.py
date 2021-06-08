@@ -9,7 +9,16 @@ from gamelib import widgets, menuviews, gameview, auxfunctions
 
 
 class PauseView(widgets.OptionView):
+    """
+    Board appearing after pausing the game.
+    """
+
     def __init__(self, game_view):
+        """
+        Create a view and stop the previous sounds.
+        Get info about available keys.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         self.c_keys_pressed = STANDARD_CONTROLL_KEYSET.copy()
         self.c_keys_released = STANDARD_CONTROLL_KEYSET.copy()
@@ -20,6 +29,9 @@ class PauseView(widgets.OptionView):
         self.game_view.paused = True
 
     def resume_game(self):
+        """
+        Do the actions needed to resume the game.
+        """
         self.game_view.paused = False
         self.window.show_view(self.game_view)
         for player in self.window.sound_player_register.values():
@@ -29,24 +41,29 @@ class PauseView(widgets.OptionView):
                 or (self.previous_keyset[key] and not self.c_keys_released[key])
 
     def resize_pause(self):
+        """
+        Handle the process of resizing the window when pause is on. 
+                        (Not a standard resize - bugs appear)
+        """
         self.window.show_view(self.game_view)
         self.fullscreen_resize()
-        
+
         self.game_view.last_ch_view = self
         self.game_view.reshow = True
-        
 
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         super().setup()
         self.board = image_gui['board']
-        y_slot = WINDOW_HEIGHT // 5 
+        y_slot = WINDOW_HEIGHT // 5
         x_slot = WINDOW_WIDTH // 6
-        move_up = self.height * 0.15
 
         self.button_back = widgets.StandardButton(
             self, 28,
             center_x=x_slot * 2,
-            center_y= y_slot * 3,
+            center_y=y_slot * 3,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -58,7 +75,7 @@ class PauseView(widgets.OptionView):
         self.button_retry = widgets.StandardButton(
             self, 28,
             center_x=x_slot * 4,
-            center_y= y_slot * 3,
+            center_y=y_slot * 3,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -70,7 +87,7 @@ class PauseView(widgets.OptionView):
         self.button_resume = widgets.StandardButton(
             self, 32,
             center_x=x_slot * 3,
-            center_y= y_slot * 2,
+            center_y=y_slot * 2,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -84,9 +101,14 @@ class PauseView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
 
     def on_key_press(self, key, _modifiers):
+        """
+        Handle the key press events - 'AWD' or '<^> arrows' and 'ESC' allowed.
+        Save the info to behave properly after resume.
+        :param key: pressed key
+        :param modifiers: key modifiers
+        """
         if key == arcade.key.ESCAPE:
             self.resume_game()
         if key in [arcade.key.W, arcade.key.UP]:
@@ -96,8 +118,13 @@ class PauseView(widgets.OptionView):
         elif key in [arcade.key.D, arcade.key.RIGHT]:
             self.c_keys_pressed['right'] = True
 
-
     def on_key_release(self, key, modifiers):
+        """
+        Save the info about key releasing
+                     to behavae properly after resume.
+        :param key: released key
+        :param modifiers: key modifiers
+        """
         if key in [arcade.key.W, arcade.key.UP]:
             self.c_keys_pressed['jump'] = False
             self.c_keys_released['jump'] = True
@@ -109,33 +136,45 @@ class PauseView(widgets.OptionView):
             self.c_keys_released['right'] = True
 
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
 
 
-
 class GameOverView(widgets.OptionView):
+    """
+    A view that is displayed after the player looses.
+    """
     def __init__(self, game_view):
+        """
+        Create a view and stop the previous sounds.
+        Play the 'game over sound'
+        :param parent_view: parent game_level view.
+        """
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
         sound_loose = sound_environ['loose'].play(
             volume=self.window.standard_sound_volume)
         self.window.sound_player_register['loose'] = sound_loose
-        
-        
 
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         super().setup()
         self.board = image_gui['board_loose']
-        y_slot = self.height // 6 
+        y_slot = self.height // 6
         x_slot = self.width // 6
         move_up = self.height * 0.15
 
         self.button_back = widgets.StandardButton(
             self, 30,
             center_x=x_slot * 2,
-            center_y= y_slot * 3 - self.height // 40,
+            center_y=y_slot * 3 - self.height // 40,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -147,7 +186,7 @@ class GameOverView(widgets.OptionView):
         self.button_retry = widgets.StandardButton(
             self, 30,
             center_x=x_slot * 4,
-            center_y= y_slot * 3 - self.height // 40,
+            center_y=y_slot * 3 - self.height // 40,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -163,27 +202,43 @@ class GameOverView(widgets.OptionView):
         self.button_list.append(self.button_quit)
 
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
 
+
 class WinningView(widgets.OptionView):
+    """
+    View displayed after the player completes the level.
+    """
     def __init__(self, game_view):
+        """
+        Create a view and stop the previous sounds.
+        Get info about available keys.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
         for player in self.window.sound_player_register.values():
             player.pause()
         self.game_view = game_view
         sound_win = sound_environ['win'].play(
-                volume=self.window.standard_sound_volume)
+            volume=self.window.standard_sound_volume)
         self.window.sound_player_register['win'] = sound_win
         self.counter_dill = 0
         self.counter_pepper = 0
         self.animation_tick = 0
         self.animation_done = False
-        
 
     def show_post_win_view(self):
-        
-
+        """
+        Show next window (after accepting the scote).
+        Decide wether it will be 'Demo', 'Menu' 
+                        (if current level is the last)
+                         or 'PostWinning' (in standard situation).
+        """
         self.window.best_scores[self.window.current_level]
         if self.window.current_level+1 in LEVEL_MAPS.keys():
             self.window.available_levels[self.window.current_level+1] = True
@@ -197,26 +252,29 @@ class WinningView(widgets.OptionView):
 
         if self.game_view.collectable_counters['dill']+self.game_view.collectable_counters['pepper'] \
             > self.window.best_scores[self.window.current_level][0]\
-             + self.window.best_scores[self.window.current_level][1]:
+                + self.window.best_scores[self.window.current_level][1]:
             self.window.best_scores[self.window.current_level] = (
                 self.game_view.collectable_counters['dill'],
                 self.game_view.collectable_counters['pepper'])
-            auxfunctions.save_user_data(self.window.best_scores, self.window.available_levels)
+            auxfunctions.save_user_data(
+                self.window.best_scores, self.window.available_levels)
 
     def setup(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().setup()
         self.counter_dill = 0
         self.counter_pepper = 0
         self.board = image_gui['board_win']
-        y_slot = self.height // 6 
+        y_slot = self.height // 6
         x_slot = self.width // 6
         move_up = self.height * 0.15
-
 
         self.button_back = widgets.StandardButton(
             self, 30,
             center_x=x_slot * 4,
-            center_y= y_slot * 3 - self.height // 40,
+            center_y=y_slot * 3 - self.height // 40,
             normal_texture=image_gui[f'std_0'],
             hover_texture=image_gui[f'std_1'],
             press_texture=image_gui[f'std_2'],
@@ -230,15 +288,26 @@ class WinningView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_draw(self):
+        """
+        Draw parent's widgets and score numbers -  
+                        values depending on the animation stage.
+        """
         super().on_draw()
         arcade.draw_text(str(self.counter_dill), self.button_back.center_x - WINDOW_WIDTH*0.38,
-          self.button_back.center_y, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
+                         self.button_back.center_y, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
         arcade.draw_text(str(self.counter_pepper), self.button_back.center_x - WINDOW_WIDTH*0.38,
-          self.button_back.center_y - WINDOW_HEIGHT*0.17, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
+                         self.button_back.center_y - WINDOW_HEIGHT*0.17, arcade.csscolor.BLACK, 40, font_name=COMIC_SANS_FONT)
 
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update
+                         textures of the special buttons.
+        Don't allow to click the button before the animation ends.
+        :param float delta_time: Time interval
+                         since the last time the function was called.
+        """
         self.animation_tick += 1
         if self.animation_tick > WIDGET_ANIMATION_SPEED:
             self.animation_tick = 0
@@ -249,7 +318,7 @@ class WinningView(widgets.OptionView):
                 self.counter_pepper += 1
 
         if self.counter_pepper >= self.game_view.collectable_counters['pepper']\
-            and self.counter_dill >= self.game_view.collectable_counters['dill']:
+                and self.counter_dill >= self.game_view.collectable_counters['dill']:
             self.animation_done = True
 
         current_button_set = False
@@ -262,9 +331,9 @@ class WinningView(widgets.OptionView):
                 if self.click:
                     button.clicked = True
                 if self.mouse_pressed and button.clicked and button == self.current_button\
-                    and self.animation_done:
+                        and self.animation_done:
                     button.texture_change(2)
-       
+
                 elif not self.mouse_pressed and button == self.current_button:
                     button.texture_change(1)
                 else:
@@ -277,15 +346,29 @@ class WinningView(widgets.OptionView):
                 button.texture_change(0)
         self.click = False
         self.unclick = False
-        # size button 
+        # size button
         self.button_scrsize.textures_update()
 
+
 class PostWinningView(widgets.OptionView):
+    """
+    Options view after winning the game and accepting the score.
+    """
     def __init__(self, game_view):
+        """
+        Create a view.
+        """
         super().__init__(game_view, draw_parent=True, scrolling_parent=True)
-        
+
     def next_level(self):
+        """
+        Change to next level or show a proper view.
+        Decide wether it will be 'Demo', 'Menu' 
+                        (if current level is the last)
+                         or 'PostWinning' (in standard situation).
+        """
         self.window.current_level += 1
+
         ###################################################################
         ###################          DEMO         #########################
         ###################################################################
@@ -294,15 +377,19 @@ class PostWinningView(widgets.OptionView):
             self.show_new_view(menuviews.DemoView)
 
         ##################################################################
+
         elif self.window.current_level not in LEVEL_MAPS.keys():
             self.show_new_view(menuviews.MainMenuView)
         else:
             self.show_new_view(gameview.GameLevel)
 
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         super().setup()
         self.board = image_gui['board']
-        y_slot = self.height // 6 
+        y_slot = self.height // 6
         x_slot = self.width // 6
         move_up = self.height * 0.05
         choice_scale = 28
@@ -359,7 +446,6 @@ class PostWinningView(widgets.OptionView):
 
         self.button_list.append(self.button_menu)
 
-
         self.button_scrsize = widgets.ResizeButton(self)
         self.button_list.append(self.button_scrsize)
 
@@ -367,8 +453,9 @@ class PostWinningView(widgets.OptionView):
         self.button_list.append(self.button_quit)
 
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
-        
-
-

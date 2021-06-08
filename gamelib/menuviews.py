@@ -4,18 +4,28 @@ Main menu class. (The one activated after the game starts.)
 
 from gamelib.constants import *
 from gamelib import widgets, gameview
-    
+
 
 class MainMenuView(widgets.OptionView):
+    """
+    Main menu view. Visible eg when starting the game.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
 
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board']
-        y_slot = self.height // 5 
+        y_slot = self.height // 5
         x_slot = self.width // 6
         choice_scale = 28
         move_up = self.height * 0.15
@@ -63,12 +73,12 @@ class MainMenuView(widgets.OptionView):
         self.button_options = widgets.StandardButton(
             self, choice_scale,
             center_x=x_slot * 2,
-            center_y=y_slot + move_up + self.height //40,
+            center_y=y_slot + move_up + self.height // 40,
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
             text_label=image_gui['t_options'],
-            callback= lambda: self.show_new_view(OptionsMenuView)
+            callback=lambda: self.show_new_view(OptionsMenuView)
         )
 
         self.button_list.append(self.button_options)
@@ -91,21 +101,36 @@ class MainMenuView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
 
-    
 
 class LevelChoiceView(widgets.OptionView):
+    """
+    Main menu view. Visible eg when starting the game.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
         self.level_button_list = []
 
-    def load_level(self, number):
+    def load_level(self, number: int):
+        """
+        Load the new level. If it is not allowed - show a proper view.
+        :param number: level number
+        """
+        
         ###################################################################
         ###################          DEMO         #########################
         ###################################################################
@@ -114,6 +139,7 @@ class LevelChoiceView(widgets.OptionView):
             self.show_new_view(DemoView)
 
         ##################################################################
+
         elif number in LEVEL_MAPS.keys():
             self.window.current_level = number
             self.show_new_view(gameview.GameLevel)
@@ -121,9 +147,12 @@ class LevelChoiceView(widgets.OptionView):
             raise Exception('No such a level defined.')
 
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board']
-        y_slot = self.height // 6 
+        y_slot = self.height // 6
         x_slot = self.width // 6
         choice_scale = 25
 
@@ -143,7 +172,7 @@ class LevelChoiceView(widgets.OptionView):
         self.button_l2 = widgets.StandardButton(
             self, choice_scale,
             center_x=x_slot * 4,
-            center_y=y_slot * 4 ,
+            center_y=y_slot * 4,
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
@@ -169,7 +198,7 @@ class LevelChoiceView(widgets.OptionView):
         self.button_l4 = widgets.StandardButton(
             self, choice_scale,
             center_x=x_slot * 4,
-            center_y=y_slot * 3 ,
+            center_y=y_slot * 3,
             normal_texture=image_gui['std_0'],
             hover_texture=image_gui['std_1'],
             press_texture=image_gui['std_2'],
@@ -180,7 +209,6 @@ class LevelChoiceView(widgets.OptionView):
         self.level_button_list.append(self.button_l4)
         for idx, button in enumerate(self.level_button_list):
             button.locked = not self.window.available_levels[idx+1]
-        
 
         self.button_return = widgets.ReturnButton(self, MainMenuView)
         self.button_list.append(self.button_return)
@@ -190,35 +218,53 @@ class LevelChoiceView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         for button in self.level_button_list:
             if button.locked:
                 button.texture_0 = button.texture_1 = button.texture_2 = image_gui['locked']
         self.button_scrsize.textures_update()
 
+
 class OptionsMenuView(widgets.OptionView):
+    """
+    Options view to change the difficulty.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
 
     def swap_difficulty(self):
+        """
+        Change the "global" difficulty attribute.
+        """
         if self.window.difficulty == 'normal':
             self.window.difficulty = 'spicy'
         else:
             self.window.difficulty = 'normal'
-    
+
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board_options']
-        y_slot = self.height // 6 
+        y_slot = self.height // 6
         x_slot = self.width // 6
         self.button_diffic = widgets.StandardButton(
             self, 30,
             center_x=x_slot * 3,
-            center_y=y_slot * 3 ,
+            center_y=y_slot * 3,
             normal_texture=image_gui['diff_normal_0'],
             hover_texture=image_gui['diff_normal_1'],
             press_texture=image_gui['diff_normal_2'],
@@ -234,8 +280,12 @@ class OptionsMenuView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         if self.window.difficulty == 'normal':
             self.button_diffic.texture_0 = image_gui['diff_normal_0']
@@ -248,12 +298,24 @@ class OptionsMenuView(widgets.OptionView):
 
         self.button_scrsize.textures_update()
 
+
 class AboutMenuView(widgets.OptionView):
+    """
+    Menu with info about the game and its author.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
+
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board_about']
 
@@ -265,17 +327,33 @@ class AboutMenuView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
 
+
 class ControlsMenuView(widgets.OptionView):
+    """
+    Instructions mentu.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
+
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board_controls']
 
@@ -287,17 +365,33 @@ class ControlsMenuView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of tjespecial buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
 
+
 class ScoresMenuView(widgets.OptionView):
+    """
+    Best scores view. Shows the locally saved user data.
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
+
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board_scores']
 
@@ -309,48 +403,67 @@ class ScoresMenuView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
-    
+
     def on_draw(self):
+        """
+        Draw parent's widgets and draw score numbers.
+        """
         super().on_draw()
 
         arcade.draw_text(str(self.window.best_scores[1][0]),
-        self.width * 0.25, self.height*0.46,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.25, self.height*0.46,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
         arcade.draw_text(str(self.window.best_scores[1][1]),
-        self.width * 0.25, self.height*0.34,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.25, self.height*0.34,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
 
         arcade.draw_text(str(self.window.best_scores[2][0]),
-        self.width * 0.43, self.height*0.46,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.43, self.height*0.46,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
         arcade.draw_text(str(self.window.best_scores[2][1]),
-        self.width * 0.43, self.height*0.34,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.43, self.height*0.34,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
 
         arcade.draw_text(str(self.window.best_scores[3][0]),
-        self.width * 0.62, self.height*0.46,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.62, self.height*0.46,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
         arcade.draw_text(str(self.window.best_scores[3][1]),
-        self.width * 0.62, self.height*0.34,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.62, self.height*0.34,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
 
         arcade.draw_text(str(self.window.best_scores[4][0]),
-        self.width * 0.8, self.height*0.46,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+                         self.width * 0.8, self.height*0.46,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
         arcade.draw_text(str(self.window.best_scores[4][1]),
-        self.width * 0.8, self.height*0.34,
-        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
-    
+                         self.width * 0.8, self.height*0.34,
+                         color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+
+
 class DemoView(widgets.OptionView):
+    """
+    View with info about the vesion of the game. (If it is only 'demo').
+    """
+
     def __init__(self):
+        """
+        Create a view and stop the previous sounds.
+        """
         super().__init__()
         for player in self.window.sound_player_register.values():
             player.pause()
+
     def setup(self):
+        """
+        Set the widges on a layout and set the background.
+        """
         self.background = image_background[1]
         self.board = image_gui['board_demo']
 
@@ -362,15 +475,11 @@ class DemoView(widgets.OptionView):
 
         self.button_quit = widgets.QuitButton(self)
         self.button_list.append(self.button_quit)
-    
+
     def on_update(self, delta_time: float):
+        """
+        Handle the events in the menu. Update textures of the special buttons.
+        :param float delta_time: Time interval since the last time the function was called.
+        """
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
-    
-    
-
-
-        
-    
-    
-       

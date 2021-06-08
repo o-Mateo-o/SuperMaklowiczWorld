@@ -8,7 +8,14 @@ from gamelib import auxfunctions
 sys.path.append(".")
 
 class GameWindow(arcade.Window):
+    """
+    Arcade window but storing the global game variables.
+    """
     def __init__(self, width, height, heading):
+        """
+        Create a window and load the display properity variables.
+        Try to read used data saved in file and set gameplay properities.
+        """
         super().__init__(width, height, heading, fullscreen=True)
         # sound volumes
         self.sound_volume_factor = 1

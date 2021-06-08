@@ -2,7 +2,9 @@
 Sprite classes of characters and special objects.
 """
 
-import arcade, random, sys
+import arcade
+import random
+import sys
 from pyglet import media
 from gamelib import auxfunctions
 from gamelib.constants import *
@@ -11,7 +13,18 @@ sys.path.append(".")
 
 
 class Maklowicz(arcade.Sprite):
+    """
+    Main character.
+    """
+
     def __init__(self, parent_view, center_x=2*TL, center_y=6*TL):
+        """
+        Create a main character and prepare fields for his properities.
+        Prepare his own sound players.
+        :param parent_view: game level view that character is on
+        :param center_x: horizontal center of character's sprite
+        :param center_y: vertical center of character's sprite 
+        """
         super().__init__(scale=CHARACTER_SCALING)
         self.view = parent_view
         # figure properities
@@ -42,6 +55,13 @@ class Maklowicz(arcade.Sprite):
         self.dead = False
 
     def figure_mirror(self, facing):
+        """
+        Change the facing attribute.
+        Update sprite's hitbox.
+        :param facing: new facing 
+                - 0 for left, 1 - for right
+                (you can use global constants)
+        """
         if self.facing == facing:
             ratio = 1
         else:
@@ -52,6 +72,10 @@ class Maklowicz(arcade.Sprite):
         self.facing = facing
 
     def process_keychange(self, keys_pressed):
+        """
+        Change velocity depending on the pressed keys.
+        :param keys_pressed: key pressed to hadle the action for
+        """
         # character actions depending on user controll
         if keys_pressed['jump'] and all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
                                          for engine in self.physics_engines]):
@@ -67,6 +91,10 @@ class Maklowicz(arcade.Sprite):
             self.change_x = 0
 
     def hurt_action(self, lives):
+        """
+        Do the action after a character is hit.
+        :param lives: character lives left number
+        """
         if not self.immunity:
             self.hurt = True
             self.center_x = self.center_x - MAKLOWICZ_KICKBACK
@@ -77,6 +105,12 @@ class Maklowicz(arcade.Sprite):
             return lives
 
     def update_texture(self):
+        """
+        Update the character textures depending
+                    on the current environmental
+                    and internal conditions.
+        Animate some of them.
+        """
         # textures for proper movement states - running animated
         if self.dead:
             self.texture = image_maklowicz['dead'][self.facing]
@@ -91,8 +125,12 @@ class Maklowicz(arcade.Sprite):
         else:
             self.texture = image_maklowicz['idle'][self.facing]
 
-    def update_sound(self, jump_action):
-        
+    def update_sound(self, jump_action: bool):
+        """
+        Play sounds aproppriate for a current situation.
+        Update sound players with new objects.
+        :param jump_action: info about jumping state
+        """
         # laugh in the moment of dill picking
         if self.item_collected:
             self.dill_sound_player = auxfunctions.play_sound(
@@ -100,6 +138,7 @@ class Maklowicz(arcade.Sprite):
                 volume=self.view.window.standard_sound_volume)
             self.item_collected = False
 
+        # express pain
         if self.hurt:
             self.pain_sound_player = auxfunctions.play_sound(
                 sounds_roberto['oaa'], self.pain_sound_player,
@@ -120,16 +159,20 @@ class Maklowicz(arcade.Sprite):
         if jump_action:
             jump_sound = random.choice(list(sound_pepper.values()))
             self.pepper_sound_player = auxfunctions.play_sound(
-                jump_sound, self.pepper_sound_player, 
+                jump_sound, self.pepper_sound_player,
                 volume=self.view.window.standard_sound_volume)
 
-        
+        # update sound players
         self.view.window.sound_player_register['pepper'] = self.pepper_sound_player
         self.view.window.sound_player_register['run'] = self.run_sound_player
         self.view.window.sound_player_register['dill'] = self.dill_sound_player
         self.view.window.sound_player_register['pain'] = self.pain_sound_player
 
     def update(self):
+        """
+        Update all the character's properities.
+        Update the texture and sound with the methods.
+        """
         # update the info about the movement - running and jumping
         if all([engine.can_jump(y_distance=CAN_JUMP_DISTANCE)
                 for engine in self.physics_engines]):
@@ -162,7 +205,15 @@ class Maklowicz(arcade.Sprite):
 
 
 class PepperEnemy(arcade.Sprite):
+    """
+    Pepper class for the one which is still aggressive.
+    """
+
     def __init__(self, parent_view):
+        """
+        Create a pepper and add it properities.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.facing = RIGHT_F
@@ -174,9 +225,18 @@ class PepperEnemy(arcade.Sprite):
         self.obj_speed = None
 
     def add_speed(self):
+        """
+        Change the speed to the assigned value.
+        """
         self.change_x = self.obj_speed
 
     def update_texture(self):
+        """
+        Update the character textures depending
+                    on the current environmental
+                    and internal conditions.
+        Animate some of them.
+        """
         # textures for proper movement states
         if not self.killed:
             self.current_texture += 1
@@ -195,6 +255,10 @@ class PepperEnemy(arcade.Sprite):
             self.texture = image_pepper_enemy['killed'][0]
 
     def update(self):
+        """
+        Update all the properites as a movement direction,
+                    live status, texture (this with a self method).
+        """
         if self.change_x < 0:
             self.facing = RIGHT_F
         else:
@@ -212,7 +276,15 @@ class PepperEnemy(arcade.Sprite):
 
 
 class Pot(arcade.Sprite):
+    """
+    Mystery pot.
+    """
+
     def __init__(self, parent_view):
+        """
+        Create a mystery pot with status properities.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(scale=MAP_SCALING)
         # pot is picked after a collision and desactivetad after picking action
         self.view = parent_view
@@ -220,13 +292,18 @@ class Pot(arcade.Sprite):
         self.active = True
 
     def pick_action(self):
+        """
+        Handle the picking action.
+        """
         if not self.picked:
             self.change_y = POT_ACTION_SPEED
             self.init_center_y = self.center_y+1
             self.picked = True
             self.texture = image_pot['picked']
-            pot_player = sound_environ['pot'].play(volume=self.view.window.standard_sound_volume)
+            pot_player = sound_environ['pot'].play(
+                volume=self.view.window.standard_sound_volume)
             self.view.window.sound_player_register['pot'] = pot_player
+
         elif self.center_y >= self.init_center_y + POT_ACTION_HEIGHT:
             self.change_y = -POT_ACTION_SPEED
 
@@ -237,7 +314,16 @@ class Pot(arcade.Sprite):
 
 
 class PepperItem(arcade.Sprite):
+    """
+    Pepper as a non-aggressive item.
+    """
+
     def __init__(self, parent_view, parent: arcade.Sprite = None):
+        """
+        Create an item pepper in the place of the live one.
+        :param parent_view: parent game_level view.
+        :param parent: parent aggressive pepper.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.texture = image_collectable['pepper']
@@ -246,7 +332,16 @@ class PepperItem(arcade.Sprite):
 
 
 class Dill(arcade.Sprite):
+    """
+    Collectable dill.
+    """
+
     def __init__(self, parent_view, parent: arcade.Sprite = None):
+        """
+        Create a dill item above the pot.
+        :param parent_view: parent game_level view.
+        :param parent: parent pot.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.texture = image_collectable['dill']
@@ -255,28 +350,62 @@ class Dill(arcade.Sprite):
 
 
 class Knives(arcade.Sprite):
+    """
+    Sharp knives block.
+    """
+
     def __init__(self, parent_view):
+        """
+        Create a block of knives.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
 
     def initial_move(self):
+        """
+        Position a block above the ground.
+        Use this method only once.
+        """
         self.center_y = self.center_y + KNIVES_DISLOCATION
 
 
 class Fork(arcade.Sprite):
+    """
+    Moving fork.
+    """
+
     def __init__(self, parent_view):
+        """
+        Create a fork with space its parameters.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.init_height = None
         self.obj_speed = None
+
     def add_speed(self):
+        """
+        Add the initial speed for the movement 
+                        and save the point know where
+                        to change the movement direction. 
+        """
         self.change_y = self.obj_speed
         self.init_height = self.center_y
+
     def adjust_hitbox(self):
+        """
+        Change the hidbox width to fit the real dimensions.
+        Kind of library bugfix.
+        """
         self.set_hit_box([[0.7*point[0], point[1]]
                          for point in self.get_hit_box()])
 
     def update(self):
+        """
+        Update the speed turn.
+        """
         if self.center_y > self.init_height + FORK_MOVE_DISTANCE:
             self.change_y = -self.obj_speed
         elif self.center_y < self.init_height:
@@ -285,10 +414,23 @@ class Fork(arcade.Sprite):
 
 
 class MovingBlockSimple(arcade.Sprite):
+    """
+    Standard floating block.
+    """
+
     def __init__(self, parent_view):
+        """
+        Create a floating block with its parameters.
+        :param parent_view: parent game_level view.
+        """
         super().__init__(scale=MAP_SCALING)
         self.view = parent_view
         self.obj_speed = None
-    def add_speed(self):
-        self.change_x = self.obj_speed
 
+    def add_speed(self):
+        """
+        Add the initial speed for the movement 
+                        and save the point know where
+                        to change the movement direction. 
+        """
+        self.change_x = self.obj_speed
