@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="75">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="200" height="100" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="79">
  <tileset firstgid="1" name="SET_NORMAL" tilewidth="64" tileheight="64" tilecount="16" columns="4">
   <image source="../images/sets/SET_NORMAL.png" width="256" height="256"/>
  </tileset>
@@ -93,5 +93,9 @@
   <object id="65" gid="10" x="11264" y="6336" width="64" height="64"/>
   <object id="67" gid="10" x="9024" y="6208" width="64" height="64"/>
   <object id="68" gid="10" x="8832" y="6208" width="64" height="64"/>
+  <object id="75" gid="10" x="6144" y="5888" width="64" height="64"/>
+  <object id="76" gid="10" x="6784" y="5248" width="64" height="64"/>
+  <object id="77" gid="10" x="7808" y="6208" width="64" height="64"/>
+  <object id="78" gid="10" x="8064" y="6208" width="64" height="64"/>
  </objectgroup>
 </map>
