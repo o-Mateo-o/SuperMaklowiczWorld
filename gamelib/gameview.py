@@ -55,8 +55,6 @@ class GameLevel(arcade.View):
         self.paused = False
         self.button_list = None
 
-        # sounds
-
         # map
         self.lvl_map = None
 
@@ -107,8 +105,6 @@ class GameLevel(arcade.View):
         self.dill_list = arcade.SpriteList()
         self.pepper_enemy_list = arcade.SpriteList()
         self.pepper_item_list = arcade.SpriteList()
-
-        # sounds empty lists
 
         # main character and head-box
         self.maklowicz = sprites.Maklowicz(self, 2*TL, 6*TL)

@@ -53,7 +53,6 @@ def save_user_data(best_scores:dict, available_levels:dict):
         os.mkdir(os.path.dirname(USER_DATA_PATH))
     lines = []
     max_level = 0
-    print(available_levels)
     for key in sorted(available_levels):
         if available_levels[key] == True:
             max_level = key

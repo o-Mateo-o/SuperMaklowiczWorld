@@ -64,6 +64,8 @@ BOTTOM_VIEWPORT_MARGIN = WINDOW_HEIGHT/3
 
 WIDGET_ANIMATION_SPEED = 3
 
+# sound properities
+
 
 # images
 IMG_DIR = "assets\images"
@@ -168,7 +170,7 @@ sound_environ = {
     'pot': arcade.Sound(f"{SND_DIR}\\environment\\pot.ogg"),
     'loose': arcade.Sound(f"{SND_DIR}\\environment\\jasnygwint.ogg"),
     'win': arcade.Sound(f"{SND_DIR}\\environment\\bubububu.ogg"),}
-
+    
 
 
 # font paths

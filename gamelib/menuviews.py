@@ -118,7 +118,7 @@ class LevelChoiceView(widgets.OptionView):
             self.window.current_level = number
             self.show_new_view(gameview.GameLevel)
         else:
-            print('No such a level defined.')
+            raise Exception('No such a level defined.')
 
     def setup(self):
         self.background = image_background[1]
@@ -313,6 +313,37 @@ class ScoresMenuView(widgets.OptionView):
     def on_update(self, delta_time: float):
         super().on_update(delta_time)
         self.button_scrsize.textures_update()
+    
+    def on_draw(self):
+        super().on_draw()
+
+        arcade.draw_text(str(self.window.best_scores[1][0]),
+        self.width * 0.25, self.height*0.46,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+        arcade.draw_text(str(self.window.best_scores[1][1]),
+        self.width * 0.25, self.height*0.34,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+
+        arcade.draw_text(str(self.window.best_scores[2][0]),
+        self.width * 0.43, self.height*0.46,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+        arcade.draw_text(str(self.window.best_scores[2][1]),
+        self.width * 0.43, self.height*0.34,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+
+        arcade.draw_text(str(self.window.best_scores[3][0]),
+        self.width * 0.62, self.height*0.46,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+        arcade.draw_text(str(self.window.best_scores[3][1]),
+        self.width * 0.62, self.height*0.34,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+
+        arcade.draw_text(str(self.window.best_scores[4][0]),
+        self.width * 0.8, self.height*0.46,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
+        arcade.draw_text(str(self.window.best_scores[4][1]),
+        self.width * 0.8, self.height*0.34,
+        color=arcade.csscolor.BLACK, font_size=self.height//18, font_name=COMIC_SANS_FONT)
     
 class DemoView(widgets.OptionView):
     def __init__(self):
