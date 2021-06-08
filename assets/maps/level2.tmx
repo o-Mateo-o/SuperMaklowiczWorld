@@ -27,7 +27,7 @@
    eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
   </data>
  </layer>
- <objectgroup id="4" name="moving"/>
+ <objectgroup id="4" name="terrain moving"/>
  <objectgroup id="6" name="pepper"/>
  <objectgroup id="7" name="limits"/>
  <layer id="8" name="knives" width="200" height="100">
