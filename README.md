@@ -27,7 +27,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 ### How to run this app?
 ---
-**Downoad an installer file from game release v1.2 (right side of the page).**
+<span style="color:red">**Downoad an installer file from game release v1.2 (right side of the page).**</span>
 
 *or*
 
