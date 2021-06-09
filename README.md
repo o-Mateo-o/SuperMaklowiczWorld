@@ -27,7 +27,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 ### How to run this app?
 ---
-+( **Downoad an installer file from game release v1.2 (right side of the page).** )+
+[**DOWNLOAD AN INSTALLER FILE FROM GAME RELEASE v1.2.**](https://github.com/o-Mateo-o/SuperMaklowiczWorld/releases/tag/v1.2)
 
 *or*
 
