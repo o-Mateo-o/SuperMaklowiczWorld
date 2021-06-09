@@ -29,7 +29,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 ---
 [**DOWNLOAD AN INSTALLER FILE FROM GAME RELEASE v1.2.**](https://github.com/o-Mateo-o/SuperMaklowiczWorld/releases/tag/v1.2)
 
-*or*
+*or...*
 
 To run the game through interpreter, **Python 3.7.9** is recommended. Following the steps below use also eg **pip 21.1.2**.
 
