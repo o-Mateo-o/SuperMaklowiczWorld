@@ -31,7 +31,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 *or...*
 
-To run the game through interpreter, **Python 3.7.9** is recommended. Following the steps below use also eg **pip 21.1.2**.
+To run the game on Windows through interpreter, **Python 3.7.9** is recommended. Following the steps below use also eg **pip 21.1.2**.
 
 1. Clone the project to your device:
 
@@ -44,3 +44,5 @@ To run the game through interpreter, **Python 3.7.9** is recommended. Following 
 3. Run the game:
 
     `python ./SuperMaklowiczWorld.py`
+ 
+ For Linux and Mac OS, in `gamelib/constants.py` change the path characters as `\` or `\\` to `/`.
