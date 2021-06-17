@@ -135,3 +135,4 @@ dmypy.json
 assets_prepare
 TODO.txt
 user_data/user_data
+.gitconfig
