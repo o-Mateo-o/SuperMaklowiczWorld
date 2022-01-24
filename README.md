@@ -21,7 +21,7 @@ In *Super Maklowicz World* you can collect the KOPEREK and save the world from E
 
 **Tiled** - 2D level design app.
 
-**Gimp** and **Audacity** - for editing ~~stolen~~ images and sounds, plus for ~~stolen~~ image animation.
+**Gimp** and **Audacity** - for editing ~~stolen~~ images and sounds, plus for ~~stolen~~ image animation. 😂
 
 ### License
 ---
