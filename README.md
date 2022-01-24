@@ -1,6 +1,8 @@
 # Super Maklowicz World
 
-## Author: Mateusz Machaj
+## Author:
+
+Mateusz Machaj
 
 ### Short description
 ---
