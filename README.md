@@ -4,18 +4,18 @@
 
 ### Short description
 ---
-A short platformer game imitating well known *Super Mario Bros* or *Super Mario Bros*. However, it allows us to experience the cooking adventures of a **REAL** superhero. 
+A short platformer game imitating well-known *Super Mario Bros* or *Super Mario Bros*. However, it allows us to experience the cooking adventures of a **REAL** superhero. 
 
-In *Super Maklowicz World* you can collect the KOPEREK and save the world from EEE PAPRKYKI... PAPRYCZKI PAPRYKOWE. Ultimately you will prepare a delicious dish and satisfy the whole humanity. Good luck!
+In *Super Maklowicz World* you can collect the KOPEREK and save the world from EEE PAPRKYKI... PAPRYCZKI PAPRYKOWE. Ultimately you will prepare a delicious dish and satisfy the whole of humanity. Good luck!
 
 
 ![Sample frame](./assets/images/sample.png)
 
 ### Technologies
 ---
-**Python** - the code itself is written based on the Python's classes, each responsible for another character, evironment element, window etc.  
+**Python** - the code itself is written based on the Python's classes, each responsible for another character, environment element, window, etc.  
 
-**Python Arcade Library** - library used to create simple games as platformer or arcade ones. It provides extremly easy acess to all the commonly used ideas in game development.
+**Python Arcade Library** - library used to create simple games such as platformer or arcade ones. It provides extremely easy access to all the commonly used ideas in game development.
 
 **Tiled** - 2D level design app.
 
@@ -31,7 +31,7 @@ The whole project is created solely for educational ~~and banter~~ purposes.
 
 *or...*
 
-To run the game on Windows through interpreter, **Python 3.7.9** is recommended. Following the steps below use also eg **pip 21.1.2**.
+To run the game on Windows through an interpreter, **Python 3.7.9** is recommended. Following the steps below use also eg **pip 21.1.2**.
 
 1. Clone the project to your device:
 
