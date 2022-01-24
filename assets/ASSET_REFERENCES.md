@@ -80,6 +80,8 @@ The game itself cannot be used in non university-related context.
 
     https://www.wfonts.com/font/comic-sans-ms
     
+- Impact:
+
     https://www.wfonts.com/font/impact
 
 ---
